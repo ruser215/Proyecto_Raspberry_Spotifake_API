@@ -8,6 +8,8 @@ services:
       MYSQL_DATABASE: ktor_db
       MYSQL_USER: ktor_user
       MYSQL_PASSWORD: ktor_password
+    volumes:
+      - ./mysql_data:/var/lib/mysql 
     ports:
       - "3306:3306"
 
@@ -27,8 +29,6 @@ services:
     container_name: ktor-api
     restart: always
     ports:
-      - "8001:8080" 
+      - "8001:8080"
     depends_on:
       - db
-    devices:
-      - "/dev/ttyACM0:/dev/ttyACM0" 
