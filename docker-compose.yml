@@ -1,0 +1,34 @@
+services:
+  db:
+    image: mariadb:latest
+    container_name: ktor-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: ktor_db
+      MYSQL_USER: ktor_user
+      MYSQL_PASSWORD: ktor_password
+    volumes:
+      - ./mysql_data:/var/lib/mysql 
+    ports:
+      - "3306:3306"
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: ktor-phpmyadmin
+    restart: always
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: db
+    depends_on:
+      - db
+
+  ktor-app:
+    build: .
+    container_name: ktor-api
+    restart: always
+    ports:
+      - "8001:8080"
+    depends_on:
+      - db
