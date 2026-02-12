@@ -4,17 +4,22 @@ services:
     container_name: ktor-db
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: Secreto_123
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     volumes:
       - ./mysql_data:/var/lib/mysql
     ports:
-      - "3306:3306"
+      - "${MYSQL_HOST_PORT}:${MYSQL_CONTAINER_PORT}"
+    env_file:
+      - .env
 
   adminer:
     image: adminer
     container_name: ktor-adminer
     restart: always
     ports:
-      - "8081:8080"
+      - "${ADMINER_HOST_PORT}:${ADMINER_CONTAINER_PORT}"
     depends_on:
       - db
