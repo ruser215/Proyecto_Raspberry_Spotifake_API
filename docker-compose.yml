@@ -1,6 +1,6 @@
 services:
   db:
-    image: mariadb:latest
+    image: biarms/mariadb:10.5
     container_name: ktor-db
     restart: always
     environment:
@@ -9,12 +9,12 @@ services:
       MYSQL_USER: ktor_user
       MYSQL_PASSWORD: ktor_password
     volumes:
-      - ./mysql_data:/var/lib/mysql 
+      - ./mysql_data:/var/lib/mysql
     ports:
       - "3306:3306"
 
   phpmyadmin:
-    image: phpmyadmin:latest
+    image: vimagick/phpmyadmin:latest
     container_name: ktor-phpmyadmin
     restart: always
     ports:
