@@ -1,6 +1,8 @@
+version: "3.9"
+
 services:
   db:
-    image: biarms/mariadb:10.5
+    image: arm32v7/mariadb:10.5
     container_name: ktor-db
     restart: always
     environment:
@@ -13,14 +15,12 @@ services:
     ports:
       - "3306:3306"
 
-  phpmyadmin:
-    image: vimagick/phpmyadmin:latest
-    container_name: ktor-phpmyadmin
+  adminer:
+    image: adminer
+    container_name: ktor-adminer
     restart: always
     ports:
-      - "8081:80"
-    environment:
-      PMA_HOST: db
+      - "8081:8080"
     depends_on:
       - db
 
