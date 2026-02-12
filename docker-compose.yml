@@ -4,10 +4,10 @@ services:
     container_name: ktor-db
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root_password
-      MYSQL_DATABASE: ktor_db
-      MYSQL_USER: ktor_user
-      MYSQL_PASSWORD: ktor_password
+      MYSQL_ROOT_PASSWORD: Secreto_123
+      MYSQL_DATABASE: spotyfake
+      MYSQL_USER: root
+      MYSQL_PASSWORD: Secreto_123
     volumes:
       - ./mysql_data:/var/lib/mysql
     ports:
