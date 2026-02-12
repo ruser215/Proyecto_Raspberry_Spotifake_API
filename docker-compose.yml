@@ -1,6 +1,6 @@
 services:
   db:
-    image: arm32v7/mariadb:10.5.18
+    image: mariadb:10.5
     container_name: ktor-db
     restart: always
     environment:
