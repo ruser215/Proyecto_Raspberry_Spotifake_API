@@ -1,18 +1,15 @@
 services:
   db:
-    image: linuxserver/mariadb:latest
+    image: yobasystems/alpine-mariadb:latest
     container_name: ktor-db
     restart: always
     environment:
-      PUID: 1000
-      PGID: 1000
-      TZ: Europe/Madrid
       MYSQL_ROOT_PASSWORD: root_password
       MYSQL_DATABASE: ktor_db
       MYSQL_USER: ktor_user
       MYSQL_PASSWORD: ktor_password
     volumes:
-      - ./mysql_data:/config
+      - ./mysql_data:/var/lib/mysql
     ports:
       - "3306:3306"
 
