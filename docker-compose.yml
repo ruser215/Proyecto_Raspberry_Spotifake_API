@@ -21,12 +21,3 @@ services:
       - "8081:8080"
     depends_on:
       - db
-
-  ktor-app:
-    build: .
-    container_name: ktor-api
-    restart: always
-    ports:
-      - "8001:8080"
-    depends_on:
-      - db
