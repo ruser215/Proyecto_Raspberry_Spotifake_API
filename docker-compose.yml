@@ -1,15 +1,18 @@
 services:
   db:
-    image: mariadb:10.5
+    image: linuxserver/mariadb:latest
     container_name: ktor-db
     restart: always
     environment:
+      PUID: 1000
+      PGID: 1000
+      TZ: Europe/Madrid
       MYSQL_ROOT_PASSWORD: root_password
       MYSQL_DATABASE: ktor_db
       MYSQL_USER: ktor_user
       MYSQL_PASSWORD: ktor_password
     volumes:
-      - ./mysql_data:/var/lib/mysql
+      - ./mysql_data:/config
     ports:
       - "3306:3306"
 
