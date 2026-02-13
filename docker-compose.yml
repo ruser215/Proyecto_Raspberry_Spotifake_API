@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   db:
     image: yobasystems/alpine-mariadb:latest
@@ -12,6 +14,8 @@ services:
       - ./mysql_data:/var/lib/mysql
     ports:
       - "${MYSQL_HOST_PORT}:${MYSQL_CONTAINER_PORT}"
+    networks:
+      - ktor-network
     env_file:
       - .env
 
@@ -21,6 +25,8 @@ services:
     restart: always
     ports:
       - "${ADMINER_HOST_PORT}:${ADMINER_CONTAINER_PORT}"
+    networks:
+      - ktor-network
     depends_on:
       - db
 
@@ -31,8 +37,16 @@ services:
     container_name: ktor-app
     restart: always
     ports:
-      - "${KTOR_HOST_PORT}:${KTOR_CONTAINER_PORT}"
+      - "${KTOR_HOST_PORT}:8001"
+    networks:
+      - ktor-network
     depends_on:
       - db
     env_file:
       - .env
+    environment:
+      - MYSQL_HOST=db
+
+networks:
+  ktor-network:
+    driver: bridge
