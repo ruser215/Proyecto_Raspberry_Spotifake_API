@@ -1,0 +1,6 @@
+mysql_data
+.git
+.gradle
+build
+node_modules
+*.log
