@@ -10,4 +10,4 @@ git pull origin main
 echo "Reconstruyendo contenedor de Ktor (ktor-app)..."
 docker-compose up -d --build ktor-app
 
-echo "¡Actualización completada! La base de datos y PHPMyAdmin no han sido reiniciados."
+echo "¡Actualización completada! La base de datos y adminer no han sido reiniciados."
