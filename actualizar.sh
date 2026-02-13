@@ -1,13 +1,34 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-echo "Iniciando actualización de la API..."
+set -e  # Detener si algo falla
 
-# 1. Bajamos los últimos cambios del repositorio
+echo "========================================="
+echo " Iniciando actualización de la API"
+echo "========================================="
+
+# --- Comprobar que estamos en repo git ---
+
+if [ ! -d ".git" ]; then
+echo "Este directorio no es un repositorio Git"
+exit 1
+fi
+
+# --- Actualizar código ---
+
 echo "Descargando cambios de GitHub..."
-git pull origin main
+git fetch origin
+git pull --rebase origin main
 
-# 2. Reconstruimos solo la API sin tocar la DB ni PHPMyAdmin
-echo "Reconstruyendo contenedor de Ktor (ktor-app)..."
-docker-compose up -d --build ktor-app
+# --- Reconstruir contenedor API ---
 
-echo "¡Actualización completada! La base de datos y adminer no han sido reiniciados."
+echo "Reconstruyendo contenedor Ktor..."
+docker compose up -d --build ktor-app
+
+# --- Limpiar imágenes antiguas ---
+
+echo "Limpiando imágenes colgantes..."
+docker image prune -f
+
+echo "Actualización completada"
+echo "👉 Base de datos y servicios auxiliares intactos"
+echo "========================================="
