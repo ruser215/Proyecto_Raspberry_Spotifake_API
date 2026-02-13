@@ -23,3 +23,16 @@ services:
       - "${ADMINER_HOST_PORT}:${ADMINER_CONTAINER_PORT}"
     depends_on:
       - db
+
+  ktor-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ktor-app
+    restart: always
+    ports:
+      - "${KTOR_HOST_PORT}:${KTOR_CONTAINER_PORT}"
+    depends_on:
+      - db
+    env_file:
+      - .env
