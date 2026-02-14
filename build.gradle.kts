@@ -30,7 +30,7 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-jdbc:0.48.0")
     
     // Database
-    implementation("mysql:mysql-connector-java:8.0.33")
+    implementation("org.mariadb.jdbc:mariadb-java-client:3.3.3")
     implementation("com.zaxxer:HikariCP:5.0.1")
     
     // Security
