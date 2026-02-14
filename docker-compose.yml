@@ -3,6 +3,7 @@ version: '3.8'
 services:
   db:
     image: hypriot/rpi-mysql
+    platform: linux/arm/v7
     container_name: ktor-db
     restart: always
     environment:
@@ -25,6 +26,7 @@ services:
 
   adminer:
     image: adminer
+    platform: linux/arm/v7
     container_name: ktor-adminer
     restart: always
     ports:
