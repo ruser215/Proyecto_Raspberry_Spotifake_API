@@ -1,6 +1,6 @@
 services:
   db:
-    image: mariadb:10.11
+    image: mariadb:10.6
     container_name: ktor-db
     platform: linux/arm/v7
     restart: always
