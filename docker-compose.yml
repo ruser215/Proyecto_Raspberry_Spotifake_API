@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   db:
-    image: biarms/mysql:5.7
+    image: hypriot/rpi-mysql
     container_name: ktor-db
     restart: always
     environment:
@@ -18,7 +18,10 @@ services:
       - ktor-network
     env_file:
       - .env
-    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      timeout: 20s
+      retries: 10
 
   adminer:
     image: adminer
@@ -42,7 +45,8 @@ services:
     networks:
       - ktor-network
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     env_file:
       - .env
     environment:
