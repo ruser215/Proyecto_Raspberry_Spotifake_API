@@ -2,8 +2,9 @@ version: '3.8'
 
 services:
   db:
-    image: hypriot/rpi-mysql
+    image: mariadb:10.11
     container_name: ktor-db
+    platform: ${DOCKER_PLATFORM:-linux/arm64}
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
@@ -26,6 +27,7 @@ services:
   adminer:
     image: adminer
     container_name: ktor-adminer
+    platform: ${DOCKER_PLATFORM:-linux/arm64}
     restart: always
     ports:
       - "${ADMINER_HOST_PORT}:${ADMINER_CONTAINER_PORT}"
@@ -39,6 +41,7 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: ktor-app
+    platform: ${DOCKER_PLATFORM:-linux/arm64}
     restart: always
     ports:
       - "${KTOR_HOST_PORT}:8001"
