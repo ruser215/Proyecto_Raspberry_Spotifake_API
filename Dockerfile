@@ -1,5 +1,5 @@
 # ---------- Paso 1: Build ----------
-FROM gradle:8-jdk17 AS build
+FROM arm32v7/gradle:8-jdk17 AS build
 
 COPY --chown=gradle:gradle . /home/gradle/src
 WORKDIR /home/gradle/src
@@ -8,7 +8,7 @@ RUN ./gradlew buildFatJar --no-daemon
 
 
 # ---------- Paso 2: Ejecución ----------
-FROM eclipse-temurin:17-jre
+FROM arm32v7/eclipse-temurin:17-jre
 
 WORKDIR /app
 EXPOSE 8001

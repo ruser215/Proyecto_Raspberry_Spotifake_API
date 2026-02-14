@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   db:
-    image: mysql:8.0
+    image: hypriot/rpi-mysql
     container_name: ktor-db
     restart: always
     environment:
@@ -51,6 +51,8 @@ services:
       - .env
     environment:
       - MYSQL_HOST=db
+    profiles:
+      - app
 
 networks:
   ktor-network:
