@@ -19,9 +19,21 @@ echo "Descargando cambios de GitHub..."
 git fetch origin
 git pull --rebase origin main
 
-# --- Reconstruir contenedor API ---
+# --- Construir y subir imagen en la Raspberry ---
 
-echo "Actualizando contenedor Ktor (sin build)..."
+IMAGE_NAME="${IMAGE_NAME:-ruser215/api-spotifake}"
+IMAGE_TAG="${IMAGE_TAG:-latest}"
+PLATFORM="${PLATFORM:-linux/arm/v7}"
+
+echo "Construyendo imagen ($PLATFORM)..."
+docker build --platform "$PLATFORM" -t "$IMAGE_NAME:$IMAGE_TAG" .
+
+echo "Subiendo imagen a Docker Hub..."
+docker push "$IMAGE_NAME:$IMAGE_TAG"
+
+# --- Actualizar contenedor API ---
+
+echo "Actualizando contenedor Ktor (con imagen remota)..."
 docker compose up -d ktor-app
 
 # --- Limpiar imágenes antiguas ---
