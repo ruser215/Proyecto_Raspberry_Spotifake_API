@@ -1,6 +1,6 @@
 services:
   db:
-    image: arm32v7/mariadb:10.11
+    image: mariadb:10.11
     container_name: ktor-db
     platform: linux/arm/v7
     restart: always
@@ -23,7 +23,7 @@ services:
       retries: 10
 
   adminer:
-    image: arm32v7/adminer
+    image: adminer
     container_name: ktor-adminer
     platform: linux/arm/v7
     restart: always
