@@ -21,8 +21,8 @@ git pull --rebase origin main
 
 # --- Reconstruir contenedor API ---
 
-echo "Reconstruyendo contenedor Ktor..."
-docker compose up -d --build ktor-app
+echo "Actualizando contenedor Ktor (sin build)..."
+docker compose up -d ktor-app
 
 # --- Limpiar imágenes antiguas ---
 
