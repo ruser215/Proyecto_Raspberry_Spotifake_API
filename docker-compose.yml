@@ -35,6 +35,9 @@ services:
       - db
 
   ktor-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
     image: ruser215/api-spotifake:latest
     container_name: ktor-app
     platform: linux/arm/v7
