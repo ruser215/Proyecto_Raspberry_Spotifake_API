@@ -35,8 +35,9 @@ object DatabaseFactory {
      */
     private fun createHikariDataSource(): HikariDataSource {
         val config = HikariConfig().apply {
-            driverClassName = "com.mysql.cj.jdbc.Driver"
-            jdbcUrl = "jdbc:mysql://${dotenv["MYSQL_HOST"] ?: "localhost"}:${dotenv["MYSQL_HOST_PORT"] ?: "3306"}/${dotenv["MYSQL_DATABASE"] ?: "spotyfake"}"
+            driverClassName = dotenv["MYSQL_DRIVER"] ?: "org.mariadb.jdbc.Driver"
+            jdbcUrl = dotenv["MYSQL_JDBC_URL"]
+                ?: "jdbc:mariadb://${dotenv["MYSQL_HOST"] ?: "localhost"}:${dotenv["MYSQL_HOST_PORT"] ?: "3306"}/${dotenv["MYSQL_DATABASE"] ?: "spotyfake"}"
             username = dotenv["MYSQL_USER"] ?: "admin"
             password = dotenv["MYSQL_PASSWORD"] ?: "s8n38DGB8d72"
             maximumPoolSize = 10
