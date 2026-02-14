@@ -21,9 +21,9 @@ git pull --rebase origin main
 
 # --- Actualizar contenedor API ---
 
-echo "Actualizando contenedor Ktor (sin cache)..."
+echo "Actualizando contenedores (sin cache)..."
 docker compose build --no-cache ktor-app
-docker compose up -d --force-recreate ktor-app
+docker compose up -d --force-recreate
 
 # --- Limpiar imágenes antiguas ---
 
