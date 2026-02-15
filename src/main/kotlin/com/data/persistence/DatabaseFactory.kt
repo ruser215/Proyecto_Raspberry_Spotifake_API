@@ -7,6 +7,7 @@ import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
 import UsuarioTable
+import CancionTable
 
 /**
  * Configuración y inicialización de la base de datos.
@@ -26,7 +27,7 @@ object DatabaseFactory {
         
         // Crear tablas si no existen
         transaction(database) {
-            SchemaUtils.create(UsuarioTable)
+            SchemaUtils.create(UsuarioTable, CancionTable)
         }
     }
     

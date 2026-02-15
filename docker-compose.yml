@@ -54,6 +54,8 @@ services:
     environment:
       - MYSQL_HOST=db
       - MYSQL_HOST_PORT=3306
+    volumes:
+      - ./archivos:/app/archivos
 
 networks:
   ktor-network:
