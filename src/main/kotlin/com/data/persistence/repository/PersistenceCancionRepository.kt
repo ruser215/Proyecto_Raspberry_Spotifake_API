@@ -3,6 +3,7 @@ package com.data.persistence.repository
 import com.domain.models.Cancion
 import com.domain.repository.CancionInterface
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.like
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.Op
 import org.jetbrains.exposed.sql.update

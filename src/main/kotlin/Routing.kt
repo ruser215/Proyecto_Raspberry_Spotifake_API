@@ -8,6 +8,7 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.server.request.*
 import io.ktor.http.*
+import io.ktor.http.content.*
 import com.data.persistence.repository.PersistenceUsuarioRepository
 import com.data.persistence.repository.PersistenceCancionRepository
 import com.domain.usecase.ProviderUseCase
