@@ -2,7 +2,6 @@ services:
   db:
     image: yobasystems/alpine-mariadb:latest
     container_name: ktor-db
-    platform: linux/arm/v7
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
@@ -25,7 +24,6 @@ services:
   adminer:
     image: adminer
     container_name: ktor-adminer
-    platform: linux/arm/v7
     restart: always
     ports:
       - "${ADMINER_HOST_PORT:-8080}:${ADMINER_CONTAINER_PORT:-8080}"
@@ -40,7 +38,6 @@ services:
       dockerfile: Dockerfile
     image: ruser215/api-spotifake:latest
     container_name: ktor-app
-    platform: linux/arm/v7
     restart: always
     ports:
       - "${KTOR_HOST_PORT:-8001}:8001"

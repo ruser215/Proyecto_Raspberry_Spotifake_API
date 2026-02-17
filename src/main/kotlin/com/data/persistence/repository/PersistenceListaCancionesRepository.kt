@@ -64,8 +64,8 @@ class PersistenceListaCancionesRepository : ListaCancionesInterface {
         if (alreadyExists) return@suspendTransaction false
 
         ListaCancionesCancionesTable.insert {
-            it[idLista] = EntityID(idLista, ListaCancionesTable)
-            it[idCancion] = EntityID(idCancion, CancionTable)
+            it[ListaCancionesCancionesTable.idLista] = EntityID(idLista, ListaCancionesTable)
+            it[ListaCancionesCancionesTable.idCancion] = EntityID(idCancion, CancionTable)
         }
 
         true
