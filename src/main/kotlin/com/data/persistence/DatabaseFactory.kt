@@ -1,3 +1,7 @@
+/**
+ * Configuración de acceso a base de datos con Hikari + Exposed.
+ * Gestiona conexión, creación de esquema y opción de reinicio para desarrollo.
+ */
 package com.data.persistence
 
 import com.zaxxer.hikari.HikariConfig
@@ -8,10 +12,11 @@ import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
 import UsuarioTable
 import CancionTable
+import GeneroTable
+import ListaCancionesTable
+import ListaCancionesCancionesTable
 
-/**
- * Configuración y inicialización de la base de datos.
- */
+
 object DatabaseFactory {
     
     private val dotenv = dotenv {
@@ -19,21 +24,20 @@ object DatabaseFactory {
         directory = "."
     }
     
-    /**
-     * Inicializa la conexión a la base de datos y crea las tablas.
-     */
+    
     fun init() {
         val database = Database.connect(createHikariDataSource())
+        val resetOnStart = dotenv["DB_RESET_ON_START"]?.toBoolean() ?: false
         
-        // Crear tablas si no existen
         transaction(database) {
-            SchemaUtils.create(UsuarioTable, CancionTable)
+            if (resetOnStart) {
+                SchemaUtils.drop(ListaCancionesCancionesTable, ListaCancionesTable, CancionTable, GeneroTable, UsuarioTable)
+            }
+            SchemaUtils.create(UsuarioTable, GeneroTable, CancionTable, ListaCancionesTable, ListaCancionesCancionesTable)
         }
     }
     
-    /**
-     * Crea y configura el pool de conexiones HikariCP.
-     */
+    
     private fun createHikariDataSource(): HikariDataSource {
         val config = HikariConfig().apply {
             driverClassName = dotenv["MYSQL_DRIVER"] ?: "org.mariadb.jdbc.Driver"

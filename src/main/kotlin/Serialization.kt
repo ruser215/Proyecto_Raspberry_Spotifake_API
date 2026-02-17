@@ -1,3 +1,7 @@
+/**
+ * Configuración de serialización JSON.
+ * Sirve para transformar automáticamente objetos Kotlin a JSON y viceversa.
+ */
 package com.example
 
 import io.ktor.serialization.kotlinx.json.*

@@ -1,3 +1,7 @@
+/**
+ * Pruebas base de la aplicación Ktor.
+ * Sirven como punto de partida para validar endpoints y configuración.
+ */
 package com.example
 
 import io.ktor.client.request.*

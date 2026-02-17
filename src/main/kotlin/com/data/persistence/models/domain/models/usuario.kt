@@ -1,14 +1,21 @@
+/**
+ * Modelo de dominio de usuario.
+ * Representa el estado principal de una cuenta dentro de la aplicación.
+ */
 package com.domain.models
 
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class Usuario(
-    val id: Int? = null,           // Opcional, ya que es autoincremental en la DB
+    val id: Long? = null,
     var nombre: String,
     var apellido1: String,
     var apellido2: String,
-    var nickname: String,
-    var contrasena: String,        // Mantener como var si necesitas manipularla antes de guardar
-    var msg: String? = null        // Para transportar tokens JWT o mensajes
+    var correo: String,
+    var admin: Boolean = false,
+    var premium: Boolean = false,
+    var pass: String,
+    var token: String = "",
+    var urlImagen: String? = null
 )

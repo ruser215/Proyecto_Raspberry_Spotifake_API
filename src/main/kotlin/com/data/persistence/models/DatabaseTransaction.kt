@@ -1,3 +1,7 @@
+/**
+ * Adaptador para ejecutar transacciones suspendidas con Exposed.
+ * Facilita el uso de corrutinas en operaciones de base de datos.
+ */
 import org.jetbrains.exposed.sql.Transaction
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import kotlinx.coroutines.Dispatchers

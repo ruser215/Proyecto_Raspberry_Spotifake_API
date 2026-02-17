@@ -1,3 +1,7 @@
+/**
+ * Caso de uso de registro.
+ * Contiene validaciones de entrada y flujo de alta de nuevos usuarios.
+ */
 package com.domain.usecase
 
 import com.domain.infraestructure.Utils
@@ -10,31 +14,25 @@ class RegisterUseCase(val repository: UsuarioInterface) {
     
     operator suspend fun invoke(usuario: UpdateUsuario): Usuario? {
 
-        // Validaciones mínimas obligatorias para el registro
-        val nickname = usuario.nickname ?: throw IllegalArgumentException("El nickname es obligatorio")
-        val password = usuario.contrasena ?: throw IllegalArgumentException("La contraseña es obligatoria")
+        val correo = usuario.correo ?: throw IllegalArgumentException("El correo es obligatorio")
+        usuario.pass ?: throw IllegalArgumentException("La contraseña es obligatoria")
         
-        // Valores por defecto para campos opcionales
         usuario.nombre = usuario.nombre ?: "Sin nombre"
         usuario.apellido1 = usuario.apellido1 ?: ""
         usuario.apellido2 = usuario.apellido2 ?: ""
 
-        // Verificamos si el usuario ya existe por su nickname
-        return if (repository.login(nickname, password) != null) {
+        return if (repository.getUsuarioByCorreo(correo) != null) {
             logger.warn("(RegisterUseCase) --> El usuario ya existe.")
             null
         } else {
             logger.warn("(RegisterUseCase) --> No existe, procediendo a crear directorio y registro")
             
             try {
-                // Usamos el nickname como identificador para la carpeta de archivos/imágenes
-                val isCreate = Utils.createDir(nickname) 
+                val isCreate = Utils.createDir(correo)
                 
                 if (isCreate) {
-                    logger.warn("(RegisterUseCase) --> Carpeta para $nickname creada correctamente")
-                    // Aquí podrías añadir lógica de tratamiento de imagen si añades el campo urlImage después
+                    logger.warn("(RegisterUseCase) --> Carpeta para $correo creada correctamente")
                 } else {
-                    // Si el directorio ya existe, podrías decidir si continuar o lanzar error
                     logger.warn("(RegisterUseCase) --> El directorio ya existía.")
                 }
 

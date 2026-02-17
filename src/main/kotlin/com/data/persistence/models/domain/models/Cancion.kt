@@ -1,3 +1,7 @@
+/**
+ * Modelo de dominio de canción.
+ * Define los datos mínimos para listar, reproducir y clasificar canciones.
+ */
 package com.domain.models
 
 import kotlinx.serialization.Serializable
@@ -8,6 +12,8 @@ data class Cancion(
     var nombre: String,
     var artista: String,
     var album: String,
-    var audioUrl: String,
-    var portadaUrl: String
+    var genero: Int,
+    var likes: Int = 0,
+    var urlAudio: String,
+    var urlPortada: String
 )

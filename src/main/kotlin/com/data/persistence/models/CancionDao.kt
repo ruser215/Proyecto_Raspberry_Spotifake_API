@@ -1,3 +1,7 @@
+/**
+ * DAO de canción.
+ * Encapsula la conversión entre entidad de base de datos y modelo de dominio.
+ */
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
@@ -9,8 +13,10 @@ class CancionDao(id: EntityID<Int>) : IntEntity(id) {
     var nombre by CancionTable.nombre
     var artista by CancionTable.artista
     var album by CancionTable.album
-    var audioUrl by CancionTable.audioUrl
-    var portadaUrl by CancionTable.portadaUrl
+    var genero by CancionTable.genero
+    var likes by CancionTable.likes
+    var urlAudio by CancionTable.urlAudio
+    var urlPortada by CancionTable.urlPortada
 
     fun toCancion(): Cancion {
         return Cancion(
@@ -18,8 +24,10 @@ class CancionDao(id: EntityID<Int>) : IntEntity(id) {
             nombre = this.nombre,
             artista = this.artista,
             album = this.album,
-            audioUrl = this.audioUrl,
-            portadaUrl = this.portadaUrl
+            genero = this.genero.value,
+            likes = this.likes,
+            urlAudio = this.urlAudio,
+            urlPortada = this.urlPortada
         )
     }
 }

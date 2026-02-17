@@ -1,0 +1,217 @@
+# Ejemplos de uso de la API
+
+Base URL (ejemplo): https://subpatronal-heathiest-kash.ngrok-free.dev
+
+---
+
+## Usuarios
+
+### GET /usuarios
+GET https://subpatronal-heathiest-kash.ngrok-free.dev/usuarios
+
+Respuesta:
+[
+  {
+    "id": 2,
+    "nombre": "Sin nombre",
+    "apellido1": "",
+    "apellido2": "",
+    "nickname": "tesr",
+    "contrasena": "",
+    "msg": null
+  }
+]
+
+### GET /usuarios/{ID}
+GET https://subpatronal-heathiest-kash.ngrok-free.dev/usuarios/{ID}
+
+Respuesta:
+{
+  "id": 2,
+  "nombre": "Sin nombre",
+  "apellido1": "",
+  "apellido2": "",
+  "nickname": "tesr",
+  "contrasena": "",
+  "msg": null
+}
+
+### GET /usuarios/nickname/{nickname}
+GET https://subpatronal-heathiest-kash.ngrok-free.dev/usuarios/nickname/{nickname}
+
+Respuesta:
+{
+  "id": 2,
+  "nombre": "Sin nombre",
+  "apellido1": "",
+  "apellido2": "",
+  "nickname": "tesr",
+  "contrasena": "",
+  "msg": null
+}
+
+### POST /register
+POST https://subpatronal-heathiest-kash.ngrok-free.dev/register
+Body (JSON):
+{
+  "nombre": "Sin nombre",
+  "apellido1": "",
+  "apellido2": "",
+  "nickname": "tesr",
+  "contrasena": "123456"
+}
+
+Respuesta (campos no nulos: id, nombre, apellido1, apellido2, nickname, contrasena=""; msg puede ser null):
+{
+  "id": 2,
+  "nombre": "Sin nombre",
+  "apellido1": "",
+  "apellido2": "",
+  "nickname": "tesr",
+  "contrasena": "",
+  "msg": null
+}
+
+### POST /login
+POST https://subpatronal-heathiest-kash.ngrok-free.dev/login
+Body (JSON):
+{
+  "nickname": "tesr",
+  "contrasena": "123456"
+}
+
+Respuesta (msg puede contener token o null):
+{
+  "id": 2,
+  "nombre": "Sin nombre",
+  "apellido1": "",
+  "apellido2": "",
+  "nickname": "tesr",
+  "contrasena": "",
+  "msg": null
+}
+
+### PUT /usuarios/{ID}
+PUT https://subpatronal-heathiest-kash.ngrok-free.dev/usuarios/{ID}
+Body (JSON):
+{
+  "nombre": "Nombre nuevo",
+  "apellido1": "",
+  "apellido2": "",
+  "nickname": "tesr",
+  "contrasena": "123456"
+}
+
+Respuesta:
+{
+  "id": 2,
+  "nombre": "Nombre nuevo",
+  "apellido1": "",
+  "apellido2": "",
+  "nickname": "tesr",
+  "contrasena": "",
+  "msg": null
+}
+
+### DELETE /usuarios/{ID}
+DELETE https://subpatronal-heathiest-kash.ngrok-free.dev/usuarios/{ID}
+
+Respuesta:
+{
+  "message": "Usuario eliminado correctamente"
+}
+
+---
+
+## Canciones
+
+### POST /canciones (multipart/form-data)
+POST https://subpatronal-heathiest-kash.ngrok-free.dev/canciones
+
+Campos:
+- nombre (texto, obligatorio)
+- artista (texto, obligatorio)
+- album (texto, obligatorio)
+- audio (archivo .mp3, obligatorio)
+- portada (archivo imagen, obligatorio)
+
+Respuesta (no nulos: id, nombre, artista, album, audioUrl, portadaUrl):
+{
+  "id": 1,
+  "nombre": "Song A",
+  "artista": "Artista A",
+  "album": "Album A",
+  "audioUrl": "/archivos/audio/uuid_song-a.mp3",
+  "portadaUrl": "/archivos/portadas/uuid_cover-a.jpg"
+}
+
+### GET /canciones
+GET https://subpatronal-heathiest-kash.ngrok-free.dev/canciones
+
+Respuesta:
+[
+  {
+    "id": 1,
+    "nombre": "Song A",
+    "artista": "Artista A",
+    "album": "Album A",
+    "audioUrl": "/archivos/audio/uuid_song-a.mp3",
+    "portadaUrl": "/archivos/portadas/uuid_cover-a.jpg"
+  }
+]
+
+### GET /canciones?nombre=&artista=&album=
+GET https://subpatronal-heathiest-kash.ngrok-free.dev/canciones?nombre=Song&artista=Artista&album=Album
+
+Respuesta:
+[
+  {
+    "id": 1,
+    "nombre": "Song A",
+    "artista": "Artista A",
+    "album": "Album A",
+    "audioUrl": "/archivos/audio/uuid_song-a.mp3",
+    "portadaUrl": "/archivos/portadas/uuid_cover-a.jpg"
+  }
+]
+
+### GET /canciones/{ID}
+GET https://subpatronal-heathiest-kash.ngrok-free.dev/canciones/{ID}
+
+Respuesta:
+{
+  "id": 1,
+  "nombre": "Song A",
+  "artista": "Artista A",
+  "album": "Album A",
+  "audioUrl": "/archivos/audio/uuid_song-a.mp3",
+  "portadaUrl": "/archivos/portadas/uuid_cover-a.jpg"
+}
+
+### PUT /canciones/{ID} (multipart/form-data)
+PUT https://subpatronal-heathiest-kash.ngrok-free.dev/canciones/{ID}
+
+Campos opcionales:
+- nombre (texto)
+- artista (texto)
+- album (texto)
+- audio (archivo .mp3)
+- portada (archivo imagen)
+
+Respuesta:
+{
+  "id": 1,
+  "nombre": "Song A (edit)",
+  "artista": "Artista A",
+  "album": "Album A",
+  "audioUrl": "/archivos/audio/uuid_song-a-edit.mp3",
+  "portadaUrl": "/archivos/portadas/uuid_cover-a.jpg"
+}
+
+### DELETE /canciones/{ID}
+DELETE https://subpatronal-heathiest-kash.ngrok-free.dev/canciones/{ID}
+
+Respuesta:
+{
+  "message": "Canción eliminada correctamente"
+}

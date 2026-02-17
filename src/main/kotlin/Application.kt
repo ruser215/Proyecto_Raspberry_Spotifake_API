@@ -1,3 +1,8 @@
+/**
+ * Punto de entrada principal de la API con Ktor.
+ * En DAM, este archivo se usa para entender cómo se inicializa la aplicación,
+ * se carga la base de datos y se registran los módulos de infraestructura.
+ */
 package com.example
 
 import io.ktor.server.application.*
@@ -10,10 +15,8 @@ fun main(args: Array<String>) {
 }
 
 fun Application.module() {
-    // Inicializar base de datos
     DatabaseFactory.init()
     
-    // Configurar CORS
     install(CORS) {
         allowMethod(HttpMethod.Options)
         allowMethod(HttpMethod.Put)
@@ -21,7 +24,7 @@ fun Application.module() {
         allowMethod(HttpMethod.Patch)
         allowHeader(HttpHeaders.Authorization)
         allowHeader(HttpHeaders.ContentType)
-        anyHost() // En producción, especifica los hosts permitidos
+        anyHost()
     }
     
     configureSerialization()

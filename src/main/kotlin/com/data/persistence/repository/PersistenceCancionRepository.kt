@@ -1,3 +1,7 @@
+/**
+ * Implementación de repositorio de canciones.
+ * Gestiona altas, filtros y actualizaciones en la tabla de canciones.
+ */
 package com.data.persistence.repository
 
 import com.domain.models.Cancion
@@ -8,8 +12,10 @@ import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.Op
 import org.jetbrains.exposed.sql.update
 import org.jetbrains.exposed.sql.deleteWhere
+import org.jetbrains.exposed.dao.id.EntityID
 import CancionDao
 import CancionTable
+import GeneroTable
 import suspendTransaction
 
 class PersistenceCancionRepository : CancionInterface {
@@ -18,8 +24,10 @@ class PersistenceCancionRepository : CancionInterface {
             nombre = cancion.nombre
             artista = cancion.artista
             album = cancion.album
-            audioUrl = cancion.audioUrl
-            portadaUrl = cancion.portadaUrl
+            genero = EntityID(cancion.genero, GeneroTable)
+            likes = cancion.likes
+            urlAudio = cancion.urlAudio
+            urlPortada = cancion.urlPortada
         }.toCancion()
     }
 
@@ -44,16 +52,20 @@ class PersistenceCancionRepository : CancionInterface {
         nombre: String?,
         artista: String?,
         album: String?,
-        audioUrl: String?,
-        portadaUrl: String?
+        genero: Int?,
+        likes: Int?,
+        urlAudio: String?,
+        urlPortada: String?
     ): Cancion? {
         suspendTransaction {
             CancionTable.update({ CancionTable.id eq id }) { stm ->
                 nombre?.let { stm[CancionTable.nombre] = it }
                 artista?.let { stm[CancionTable.artista] = it }
                 album?.let { stm[CancionTable.album] = it }
-                audioUrl?.let { stm[CancionTable.audioUrl] = it }
-                portadaUrl?.let { stm[CancionTable.portadaUrl] = it }
+                genero?.let { stm[CancionTable.genero] = EntityID(it, GeneroTable) }
+                likes?.let { stm[CancionTable.likes] = it }
+                urlAudio?.let { stm[CancionTable.urlAudio] = it }
+                urlPortada?.let { stm[CancionTable.urlPortada] = it }
             }
         }
         return getCancionById(id)
