@@ -41,7 +41,7 @@ Respuesta (201):
   "admin": false,
   "premium": false,
   "pass": "",
-  "token": "",
+  "token": null,
   "urlImagen": null
 }
 
@@ -62,7 +62,7 @@ Respuesta (200):
   "admin": false,
   "premium": false,
   "pass": "",
-  "token": "<jwt>",
+  "token": null,
   "urlImagen": null
 }
 

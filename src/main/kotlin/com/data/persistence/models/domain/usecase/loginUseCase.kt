@@ -5,9 +5,7 @@
 package com.domain.usecase
 
 import com.domain.models.Usuario
-import com.domain.models.UpdateUsuario
 import com.domain.repository.UsuarioInterface
-import com.domain.security.JwtConfig
 
 
 
@@ -17,21 +15,7 @@ class LoginUseCase(val repository: UsuarioInterface) {
 
         return try {
             val usuario = repository.login(correo, pass) ?: return null
-
-            val tokenGenerado = JwtConfig.generateToken(usuario.correo)
-
-            
-            val updateUsuario = UpdateUsuario(
-                token = tokenGenerado
-            )
-
-            val res = repository.updateUsuario(updateUsuario, usuario.id!!)
-
-            if (res != null) {
-                res.copy(pass = "")
-            } else {
-                null
-            }
+            usuario.copy(pass = "")
             
         } catch (e: Exception) {
             println("Error en login: ${e.localizedMessage}")

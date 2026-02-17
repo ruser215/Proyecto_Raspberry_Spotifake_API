@@ -12,6 +12,6 @@ object UsuarioTable : LongIdTable("usuarios") {
     val admin = bool("admin").default(false)
     val premium = bool("premium").default(false)
     val pass = varchar("pass", 60)
-    val token = varchar("token", 60).default("")
+    val token = varchar("token", 255).nullable()
     val urlImagen = varchar("urlimagen", 255).nullable()
 }

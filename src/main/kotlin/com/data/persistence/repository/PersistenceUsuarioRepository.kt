@@ -75,7 +75,7 @@ class PersistenceUsuarioRepository : UsuarioInterface {
             this.admin = usuario.admin ?: false
             this.premium = usuario.premium ?: false
             this.pass = PasswordHash.hash(usuario.pass ?: throw IllegalArgumentException("La contraseña es obligatoria"))
-            this.token = usuario.token ?: ""
+            this.token = usuario.token
             this.urlImagen = usuario.urlImagen
         }.toUsuario()
     }
