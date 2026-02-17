@@ -1,217 +1,191 @@
-# Ejemplos de uso de la API
+# Ejemplos de uso de la API (actualizados)
 
-Base URL (ejemplo): https://subpatronal-heathiest-kash.ngrok-free.dev
+Base URL pública (ngrok): https://subpatronal-heathiest-kash.ngrok-free.dev/api
+Base URL local (Raspberry): http://localhost:8001/api
 
----
+Nota:
+- Todos los endpoints de este documento están bajo el prefijo /api.
+- Ejemplo: GET /usuarios equivale a GET https://subpatronal-heathiest-kash.ngrok-free.dev/api/usuarios
 
-## Usuarios
+------------------------------------------------------------
+SALUD
+------------------------------------------------------------
 
-### GET /usuarios
-GET https://subpatronal-heathiest-kash.ngrok-free.dev/usuarios
-
+GET /
 Respuesta:
-[
-  {
-    "id": 2,
-    "nombre": "Sin nombre",
-    "apellido1": "",
-    "apellido2": "",
-    "nickname": "tesr",
-    "contrasena": "",
-    "msg": null
-  }
-]
+"¡API Spotifake funcionando!"
 
-### GET /usuarios/{ID}
-GET https://subpatronal-heathiest-kash.ngrok-free.dev/usuarios/{ID}
+------------------------------------------------------------
+USUARIOS
+------------------------------------------------------------
 
-Respuesta:
-{
-  "id": 2,
-  "nombre": "Sin nombre",
-  "apellido1": "",
-  "apellido2": "",
-  "nickname": "tesr",
-  "contrasena": "",
-  "msg": null
-}
-
-### GET /usuarios/nickname/{nickname}
-GET https://subpatronal-heathiest-kash.ngrok-free.dev/usuarios/nickname/{nickname}
-
-Respuesta:
-{
-  "id": 2,
-  "nombre": "Sin nombre",
-  "apellido1": "",
-  "apellido2": "",
-  "nickname": "tesr",
-  "contrasena": "",
-  "msg": null
-}
-
-### POST /register
-POST https://subpatronal-heathiest-kash.ngrok-free.dev/register
+POST /register
 Body (JSON):
 {
-  "nombre": "Sin nombre",
-  "apellido1": "",
-  "apellido2": "",
-  "nickname": "tesr",
-  "contrasena": "123456"
+  "nombre": "Pedro",
+  "apellido1": "López",
+  "apellido2": "García",
+  "correo": "pedro@mail.com",
+  "pass": "123456",
+  "admin": false,
+  "premium": false
 }
 
-Respuesta (campos no nulos: id, nombre, apellido1, apellido2, nickname, contrasena=""; msg puede ser null):
-{
-  "id": 2,
-  "nombre": "Sin nombre",
-  "apellido1": "",
-  "apellido2": "",
-  "nickname": "tesr",
-  "contrasena": "",
-  "msg": null
-}
-
-### POST /login
-POST https://subpatronal-heathiest-kash.ngrok-free.dev/login
-Body (JSON):
-{
-  "nickname": "tesr",
-  "contrasena": "123456"
-}
-
-Respuesta (msg puede contener token o null):
-{
-  "id": 2,
-  "nombre": "Sin nombre",
-  "apellido1": "",
-  "apellido2": "",
-  "nickname": "tesr",
-  "contrasena": "",
-  "msg": null
-}
-
-### PUT /usuarios/{ID}
-PUT https://subpatronal-heathiest-kash.ngrok-free.dev/usuarios/{ID}
-Body (JSON):
-{
-  "nombre": "Nombre nuevo",
-  "apellido1": "",
-  "apellido2": "",
-  "nickname": "tesr",
-  "contrasena": "123456"
-}
-
-Respuesta:
-{
-  "id": 2,
-  "nombre": "Nombre nuevo",
-  "apellido1": "",
-  "apellido2": "",
-  "nickname": "tesr",
-  "contrasena": "",
-  "msg": null
-}
-
-### DELETE /usuarios/{ID}
-DELETE https://subpatronal-heathiest-kash.ngrok-free.dev/usuarios/{ID}
-
-Respuesta:
-{
-  "message": "Usuario eliminado correctamente"
-}
-
----
-
-## Canciones
-
-### POST /canciones (multipart/form-data)
-POST https://subpatronal-heathiest-kash.ngrok-free.dev/canciones
-
-Campos:
-- nombre (texto, obligatorio)
-- artista (texto, obligatorio)
-- album (texto, obligatorio)
-- audio (archivo .mp3, obligatorio)
-- portada (archivo imagen, obligatorio)
-
-Respuesta (no nulos: id, nombre, artista, album, audioUrl, portadaUrl):
+Respuesta (201):
 {
   "id": 1,
-  "nombre": "Song A",
-  "artista": "Artista A",
-  "album": "Album A",
-  "audioUrl": "/archivos/audio/uuid_song-a.mp3",
-  "portadaUrl": "/archivos/portadas/uuid_cover-a.jpg"
+  "nombre": "Pedro",
+  "apellido1": "López",
+  "apellido2": "García",
+  "correo": "pedro@mail.com",
+  "admin": false,
+  "premium": false,
+  "pass": "",
+  "token": "",
+  "urlImagen": null
 }
 
-### GET /canciones
-GET https://subpatronal-heathiest-kash.ngrok-free.dev/canciones
+POST /login
+Body (JSON):
+{
+  "correo": "pedro@mail.com",
+  "pass": "123456"
+}
 
-Respuesta:
-[
-  {
-    "id": 1,
-    "nombre": "Song A",
-    "artista": "Artista A",
-    "album": "Album A",
-    "audioUrl": "/archivos/audio/uuid_song-a.mp3",
-    "portadaUrl": "/archivos/portadas/uuid_cover-a.jpg"
-  }
-]
-
-### GET /canciones?nombre=&artista=&album=
-GET https://subpatronal-heathiest-kash.ngrok-free.dev/canciones?nombre=Song&artista=Artista&album=Album
-
-Respuesta:
-[
-  {
-    "id": 1,
-    "nombre": "Song A",
-    "artista": "Artista A",
-    "album": "Album A",
-    "audioUrl": "/archivos/audio/uuid_song-a.mp3",
-    "portadaUrl": "/archivos/portadas/uuid_cover-a.jpg"
-  }
-]
-
-### GET /canciones/{ID}
-GET https://subpatronal-heathiest-kash.ngrok-free.dev/canciones/{ID}
-
-Respuesta:
+Respuesta (200):
 {
   "id": 1,
-  "nombre": "Song A",
-  "artista": "Artista A",
-  "album": "Album A",
-  "audioUrl": "/archivos/audio/uuid_song-a.mp3",
-  "portadaUrl": "/archivos/portadas/uuid_cover-a.jpg"
+  "nombre": "Pedro",
+  "apellido1": "López",
+  "apellido2": "García",
+  "correo": "pedro@mail.com",
+  "admin": false,
+  "premium": false,
+  "pass": "",
+  "token": "<jwt>",
+  "urlImagen": null
 }
 
-### PUT /canciones/{ID} (multipart/form-data)
-PUT https://subpatronal-heathiest-kash.ngrok-free.dev/canciones/{ID}
+GET /usuarios
+GET /usuarios/{id}
+GET /usuarios/correo/{correo}
 
-Campos opcionales:
+PUT /usuarios/{id}
+Body (JSON parcial):
+{
+  "nombre": "Pedro Actualizado",
+  "premium": true
+}
+
+DELETE /usuarios/{id}
+
+------------------------------------------------------------
+GÉNEROS
+------------------------------------------------------------
+
+POST /generos
+Body (JSON):
+{
+  "nombre": "Rock"
+}
+
+GET /generos
+
+DELETE /generos/{id}
+
+------------------------------------------------------------
+CANCIONES
+------------------------------------------------------------
+
+POST /canciones  (multipart/form-data)
+Campos obligatorios:
 - nombre (texto)
 - artista (texto)
 - album (texto)
-- audio (archivo .mp3)
-- portada (archivo imagen)
+- genero (entero, id de /generos)
+- audio (archivo)
+- portada (archivo)
 
-Respuesta:
+Campo opcional:
+- likes (entero, por defecto 0)
+
+Respuesta (201):
 {
   "id": 1,
-  "nombre": "Song A (edit)",
-  "artista": "Artista A",
-  "album": "Album A",
-  "audioUrl": "/archivos/audio/uuid_song-a-edit.mp3",
-  "portadaUrl": "/archivos/portadas/uuid_cover-a.jpg"
+  "nombre": "Numb",
+  "artista": "Linkin Park",
+  "album": "Meteora",
+  "genero": 1,
+  "likes": 0,
+  "urlAudio": "/archivos/audio/uuid_numb.mp3",
+  "urlPortada": "/archivos/portadas/uuid_meteora.jpg"
 }
 
-### DELETE /canciones/{ID}
-DELETE https://subpatronal-heathiest-kash.ngrok-free.dev/canciones/{ID}
+GET /canciones
+Filtros opcionales por query:
+- nombre
+- artista
+- album
 
-Respuesta:
+Ejemplo:
+GET /canciones?nombre=Numb&artista=Linkin&album=Meteora
+
+GET /canciones/{id}
+
+PUT /canciones/{id}  (multipart/form-data)
+Campos opcionales:
+- nombre
+- artista
+- album
+- genero
+- likes
+- audio
+- portada
+
+DELETE /canciones/{id}
+
+------------------------------------------------------------
+LISTAS DE CANCIONES
+------------------------------------------------------------
+
+POST /listas
+Body (JSON):
 {
-  "message": "Canción eliminada correctamente"
+  "nombre": "Favoritas",
+  "idUsuario": 1
 }
+
+Respuesta (201):
+{
+  "id": 1,
+  "nombre": "Favoritas",
+  "idUsuario": 1
+}
+
+GET /usuarios/{id}/listas
+
+GET /listas/{id}/canciones
+
+POST /listas/{id}/canciones
+Body (JSON):
+{
+  "idCancion": 1
+}
+
+Notas:
+- Si la canción ya existe en la lista, devuelve 409 Conflict.
+- No permite duplicados en la tabla pivote lista_canciones_canciones.
+
+DELETE /listas/{idLista}/canciones/{idCancion}
+
+DELETE /listas/{id}
+
+------------------------------------------------------------
+ERRORES COMUNES
+------------------------------------------------------------
+
+400 BadRequest   -> datos inválidos o faltan campos
+401 Unauthorized -> login incorrecto
+404 NotFound     -> recurso no encontrado
+409 Conflict     -> duplicado en lista-canción
+500 ServerError  -> excepción interna
