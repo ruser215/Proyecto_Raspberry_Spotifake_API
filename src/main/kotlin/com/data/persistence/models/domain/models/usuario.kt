@@ -16,6 +16,6 @@ data class Usuario(
     var admin: Boolean = false,
     var premium: Boolean = false,
     var pass: String,
-    var token: String = "",
+    var token: String? = null,
     var urlImagen: String? = null
 )
