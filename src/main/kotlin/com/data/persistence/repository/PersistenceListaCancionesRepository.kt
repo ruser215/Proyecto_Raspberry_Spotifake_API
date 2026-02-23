@@ -90,4 +90,11 @@ class PersistenceListaCancionesRepository : ListaCancionesInterface {
         CancionDao.find { CancionTable.id inList songIds }
             .map { it.toCancion() }
     }
+
+    override suspend fun updateLista(id: Long, lista: ListaCanciones): ListaCanciones? = suspendTransaction {
+        val dao = ListaCancionesDao.findById(id)
+        dao?.apply {
+            nombre = lista.nombre
+        }?.toListaCanciones()
+    }
 }

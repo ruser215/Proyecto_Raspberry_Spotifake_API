@@ -15,4 +15,5 @@ interface ListaCancionesInterface {
     suspend fun addCancionToLista(idLista: Long, idCancion: Int): Boolean
     suspend fun removeCancionFromLista(idLista: Long, idCancion: Int): Boolean
     suspend fun getCancionesByLista(idLista: Long): List<Cancion>
+    suspend fun updateLista(id: Long, lista: ListaCanciones): ListaCanciones?
 }

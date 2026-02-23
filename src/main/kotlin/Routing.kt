@@ -546,7 +546,7 @@ fun Application.configureRouting() {
                         return@post
                     }
 
-                    val body = call.receive<ListaCancionesCancionRequest>()
+                    val body = call.receive<com.domain.models.ListaCancionesCancionRequest>()
                     val added = listaCancionesRepository.addCancionToLista(idLista, body.idCancion)
 
                     if (added) {
@@ -562,6 +562,62 @@ fun Application.configureRouting() {
                         HttpStatusCode.InternalServerError,
                         mapOf("error" to "Error al agregar canción a la lista: ${e.message}")
                     )
+                }
+            }
+
+            put("/listas/{id}") {
+                try {
+                    val id = call.parameters["id"]?.toLongOrNull()
+                    if (id == null) {
+                        call.respond(HttpStatusCode.BadRequest, mapOf("error" to "ID inválido"))
+                        return@put
+                    }
+                    val lista = call.receive<com.domain.models.ListaCanciones>()
+                    val updated = listaCancionesRepository.updateLista(id, lista)
+                    if (updated != null) {
+                        call.respond(HttpStatusCode.OK, updated)
+                    } else {
+                        call.respond(HttpStatusCode.NotFound, mapOf("error" to "Lista no encontrada"))
+                    }
+                } catch (e: Exception) {
+                    call.respond(HttpStatusCode.InternalServerError, mapOf("error" to e.message))
+                }
+            }
+
+            delete("/listas/{id}") {
+                try {
+                    val id = call.parameters["id"]?.toLongOrNull()
+                    if (id == null) {
+                        call.respond(HttpStatusCode.BadRequest, mapOf("error" to "ID inválido"))
+                        return@delete
+                    }
+                    val deleted = listaCancionesRepository.deleteLista(id)
+                    if (deleted) {
+                        call.respond(HttpStatusCode.OK, mapOf("message" to "Lista eliminada"))
+                    } else {
+                        call.respond(HttpStatusCode.NotFound, mapOf("error" to "Lista no encontrada"))
+                    }
+                } catch (e: Exception) {
+                    call.respond(HttpStatusCode.InternalServerError, mapOf("error" to e.message))
+                }
+            }
+
+            delete("/listas/{idLista}/canciones/{idCancion}") {
+                try {
+                    val idLista = call.parameters["idLista"]?.toLongOrNull()
+                    val idCancion = call.parameters["idCancion"]?.toIntOrNull()
+                    if (idLista == null || idCancion == null) {
+                        call.respond(HttpStatusCode.BadRequest, mapOf("error" to "ID inválido"))
+                        return@delete
+                    }
+                    val removed = listaCancionesRepository.removeCancionFromLista(idLista, idCancion)
+                    if (removed) {
+                        call.respond(HttpStatusCode.OK, mapOf("message" to "Canción quitada de la lista"))
+                    } else {
+                        call.respond(HttpStatusCode.NotFound, mapOf("error" to "No se encontró la canción en la lista"))
+                    }
+                } catch (e: Exception) {
+                    call.respond(HttpStatusCode.InternalServerError, mapOf("error" to e.message))
                 }
             }
         }

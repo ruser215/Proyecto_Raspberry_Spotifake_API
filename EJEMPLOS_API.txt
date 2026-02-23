@@ -172,9 +172,11 @@ Body (JSON):
   "idCancion": 1
 }
 
-Notas:
-- Si la canción ya existe en la lista, devuelve 409 Conflict.
-- No permite duplicados en la tabla pivote lista_canciones_canciones.
+PUT /listas/{id}
+Body (JSON):
+{
+  "nombre": "Nuevo Nombre"
+}
 
 DELETE /listas/{idLista}/canciones/{idCancion}
 
