@@ -11,7 +11,7 @@ interface UsuarioInterface {
     
     suspend fun getAllUsuarios(): List<Usuario>
 
-    suspend fun getUsuarioByNombre(nombre: String): List<Usuario>
+    suspend fun getUsuarioByUsername(username: String): List<Usuario>
 
     suspend fun getUsuarioByCorreo(correo: String): Usuario?
 
