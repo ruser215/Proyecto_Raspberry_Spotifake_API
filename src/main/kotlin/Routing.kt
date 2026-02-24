@@ -33,6 +33,7 @@ import com.domain.models.ListaCancionesCancionRequest
 import java.io.File
 import java.util.UUID
 import java.util.Date
+import java.net.URLDecoder
 
 fun Application.configureRouting() {
     val repository = PersistenceUsuarioRepository()
@@ -498,6 +499,62 @@ fun Application.configureRouting() {
                         HttpStatusCode.InternalServerError,
                         mapOf("error" to "Error al obtener géneros: ${e.message}")
                     )
+                }
+            }
+
+            // --- Artistas y Álbums (derivados de las canciones) ---
+            get("/artistas") {
+                try {
+                    val canciones = cancionRepository.getAllCanciones()
+                    val artistas = canciones
+                        .groupBy { it.artista }
+                        .map { entry ->
+                            val nombre = entry.key
+                            val portada = entry.value.mapNotNull { it.urlPortada }.firstOrNull()
+                            com.domain.models.Artista(nombre = nombre, fotoUrl = portada)
+                        }
+                    call.respond(HttpStatusCode.OK, artistas)
+                } catch (e: Exception) {
+                    call.respond(HttpStatusCode.InternalServerError, mapOf("error" to "Error al obtener artistas: ${e.message}"))
+                }
+            }
+
+            get("/artistas/{artist}/albums") {
+                try {
+                    val raw = call.parameters["artist"]
+                    if (raw.isNullOrBlank()) {
+                        call.respond(HttpStatusCode.BadRequest, mapOf("error" to "Nombre de artista inválido"))
+                        return@get
+                    }
+                    val artist = URLDecoder.decode(raw, "UTF-8")
+                    val canciones = cancionRepository.searchCanciones(null, artist, null)
+                    val albums = canciones
+                        .groupBy { it.album }
+                        .map { entry ->
+                            val nombre = entry.key
+                            val portada = entry.value.mapNotNull { it.urlPortada }.firstOrNull()
+                            com.domain.models.Album(nombre = nombre, artista = artist, portadaUrl = portada)
+                        }
+                    call.respond(HttpStatusCode.OK, albums)
+                } catch (e: Exception) {
+                    call.respond(HttpStatusCode.InternalServerError, mapOf("error" to "Error al obtener álbumes: ${e.message}"))
+                }
+            }
+
+            get("/artistas/{artist}/albums/{album}/canciones") {
+                try {
+                    val rawArtist = call.parameters["artist"]
+                    val rawAlbum = call.parameters["album"]
+                    if (rawArtist.isNullOrBlank() || rawAlbum.isNullOrBlank()) {
+                        call.respond(HttpStatusCode.BadRequest, mapOf("error" to "Parámetros inválidos"))
+                        return@get
+                    }
+                    val artist = URLDecoder.decode(rawArtist, "UTF-8")
+                    val album = URLDecoder.decode(rawAlbum, "UTF-8")
+                    val canciones = cancionRepository.searchCanciones(null, artist, album)
+                    call.respond(HttpStatusCode.OK, canciones)
+                } catch (e: Exception) {
+                    call.respond(HttpStatusCode.InternalServerError, mapOf("error" to "Error al obtener canciones del álbum: ${e.message}"))
                 }
             }
 
