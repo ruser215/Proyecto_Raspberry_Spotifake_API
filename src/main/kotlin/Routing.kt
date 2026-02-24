@@ -442,6 +442,34 @@ fun Application.configureRouting() {
                 call.respond(HttpStatusCode.OK, updated)
             }
 
+            delete("/canciones/{id}") {
+                try {
+                    val id = call.parameters["id"]?.toIntOrNull()
+                    if (id == null) {
+                        call.respond(HttpStatusCode.BadRequest, mapOf("error" to "ID inválido"))
+                        return@delete
+                    }
+
+                    val existing = cancionRepository.getCancionById(id)
+                    if (existing == null) {
+                        call.respond(HttpStatusCode.NotFound, mapOf("error" to "Canción no encontrada"))
+                        return@delete
+                    }
+
+                    val deleted = cancionRepository.deleteCancion(id)
+                    if (deleted != null) {
+                        // Borrar ficheros locales asociados si existen
+                        if (!existing.urlAudio.isNullOrBlank()) deleteLocalFile(existing.urlAudio)
+                        if (!existing.urlPortada.isNullOrBlank()) deleteLocalFile(existing.urlPortada)
+                        call.respond(HttpStatusCode.OK, mapOf("message" to "Canción eliminada correctamente"))
+                    } else {
+                        call.respond(HttpStatusCode.NotFound, mapOf("error" to "Canción no encontrada"))
+                    }
+                } catch (e: Exception) {
+                    call.respond(HttpStatusCode.InternalServerError, mapOf("error" to "Error al eliminar canción: ${e.message}"))
+                }
+            }
+
             // --- Generos ---
             post("/generos") {
                 try {
