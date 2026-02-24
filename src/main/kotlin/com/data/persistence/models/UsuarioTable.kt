@@ -5,9 +5,7 @@
 import org.jetbrains.exposed.dao.id.LongIdTable
 
 object UsuarioTable : LongIdTable("usuarios") {
-    val nombre = varchar("nombre", 25)
-    val apellido1 = varchar("apellido1", 50)
-    val apellido2 = varchar("apellido2", 50)
+    val username = varchar("username", 25)
     val correo = varchar("correo", 50)
     val admin = bool("admin").default(false)
     val premium = bool("premium").default(false)

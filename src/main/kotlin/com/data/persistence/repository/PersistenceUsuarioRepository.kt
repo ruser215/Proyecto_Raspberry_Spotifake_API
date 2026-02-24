@@ -35,10 +35,10 @@ class PersistenceUsuarioRepository : UsuarioInterface {
     }
 
     
-    override suspend fun getUsuarioByNombre(nombre: String): List<Usuario> {
+    override suspend fun getUsuarioByUsername(username: String): List<Usuario> {
         return suspendTransaction {
             UsuarioDao.find {
-                UsuarioTable.nombre eq nombre
+                UsuarioTable.username eq username
             }.map { it.toUsuario() }
         }
     }
@@ -53,9 +53,7 @@ class PersistenceUsuarioRepository : UsuarioInterface {
     
     override suspend fun postUsuario(usuario: Usuario): Usuario? = suspendTransaction {
         UsuarioDao.new {
-            this.nombre = usuario.nombre
-            this.apellido1 = usuario.apellido1
-            this.apellido2 = usuario.apellido2
+            this.username = usuario.username
             this.correo = usuario.correo
             this.admin = usuario.admin
             this.premium = usuario.premium
@@ -68,9 +66,7 @@ class PersistenceUsuarioRepository : UsuarioInterface {
     
     override suspend fun register(usuario: UpdateUsuario): Usuario? = suspendTransaction {
         UsuarioDao.new {
-            this.nombre = usuario.nombre ?: "Sin nombre"
-            this.apellido1 = usuario.apellido1 ?: ""
-            this.apellido2 = usuario.apellido2 ?: ""
+            this.username = usuario.username ?: "Sin nombre"
             this.correo = usuario.correo ?: throw IllegalArgumentException("El correo es obligatorio")
             this.admin = usuario.admin ?: false
             this.premium = usuario.premium ?: false
@@ -81,19 +77,17 @@ class PersistenceUsuarioRepository : UsuarioInterface {
     }
 
     
-    override suspend fun updateUsuario(updateUsuario: UpdateUsuario, id: Long): Usuario? {
+    override suspend fun updateUsuario(usuario: UpdateUsuario, id: Long): Usuario? {
         try {
             suspendTransaction {
                 UsuarioTable.update({ UsuarioTable.id eq id }) { stm ->
-                    updateUsuario.nombre?.let { stm[nombre] = it }
-                    updateUsuario.apellido1?.let { stm[apellido1] = it }
-                    updateUsuario.apellido2?.let { stm[apellido2] = it }
-                    updateUsuario.correo?.let { stm[correo] = it }
-                    updateUsuario.admin?.let { stm[admin] = it }
-                    updateUsuario.premium?.let { stm[premium] = it }
-                    updateUsuario.pass?.let { stm[pass] = PasswordHash.hash(it) }
-                    updateUsuario.token?.let { stm[token] = it }
-                    updateUsuario.urlImagen?.let { stm[urlImagen] = it }
+                    usuario.username?.let { stm[username] = it }
+                    usuario.correo?.let { stm[correo] = it }
+                    usuario.admin?.let { stm[admin] = it }
+                    usuario.premium?.let { stm[premium] = it }
+                    usuario.pass?.let { stm[pass] = PasswordHash.hash(it) }
+                    usuario.token?.let { stm[token] = it }
+                    usuario.urlImagen?.let { stm[urlImagen] = it }
                 }
             }
             return getUsuarioById(id)

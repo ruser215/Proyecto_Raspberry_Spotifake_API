@@ -8,9 +8,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class UpdateUsuario(
-    var nombre: String? = null,
-    var apellido1: String? = null,
-    var apellido2: String? = null,
+    var username: String? = null,
     var correo: String? = null,
     var admin: Boolean? = null,
     var premium: Boolean? = null,
