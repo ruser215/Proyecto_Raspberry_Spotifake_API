@@ -24,6 +24,7 @@ USUARIOS
 ------------------------------------------------------------
 
 POST /register
+Nota: Solo se permiten los campos "username", "correo" y "pass". Otros campos (admin, premium, etc.) causarán error 400.
 Body (JSON):
 {
   "username": "Pedro",

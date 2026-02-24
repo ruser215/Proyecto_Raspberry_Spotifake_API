@@ -14,6 +14,10 @@ class RegisterUseCase(val repository: UsuarioInterface) {
     
     operator suspend fun invoke(usuario: UpdateUsuario): Usuario? {
 
+        if (usuario.admin != null || usuario.premium != null || usuario.token != null || usuario.urlImagen != null) {
+            throw IllegalArgumentException("Solo se permiten los campos 'username', 'correo' y 'pass' durante el registro.")
+        }
+
         val correo = usuario.correo ?: throw IllegalArgumentException("El correo es obligatorio")
         usuario.pass ?: throw IllegalArgumentException("La contraseña es obligatoria")
         
