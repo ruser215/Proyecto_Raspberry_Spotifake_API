@@ -26,9 +26,7 @@ USUARIOS
 POST /register
 Body (JSON):
 {
-  "nombre": "Pedro",
-  "apellido1": "López",
-  "apellido2": "García",
+  "username": "Pedro",
   "correo": "pedro@mail.com",
   "pass": "123456",
   "admin": false,
@@ -38,9 +36,7 @@ Body (JSON):
 Respuesta (201):
 {
   "id": 1,
-  "nombre": "Pedro",
-  "apellido1": "López",
-  "apellido2": "García",
+  "username": "Pedro",
   "correo": "pedro@mail.com",
   "admin": false,
   "premium": false,
@@ -59,9 +55,7 @@ Body (JSON):
 Respuesta (200):
 {
   "id": 1,
-  "nombre": "Pedro",
-  "apellido1": "López",
-  "apellido2": "García",
+  "username": "Pedro",
   "correo": "pedro@mail.com",
   "admin": false,
   "premium": false,
@@ -77,7 +71,7 @@ GET /usuarios/correo/{correo}
 PUT /usuarios/{id}
 Body (JSON parcial):
 {
-  "nombre": "Pedro Actualizado",
+  "username": "Pedro Actualizado",
   "premium": true
 }
 

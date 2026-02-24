@@ -17,7 +17,7 @@ class RegisterUseCase(val repository: UsuarioInterface) {
         val correo = usuario.correo ?: throw IllegalArgumentException("El correo es obligatorio")
         usuario.pass ?: throw IllegalArgumentException("La contraseña es obligatoria")
         
-        usuario.username = usuario.username ?: "Sin nombre"
+        usuario.username = usuario.username ?: "Sin username"
 
         return if (repository.getUsuarioByCorreo(correo) != null) {
             logger.warn("(RegisterUseCase) --> El usuario ya existe.")
