@@ -3,6 +3,10 @@
 Base URL pública (ngrok): https://subpatronal-heathiest-kash.ngrok-free.dev/api
 Base URL local (Raspberry): http://localhost:8001/api
 
+--- ADMINER ---
+usuario: admin
+password: s8n38DGB8d72
+
 Nota:
 - Todos los endpoints de este documento están bajo el prefijo /api.
 - Ejemplo: GET /usuarios equivale a GET https://subpatronal-heathiest-kash.ngrok-free.dev/api/usuarios
