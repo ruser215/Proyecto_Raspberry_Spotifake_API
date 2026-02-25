@@ -90,6 +90,8 @@ Body (JSON):
 
 GET /generos
 
+GET /generos/{id}
+
 DELETE /generos/{id}
 
 ------------------------------------------------------------

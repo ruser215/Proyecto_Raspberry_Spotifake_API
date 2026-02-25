@@ -518,6 +518,27 @@ fun Application.configureRouting() {
                 }
             }
 
+            get("/generos/{id}") {
+                try {
+                    val id = call.parameters["id"]?.toIntOrNull()
+                    if (id == null) {
+                        call.respond(HttpStatusCode.BadRequest, mapOf("error" to "ID inválido"))
+                        return@get
+                    }
+                    val genero = generoRepository.getGeneroById(id)
+                    if (genero != null) {
+                        call.respond(HttpStatusCode.OK, genero)
+                    } else {
+                        call.respond(HttpStatusCode.NotFound, mapOf("error" to "Género no encontrado"))
+                    }
+                } catch (e: Exception) {
+                    call.respond(
+                        HttpStatusCode.InternalServerError,
+                        mapOf("error" to "Error al obtener género: ${e.message}")
+                    )
+                }
+            }
+
             // --- CRUD de artistas ---
             post("/artistas") {
                 try {
