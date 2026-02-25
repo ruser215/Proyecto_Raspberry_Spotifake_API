@@ -56,6 +56,10 @@ object DatabaseFactory {
                 ListaCancionesTable,
                 ListaCancionesCancionesTable
             )
+
+            // Asegurar directorios de archivos
+            java.io.File("archivos/usuarios").mkdirs()
+            java.io.File("uploads/usuarios").mkdirs()
         }
     }
     
