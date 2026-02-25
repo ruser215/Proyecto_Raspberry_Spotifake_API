@@ -1,4 +1,4 @@
-FROM arm32v7/eclipse-temurin:21-jre
+FROM arm32v7/eclipse-temurin:17-jre
 
 WORKDIR /app
 EXPOSE 8001
