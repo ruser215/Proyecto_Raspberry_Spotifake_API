@@ -1,23 +1,23 @@
-# 🎵 SPOTIFAKE API - GUÍA DE USO DETALLADA 🎵
+# SPOTIFAKE API - GUÍA DE USO DETALLADA
 
 Guía completa de los endpoints de la API Spotifake con ejemplos de entrada y salida.
 
 ---
 
-## 🚀 INFORMACIÓN GENERAL
+## INFORMACIÓN GENERAL
 
-- **Base URL (Desarrollo):** `http://localhost:8001/api`
-- **Base URL (Producción):** `https://tu-ngrok-o-dominio.dev/api`
-- **Adminer (Base de Datos):** `http://localhost:8080`
-  - *Usuario:* `admin`
-  - *Password:* `s8n38DGB8d72`
+- **Base URL (Desarrollo):** http://localhost:8001/api
+- **Base URL (Producción):** https://tu-ngrok-o-dominio.dev/api
+- **Adminer (Base de Datos):** http://localhost:8080
+  - Usuario: admin
+  - Password: s8n38DGB8d72
 
 ---
 
-## 👤 USUARIOS Y AUTENTICACIÓN
+## USUARIOS Y AUTENTICACIÓN
 
 ### Registro de Usuario
-- **Endpoint:** `POST /register`
+- **Endpoint:** POST /register
 - **Envío (JSON):**
 ```json
 {
@@ -41,7 +41,7 @@ Guía completa de los endpoints de la API Spotifake con ejemplos de entrada y sa
 ```
 
 ### Login
-- **Endpoint:** `POST /login`
+- **Endpoint:** POST /login
 - **Envío (JSON):**
 ```json
 {
@@ -65,13 +65,13 @@ Guía completa de los endpoints de la API Spotifake con ejemplos de entrada y sa
 
 ---
 
-## 🎸 CATÁLOGO MUSICAL
+## CATÁLOGO MUSICAL
 
 ### Artistas
-- **Endpoint:** `POST /artistas`
+- **Endpoint:** POST /artistas
 - **Envío (Multipart/Form-Data):**
-  - `nombre`: "Linkin Park"
-  - `foto`: (Archivo img.jpg)
+  - nombre: "Linkin Park"
+  - foto: (Archivo img.jpg)
 - **Respuesta (201 Created):**
 ```json
 {
@@ -82,10 +82,10 @@ Guía completa de los endpoints de la API Spotifake con ejemplos de entrada y sa
 ```
 
 ### Álbumes
-- **Endpoint:** `POST /artistas/{id}/albums`
+- **Endpoint:** POST /artistas/{id}/albums
 - **Envío (Multipart/Form-Data para Artista ID 5):**
-  - `nombre`: "Meteora"
-  - `portada`: (Archivo cover.png)
+  - nombre: "Meteora"
+  - portada: (Archivo cover.png)
 - **Respuesta (201 Created):**
 ```json
 {
@@ -97,14 +97,14 @@ Guía completa de los endpoints de la API Spotifake con ejemplos de entrada y sa
 ```
 
 ### Canciones
-- **Endpoint:** `POST /canciones`
+- **Endpoint:** POST /canciones
 - **Envío (Multipart/Form-Data):**
-  - `nombre`: "Numb"
-  - `artistaId`: 5
-  - `albumId`: 10
-  - `genero`: 1 (Rock)
-  - `audio`: (Archivo numb.mp3)
-  - `portada`: (Opcional, si no se envía usa la del álbum)
+  - nombre: "Numb"
+  - artistaId: 5
+  - albumId: 10
+  - genero: 1 (Rock)
+  - audio: (Archivo numb.mp3)
+  - portada: (Opcional, si no se envía usa la del álbum)
 - **Respuesta (201 Created):**
 ```json
 {
@@ -123,10 +123,10 @@ Guía completa de los endpoints de la API Spotifake con ejemplos de entrada y sa
 
 ---
 
-## 📑 GÉNEROS Y LISTAS
+## GÉNEROS Y LISTAS
 
 ### Géneros
-- **Endpoint:** `GET /generos/{id}`
+- **Endpoint:** GET /generos/{id}
 - **Respuesta (200 OK):**
 ```json
 {
@@ -136,7 +136,7 @@ Guía completa de los endpoints de la API Spotifake con ejemplos de entrada y sa
 ```
 
 ### Listas de Reproducción (Playlists)
-- **Endpoint:** `POST /listas`
+- **Endpoint:** POST /listas
 - **Envío (JSON):**
 ```json
 {
@@ -154,7 +154,7 @@ Guía completa de los endpoints de la API Spotifake con ejemplos de entrada y sa
 ```
 
 ### Añadir canción a Lista
-- **Endpoint:** `POST /listas/8/canciones`
+- **Endpoint:** POST /listas/{id}/canciones
 - **Envío (JSON):**
 ```json
 {
@@ -170,13 +170,13 @@ Guía completa de los endpoints de la API Spotifake con ejemplos de entrada y sa
 
 ---
 
-## ⚠️ CÓDIGOS DE RESPUESTA
+## CÓDIGOS DE RESPUESTA
 
 | Código | Descripción |
 | :--- | :--- |
-| **200/201** | Éxito. |
-| **400** | Error en los datos enviados o campos prohibidos. |
-| **401** | Credenciales incorrectas. |
-| **404** | El recurso (ID) no existe. |
-| **409** | Conflicto (ej: canción ya en la lista). |
-| **500** | Error interno del servidor. |
+| 200/201 | Éxito. |
+| 400 | Error en los datos enviados o campos prohibidos. |
+| 401 | Credenciales incorrectas. |
+| 404 | El recurso (ID) no existe. |
+| 409 | Conflicto (ej: canción ya en la lista). |
+| 500 | Error interno del servidor. |
