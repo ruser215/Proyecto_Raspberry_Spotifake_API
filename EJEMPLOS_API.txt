@@ -144,6 +144,95 @@ Campos opcionales:
 DELETE /canciones/{id}
 
 ------------------------------------------------------------
+PERFIL DE USUARIO
+------------------------------------------------------------
+
+POST /usuarios/{id}/perfil  (multipart/form-data)
+Campo:
+- imagen (archivo JPG/PNG)
+
+Actualiza la foto de perfil del usuario.
+Ejemplo de respuesta (200):
+{
+  "id": 1,
+  "username": "Pedro",
+  "correo": "pedro@mail.com",
+  "admin": false,
+  "premium": false,
+  "pass": "",
+  "token": null,
+  "urlImagen": "/archivos/perfiles/uuid_foto.jpg"
+}
+
+------------------------------------------------------------
+ARTISTAS
+------------------------------------------------------------
+
+POST /artistas
+Body (JSON):
+{
+  "nombre": "Linkin Park",
+  "fotoUrl": null
+}
+
+Respuesta (201):
+{
+  "id": 1,
+  "nombre": "Linkin Park",
+  "fotoUrl": null
+}
+
+GET /artistas
+Opcional query: ?nombre=Linkin
+
+GET /artistas/{id}
+
+PUT /artistas/{id}
+Body (JSON):
+{
+  "nombre": "Linkin Park Updated",
+  "fotoUrl": "/archivos/artistas/uuid.jpg"
+}
+
+DELETE /artistas/{id}
+
+------------------------------------------------------------
+ALBÚMES
+------------------------------------------------------------
+
+POST /artistas/{id}/albums
+Body (JSON):
+{
+  "nombre": "Meteora",
+  "portadaUrl": "/archivos/portadas/uuid.jpg",
+  "artistaId": null    # se ignora, se usa el id de la ruta
+}
+
+Respuesta (201):
+{
+  "id": 1,
+  "nombre": "Meteora",
+  "portadaUrl": "/archivos/portadas/uuid.jpg",
+  "artistaId": 1
+}
+
+GET /artistas/{id}/albums
+
+GET /albums/{id}
+
+GET /albums/{id}/canciones
+
+PUT /albums/{id}
+Body (JSON):
+{
+  "nombre": "Meteora Remastered",
+  "portadaUrl": "/archivos/portadas/uuid2.jpg",
+  "artistaId": 1
+}
+
+DELETE /albums/{id}
+
+------------------------------------------------------------
 LISTAS DE CANCIONES
 ------------------------------------------------------------
 
