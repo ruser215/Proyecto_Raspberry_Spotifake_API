@@ -5,6 +5,7 @@ import com.domain.repository.AlbumInterface
 import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.update
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.like
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import suspendTransaction
 import com.data.persistence.models.AlbumDao
 import com.data.persistence.models.AlbumTable
