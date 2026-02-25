@@ -29,7 +29,19 @@ Para los endpoints protegidos, se debe incluir el token JWT obtenido en el login
   "pass": "password123"
 }
 ```
-- **Respuesta (201 Created):** Objeto Usuario con token generado.
+- **Respuesta (201 Created):**
+```json
+{
+  "id": 1,
+  "username": "usuario_ejemplo",
+  "correo": "usuario@mail.com",
+  "admin": false,
+  "premium": false,
+  "pass": "",
+  "token": "eyJhbGciOi...",
+  "urlImagen": null
+}
+```
 
 ### Login
 **POST** `/login`
@@ -40,14 +52,26 @@ Para los endpoints protegidos, se debe incluir el token JWT obtenido en el login
   "pass": "password123"
 }
 ```
-- **Respuesta (200 OK):** Objeto Usuario con token.
+- **Respuesta (200 OK):**
+```json
+{
+  "id": 1,
+  "username": "usuario_ejemplo",
+  "correo": "usuario@mail.com",
+  "admin": false,
+  "premium": false,
+  "pass": "",
+  "token": "eyJhbGciOi...",
+  "urlImagen": "/archivos/perfiles/uuid_foto.jpg"
+}
+```
 
 ### CRUD Usuarios (Requiere Auth)
 - **GET** `/usuarios`: Lista de todos los usuarios.
 - **GET** `/usuarios/{id}`: Detalle de un usuario.
 - **GET** `/usuarios/correo/{correo}`: Buscar usuario por email.
 - **PUT** `/usuarios/{id}`:
-  - **Envio (JSON parcial):** `{"username": "nuevo_nombre", "premium": 1}`
+  - **Envio (JSON parcial):** `{"username": "nuevo_nombre", "premium": true}`
 - **DELETE** `/usuarios/{id}`: Elimina la cuenta permanentemente.
 
 ### Foto de Perfil (Requiere Auth)

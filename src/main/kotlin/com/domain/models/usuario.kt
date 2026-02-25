@@ -11,8 +11,8 @@ data class Usuario(
     val id: Long? = null,
     var username: String,
     var correo: String,
-    var admin: Int = 0,
-    var premium: Int = 0,
+    var admin: Boolean = false,
+    var premium: Boolean = false,
     var pass: String,
     var token: String? = null,
     var urlImagen: String? = null
