@@ -99,8 +99,8 @@ CANCIONES
 POST /canciones  (multipart/form-data)
 Campos obligatorios:
 - nombre (texto)
-- artista (texto)
-- album (texto)
+- artistaId (entero, id de /artistas)
+- albumId (entero, id de /albums)
 - genero (entero, id de /generos)
 - audio (archivo)
 - portada (archivo)
@@ -112,6 +112,8 @@ Respuesta (201):
 {
   "id": 1,
   "nombre": "Numb",
+  "artistaId": 1,
+  "albumId": 1,
   "artista": "Linkin Park",
   "album": "Meteora",
   "genero": 1,

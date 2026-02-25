@@ -330,8 +330,8 @@ fun Application.configureRouting() {
                     part.dispose()
                 }
 
-                if (nombre.isNullOrBlank() || artista.isNullOrBlank() || album.isNullOrBlank() || genero == null || urlAudio.isNullOrBlank() || urlPortada.isNullOrBlank()) {
-                    call.respond(HttpStatusCode.BadRequest, mapOf("error" to "Faltan campos obligatorios o archivos"))
+                if (nombre.isNullOrBlank() || artistaId == null || albumId == null || genero == null || urlAudio.isNullOrBlank() || urlPortada.isNullOrBlank()) {
+                    call.respond(HttpStatusCode.BadRequest, mapOf("error" to "Faltan campos obligatorios: nombre, artistaId, albumId, genero, audio o portada"))
                     return@post
                 }
 
