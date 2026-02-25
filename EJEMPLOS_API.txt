@@ -35,8 +35,8 @@ Para los endpoints protegidos, se debe incluir el token JWT obtenido en el login
   "id": 1,
   "username": "usuario_ejemplo",
   "correo": "usuario@mail.com",
-  "admin": false,
-  "premium": false,
+  "admin": 0,
+  "premium": 0,
   "pass": "",
   "token": "eyJhbGciOi...",
   "urlImagen": null
@@ -58,8 +58,8 @@ Para los endpoints protegidos, se debe incluir el token JWT obtenido en el login
   "id": 1,
   "username": "usuario_ejemplo",
   "correo": "usuario@mail.com",
-  "admin": false,
-  "premium": false,
+  "admin": 0,
+  "premium": 0,
   "pass": "",
   "token": "eyJhbGciOi...",
   "urlImagen": "/archivos/perfiles/uuid_foto.jpg"
@@ -71,7 +71,7 @@ Para los endpoints protegidos, se debe incluir el token JWT obtenido en el login
 - **GET** `/usuarios/{id}`: Detalle de un usuario.
 - **GET** `/usuarios/correo/{correo}`: Buscar usuario por email.
 - **PUT** `/usuarios/{id}`:
-  - **Envio (JSON parcial):** `{"username": "nuevo_nombre", "premium": true}`
+  - **Envio (JSON parcial):** `{"username": "nuevo_nombre", "premium": 1}`
 - **DELETE** `/usuarios/{id}`: Elimina la cuenta permanentemente.
 
 ### Foto de Perfil (Requiere Auth)
