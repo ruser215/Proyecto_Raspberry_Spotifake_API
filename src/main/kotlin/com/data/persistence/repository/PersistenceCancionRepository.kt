@@ -56,7 +56,7 @@ class PersistenceCancionRepository : CancionInterface {
         CancionDao.all().map { it.toCancion() }
     }
 
-    override suspend fun searchCanciones(nombre: String?, artista: String?, album: String?): List<Cancion> = suspendTransaction {
+    override suspend fun searchCanciones(nombre: String?, artista: String?, album: String?, generoId: Int?): List<Cancion> = suspendTransaction {
         // filtrado en memoria usando relaciones para mantener simples las consultas
         CancionDao.all().filter { song ->
             val matchName = nombre.isNullOrBlank() || song.nombre.contains(nombre, ignoreCase = true)
@@ -64,7 +64,8 @@ class PersistenceCancionRepository : CancionInterface {
             // buscamos tanto en el artista directo como en el del álbum
             val artistName = song.artista?.nombre ?: song.album?.artista?.nombre ?: ""
             val matchArtist = artista.isNullOrBlank() || artistName.contains(artista, ignoreCase = true)
-            matchName && matchAlbum && matchArtist
+            val matchGenero = generoId == null || song.genero.value == generoId
+            matchName && matchAlbum && matchArtist && matchGenero
         }.map { it.toCancion() }
     }
 

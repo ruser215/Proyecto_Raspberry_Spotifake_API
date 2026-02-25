@@ -356,11 +356,12 @@ fun Application.configureRouting() {
                 val nombre = call.request.queryParameters["nombre"]
                 val artista = call.request.queryParameters["artista"]
                 val album = call.request.queryParameters["album"]
+                val generoId = call.request.queryParameters["genero"]?.toIntOrNull()
 
-                val canciones = if (nombre.isNullOrBlank() && artista.isNullOrBlank() && album.isNullOrBlank()) {
+                val canciones = if (nombre.isNullOrBlank() && artista.isNullOrBlank() && album.isNullOrBlank() && generoId == null) {
                     cancionRepository.getAllCanciones()
                 } else {
-                    cancionRepository.searchCanciones(nombre, artista, album)
+                    cancionRepository.searchCanciones(nombre, artista, album, generoId)
                 }
                 call.respond(HttpStatusCode.OK, canciones)
             }

@@ -127,9 +127,10 @@ Filtros opcionales por query:
 - nombre
 - artista
 - album
+- genero (entero, id del género)
 
 Ejemplo:
-GET /canciones?nombre=Numb&artista=Linkin&album=Meteora
+GET /canciones?nombre=Numb&artista=Linkin&album=Meteora&genero=1
 
 GET /canciones/{id}
 
