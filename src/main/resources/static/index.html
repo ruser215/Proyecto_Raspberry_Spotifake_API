@@ -1,7 +1,86 @@
 <html>
  <head>
+   <meta charset="utf-8" />
+   <title>Spotifake API Demo</title>
+   <style>
+     body { font-family: sans-serif; margin: 0; padding: 0; }
+     #artists-container { display: flex; overflow-x: auto; padding: 1rem; }
+     .artist-card { flex: 0 0 auto; width: 120px; margin-right: 1rem; text-align: center; cursor: pointer; }
+     .artist-card img { width: 100%; height: auto; border-radius: 50%; }
+     #albums-container { display: flex; flex-wrap: wrap; padding: 1rem; }
+     .album-card { width: calc(50% - 1rem); margin: 0.5rem; cursor: pointer; }
+     .album-card img { width: 100%; height: auto; }
+     #songs-list { padding: 1rem; }
+   </style>
  </head>
  <body>
-   <h1>Hello Ktor!</h1>
+   <!-- parte superior: filtro de géneros (no implementado en este demo) -->
+   <div id="genre-filter"></div>
+
+   <!-- barra de artistas deslizables -->
+   <div id="artists-container"></div>
+
+   <!-- álbumes del artista seleccionado -->
+   <div id="albums-container"></div>
+
+   <!-- lista de canciones del álbum seleccionado -->
+   <div id="songs-list"></div>
+
+   <script>
+     async function fetchArtists() {
+       const resp = await fetch('/artistas');
+       return resp.json();
+     }
+     async function fetchAlbums(artistId) {
+       const resp = await fetch(`/artistas/${artistId}/albums`);
+       return resp.json();
+     }
+     async function fetchSongsByAlbum(albumId) {
+       const resp = await fetch(`/albums/${albumId}/canciones`);
+       return resp.json();
+     }
+
+     function renderArtists(list) {
+       const container = document.getElementById('artists-container');
+       container.innerHTML = '';
+       list.forEach(a => {
+         const card = document.createElement('div');
+         card.className = 'artist-card';
+         card.innerHTML = `<img src="${a.fotoUrl||'/static/default-artist.png'}"><div>${a.nombre}</div>`;
+         card.onclick = () => loadAlbums(a.id);
+         container.appendChild(card);
+       });
+     }
+     function renderAlbums(list) {
+       const container = document.getElementById('albums-container');
+       container.innerHTML = '';
+       list.forEach(al => {
+         const card = document.createElement('div');
+         card.className = 'album-card';
+         card.innerHTML = `<img src="${al.portadaUrl||'/static/default-album.png'}"><div>${al.nombre}</div>`;
+         card.onclick = () => loadSongs(al.id);
+         container.appendChild(card);
+       });
+     }
+     function renderSongs(list) {
+       const container = document.getElementById('songs-list');
+       container.innerHTML = '<ul>' + list.map(s=>`<li>${s.nombre} (${s.artista} - ${s.album})</li>`).join('') + '</ul>';
+     }
+
+     async function loadArtists() {
+       const artists = await fetchArtists();
+       renderArtists(artists);
+     }
+     async function loadAlbums(id) {
+       const albums = await fetchAlbums(id);
+       renderAlbums(albums);
+     }
+     async function loadSongs(id) {
+       const songs = await fetchSongsByAlbum(id);
+       renderSongs(songs);
+     }
+
+     loadArtists();
+   </script>
  </body>
 </html>

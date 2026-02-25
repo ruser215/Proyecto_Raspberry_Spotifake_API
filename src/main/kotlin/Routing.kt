@@ -23,6 +23,8 @@ import com.data.persistence.repository.PersistenceUsuarioRepository
 import com.data.persistence.repository.PersistenceCancionRepository
 import com.data.persistence.repository.PersistenceGeneroRepository
 import com.data.persistence.repository.PersistenceListaCancionesRepository
+import com.data.persistence.repository.PersistenceArtistaRepository
+import com.data.persistence.repository.PersistenceAlbumRepository
 import com.domain.usecase.ProviderUseCase
 import com.domain.models.Usuario
 import com.domain.models.UpdateUsuario
@@ -30,6 +32,8 @@ import com.domain.models.Cancion
 import com.domain.models.Genero
 import com.domain.models.ListaCanciones
 import com.domain.models.ListaCancionesCancionRequest
+import com.domain.models.Artista
+import com.domain.models.Album
 import java.io.File
 import java.util.UUID
 import java.util.Date
@@ -42,6 +46,9 @@ fun Application.configureRouting() {
     val cancionRepository = PersistenceCancionRepository()
     val generoRepository = PersistenceGeneroRepository()
     val listaCancionesRepository = PersistenceListaCancionesRepository()
+    // nuevos repositorios normalizados
+    val artistaRepository = PersistenceArtistaRepository()
+    val albumRepository = PersistenceAlbumRepository()
 
     val dotenv = dotenv {
         ignoreIfMissing = true
@@ -502,59 +509,176 @@ fun Application.configureRouting() {
                 }
             }
 
-            // --- Artistas y Álbums (derivados de las canciones) ---
+            // --- CRUD de artistas ---
+            post("/artistas") {
+                try {
+                    val artista = call.receive<com.domain.models.Artista>()
+                    if (artista.nombre.isBlank()) {
+                        call.respond(HttpStatusCode.BadRequest, mapOf("error" to "El nombre es obligatorio"))
+                        return@post
+                    }
+                    val created = artistaRepository.createArtista(artista)
+                    call.respond(HttpStatusCode.Created, created)
+                } catch (e: Exception) {
+                    call.respond(HttpStatusCode.InternalServerError, mapOf("error" to "Error al crear artista: ${e.message}"))
+                }
+            }
+
             get("/artistas") {
                 try {
-                    val canciones = cancionRepository.getAllCanciones()
-                    val artistas = canciones
-                        .groupBy { it.artista }
-                        .map { entry ->
-                            val nombre = entry.key
-                            val portada = entry.value.mapNotNull { it.urlPortada }.firstOrNull()
-                            com.domain.models.Artista(nombre = nombre, fotoUrl = portada)
-                        }
+                    val nombre = call.request.queryParameters["nombre"]
+                    val artistas = if (nombre.isNullOrBlank()) {
+                        artistaRepository.getAllArtistas()
+                    } else {
+                        artistaRepository.searchArtistas(nombre)
+                    }
                     call.respond(HttpStatusCode.OK, artistas)
                 } catch (e: Exception) {
                     call.respond(HttpStatusCode.InternalServerError, mapOf("error" to "Error al obtener artistas: ${e.message}"))
                 }
             }
 
-            get("/artistas/{artist}/albums") {
+            get("/artistas/{id}") {
                 try {
-                    val raw = call.parameters["artist"]
-                    if (raw.isNullOrBlank()) {
-                        call.respond(HttpStatusCode.BadRequest, mapOf("error" to "Nombre de artista inválido"))
+                    val id = call.parameters["id"]?.toIntOrNull()
+                    if (id == null) {
+                        call.respond(HttpStatusCode.BadRequest, mapOf("error" to "ID inválido"))
                         return@get
                     }
-                    val artist = URLDecoder.decode(raw, "UTF-8")
-                    val canciones = cancionRepository.searchCanciones(null, artist, null)
-                    val albums = canciones
-                        .groupBy { it.album }
-                        .map { entry ->
-                            val nombre = entry.key
-                            val portada = entry.value.mapNotNull { it.urlPortada }.firstOrNull()
-                            com.domain.models.Album(nombre = nombre, artista = artist, portadaUrl = portada)
-                        }
+                    val artista = artistaRepository.getArtistaById(id)
+                    if (artista != null) call.respond(HttpStatusCode.OK, artista)
+                    else call.respond(HttpStatusCode.NotFound, mapOf("error" to "Artista no encontrado"))
+                } catch (e: Exception) {
+                    call.respond(HttpStatusCode.InternalServerError, mapOf("error" to "Error al obtener artista: ${e.message}"))
+                }
+            }
+
+            put("/artistas/{id}") {
+                try {
+                    val id = call.parameters["id"]?.toIntOrNull()
+                    if (id == null) {
+                        call.respond(HttpStatusCode.BadRequest, mapOf("error" to "ID inválido"))
+                        return@put
+                    }
+                    val update = call.receive<com.domain.models.Artista>()
+                    val updated = artistaRepository.updateArtista(id, update.nombre.takeIf { it.isNotBlank() }, update.fotoUrl)
+                    if (updated != null) call.respond(HttpStatusCode.OK, updated)
+                    else call.respond(HttpStatusCode.NotFound, mapOf("error" to "Artista no encontrado"))
+                } catch (e: Exception) {
+                    call.respond(HttpStatusCode.InternalServerError, mapOf("error" to "Error al actualizar artista: ${e.message}"))
+                }
+            }
+
+            delete("/artistas/{id}") {
+                try {
+                    val id = call.parameters["id"]?.toIntOrNull()
+                    if (id == null) {
+                        call.respond(HttpStatusCode.BadRequest, mapOf("error" to "ID inválido"))
+                        return@delete
+                    }
+                    val ok = artistaRepository.deleteArtista(id)
+                    if (ok) call.respond(HttpStatusCode.OK, mapOf("message" to "Artista eliminado"))
+                    else call.respond(HttpStatusCode.NotFound, mapOf("error" to "Artista no encontrado"))
+                } catch (e: Exception) {
+                    call.respond(HttpStatusCode.InternalServerError, mapOf("error" to "Error al eliminar artista: ${e.message}"))
+                }
+            }
+
+            // --- CRUD de álbumes ---
+            post("/artistas/{id}/albums") {
+                try {
+                    val id = call.parameters["id"]?.toIntOrNull()
+                    if (id == null) {
+                        call.respond(HttpStatusCode.BadRequest, mapOf("error" to "ID de artista inválido"))
+                        return@post
+                    }
+                    val album = call.receive<com.domain.models.Album>()
+                    val toCreate = album.copy(artistaId = id)
+                    val created = albumRepository.createAlbum(toCreate)
+                    call.respond(HttpStatusCode.Created, created)
+                } catch (e: Exception) {
+                    call.respond(HttpStatusCode.InternalServerError, mapOf("error" to "Error al crear álbum: ${e.message}"))
+                }
+            }
+
+            get("/artistas/{id}/albums") {
+                try {
+                    val id = call.parameters["id"]?.toIntOrNull()
+                    if (id == null) {
+                        call.respond(HttpStatusCode.BadRequest, mapOf("error" to "ID de artista inválido"))
+                        return@get
+                    }
+                    val albums = albumRepository.getAlbumsByArtista(id)
                     call.respond(HttpStatusCode.OK, albums)
                 } catch (e: Exception) {
                     call.respond(HttpStatusCode.InternalServerError, mapOf("error" to "Error al obtener álbumes: ${e.message}"))
                 }
             }
 
-            get("/artistas/{artist}/albums/{album}/canciones") {
+            get("/albums/{id}") {
                 try {
-                    val rawArtist = call.parameters["artist"]
-                    val rawAlbum = call.parameters["album"]
-                    if (rawArtist.isNullOrBlank() || rawAlbum.isNullOrBlank()) {
-                        call.respond(HttpStatusCode.BadRequest, mapOf("error" to "Parámetros inválidos"))
+                    val id = call.parameters["id"]?.toIntOrNull()
+                    if (id == null) {
+                        call.respond(HttpStatusCode.BadRequest, mapOf("error" to "ID inválido"))
                         return@get
                     }
-                    val artist = URLDecoder.decode(rawArtist, "UTF-8")
-                    val album = URLDecoder.decode(rawAlbum, "UTF-8")
-                    val canciones = cancionRepository.searchCanciones(null, artist, album)
+                    val album = albumRepository.getAlbumById(id)
+                    if (album != null) call.respond(HttpStatusCode.OK, album)
+                    else call.respond(HttpStatusCode.NotFound, mapOf("error" to "Álbum no encontrado"))
+                } catch (e: Exception) {
+                    call.respond(HttpStatusCode.InternalServerError, mapOf("error" to "Error al obtener álbum: ${e.message}"))
+                }
+            }
+
+            get("/albums/{id}/canciones") {
+                try {
+                    val id = call.parameters["id"]?.toIntOrNull()
+                    if (id == null) {
+                        call.respond(HttpStatusCode.BadRequest, mapOf("error" to "ID inválido"))
+                        return@get
+                    }
+                    val album = albumRepository.getAlbumById(id)
+                    if (album == null) {
+                        call.respond(HttpStatusCode.NotFound, mapOf("error" to "Álbum no encontrado"))
+                        return@get
+                    }
+                    // utilizamos el nombre y artista para filtrar
+                    val artistName = album.artistaId?.let { artistaRepository.getArtistaById(it)?.nombre }
+                    val canciones = cancionRepository.searchCanciones(null, artistName, album.nombre)
                     call.respond(HttpStatusCode.OK, canciones)
                 } catch (e: Exception) {
                     call.respond(HttpStatusCode.InternalServerError, mapOf("error" to "Error al obtener canciones del álbum: ${e.message}"))
+                }
+            }
+
+            put("/albums/{id}") {
+                try {
+                    val id = call.parameters["id"]?.toIntOrNull()
+                    if (id == null) {
+                        call.respond(HttpStatusCode.BadRequest, mapOf("error" to "ID inválido"))
+                        return@put
+                    }
+                    val update = call.receive<com.domain.models.Album>()
+                    val updated = albumRepository.updateAlbum(id, update.nombre.takeIf { it.isNotBlank() }, update.portadaUrl, update.artistaId)
+                    if (updated != null) call.respond(HttpStatusCode.OK, updated)
+                    else call.respond(HttpStatusCode.NotFound, mapOf("error" to "Álbum no encontrado"))
+                } catch (e: Exception) {
+                    call.respond(HttpStatusCode.InternalServerError, mapOf("error" to "Error al actualizar álbum: ${e.message}"))
+                }
+            }
+
+            delete("/albums/{id}") {
+                try {
+                    val id = call.parameters["id"]?.toIntOrNull()
+                    if (id == null) {
+                        call.respond(HttpStatusCode.BadRequest, mapOf("error" to "ID inválido"))
+                        return@delete
+                    }
+                    val ok = albumRepository.deleteAlbum(id)
+                    if (ok) call.respond(HttpStatusCode.OK, mapOf("message" to "Álbum eliminado"))
+                    else call.respond(HttpStatusCode.NotFound, mapOf("error" to "Álbum no encontrado"))
+                } catch (e: Exception) {
+                    call.respond(HttpStatusCode.InternalServerError, mapOf("error" to "Error al eliminar álbum: ${e.message}"))
                 }
             }
 

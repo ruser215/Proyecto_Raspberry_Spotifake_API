@@ -18,12 +18,33 @@ import CancionTable
 import GeneroTable
 import suspendTransaction
 
+// incorporamos nuevas entidades para normalización
+import com.data.persistence.models.ArtistDao
+import com.data.persistence.models.AlbumDao
+import com.data.persistence.models.ArtistTable
+import com.data.persistence.models.AlbumTable
+
 class PersistenceCancionRepository : CancionInterface {
+    private fun findOrCreateArtist(name: String): ArtistDao = ArtistDao.find {
+        ArtistTable.nombre eq name
+    }.firstOrNull() ?: ArtistDao.new {
+        nombre = name
+    }
+
+    private fun findOrCreateAlbum(name: String, artist: ArtistDao): AlbumDao = AlbumDao.find {
+        (AlbumTable.nombre eq name) and (AlbumTable.artista eq artist.id)
+    }.firstOrNull() ?: AlbumDao.new {
+        this.nombre = name
+        this.artista = artist
+    }
+
     override suspend fun createCancion(cancion: Cancion): Cancion = suspendTransaction {
+        // si el cliente nos manda nombre de artista/álbum convertimos a relaciones
+        val artistDao = findOrCreateArtist(cancion.artista)
+        val albumDao = findOrCreateAlbum(cancion.album, artistDao)
         CancionDao.new {
             nombre = cancion.nombre
-            artista = cancion.artista
-            album = cancion.album
+            album = albumDao
             genero = EntityID(cancion.genero, GeneroTable)
             likes = cancion.likes
             urlAudio = cancion.urlAudio
@@ -40,11 +61,13 @@ class PersistenceCancionRepository : CancionInterface {
     }
 
     override suspend fun searchCanciones(nombre: String?, artista: String?, album: String?): List<Cancion> = suspendTransaction {
-        var op: Op<Boolean> = Op.TRUE
-        if (!nombre.isNullOrBlank()) op = op and (CancionTable.nombre like "%$nombre%")
-        if (!artista.isNullOrBlank()) op = op and (CancionTable.artista like "%$artista%")
-        if (!album.isNullOrBlank()) op = op and (CancionTable.album like "%$album%")
-        CancionDao.find { op }.map { it.toCancion() }
+        // filtrado en memoria usando relaciones para mantener simples las consultas
+        CancionDao.all().filter { song ->
+            val matchName = nombre.isNullOrBlank() || song.nombre.contains(nombre, ignoreCase = true)
+            val matchAlbum = album.isNullOrBlank() || song.album?.nombre?.contains(album, ignoreCase = true) == true
+            val matchArtist = artista.isNullOrBlank() || song.album?.artista?.nombre?.contains(artista, ignoreCase = true) == true
+            matchName && matchAlbum && matchArtist
+        }.map { it.toCancion() }
     }
 
     override suspend fun updateCancion(
@@ -58,10 +81,17 @@ class PersistenceCancionRepository : CancionInterface {
         urlPortada: String?
     ): Cancion? {
         suspendTransaction {
+            if (artista != null || album != null) {
+                // si cambian las referencias hay que localizar/crear nuevos
+                val song = CancionDao.findById(id)
+                if (song != null) {
+                    val artistDao = if (artista != null) findOrCreateArtist(artista) else song.album?.artista
+                    val albumDao = if (album != null && artistDao != null) findOrCreateAlbum(album, artistDao) else song.album
+                    if (albumDao != null) song.album = albumDao
+                }
+            }
             CancionTable.update({ CancionTable.id eq id }) { stm ->
                 nombre?.let { stm[CancionTable.nombre] = it }
-                artista?.let { stm[CancionTable.artista] = it }
-                album?.let { stm[CancionTable.album] = it }
                 genero?.let { stm[CancionTable.genero] = EntityID(it, GeneroTable) }
                 likes?.let { stm[CancionTable.likes] = it }
                 urlAudio?.let { stm[CancionTable.urlAudio] = it }

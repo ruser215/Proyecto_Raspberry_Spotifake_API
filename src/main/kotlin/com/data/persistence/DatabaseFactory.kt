@@ -15,6 +15,8 @@ import CancionTable
 import GeneroTable
 import ListaCancionesTable
 import ListaCancionesCancionesTable
+import com.data.persistence.models.ArtistTable
+import com.data.persistence.models.AlbumTable
 
 
 object DatabaseFactory {
@@ -31,9 +33,33 @@ object DatabaseFactory {
         
         transaction(database) {
             if (resetOnStart) {
-                SchemaUtils.drop(ListaCancionesCancionesTable, ListaCancionesTable, CancionTable, GeneroTable, UsuarioTable)
+                // en desarrollo es más sencillo reconstruir el esquema completo
+                SchemaUtils.drop(
+                    ListaCancionesCancionesTable,
+                    ListaCancionesTable,
+                    CancionTable,
+                    AlbumTable,
+                    ArtistTable,
+                    GeneroTable,
+                    UsuarioTable
+                )
             }
-            SchemaUtils.create(UsuarioTable, GeneroTable, CancionTable, ListaCancionesTable, ListaCancionesCancionesTable)
+            // si el esquema se cambia y ya existen datos, configure DB_RESET_ON_START=true
+            // o implemente un script de migración que:
+            // 1. cree ArtistTable y AlbumTable
+            // 2. recorra los valores distintos de "artista" y "album" de la tabla canciones
+            // 3. inserte registros en artistas/álbums y actualice el campo album (FK) de canciones
+            // 4. opcionalmente elimine las columnas de texto antiguas
+            
+            SchemaUtils.create(
+                UsuarioTable,
+                GeneroTable,
+                ArtistTable,
+                AlbumTable,
+                CancionTable,
+                ListaCancionesTable,
+                ListaCancionesCancionesTable
+            )
         }
     }
     
