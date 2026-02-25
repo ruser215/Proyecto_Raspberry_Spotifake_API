@@ -335,6 +335,20 @@ fun Application.configureRouting() {
                     return@post
                 }
 
+                // --- Validaciones de Integridad ---
+                if (artistaRepository.getArtistaById(artistaId!!) == null) {
+                    call.respond(HttpStatusCode.NotFound, mapOf("error" to "El artista con ID $artistaId no existe"))
+                    return@post
+                }
+                if (albumRepository.getAlbumById(albumId!!) == null) {
+                    call.respond(HttpStatusCode.NotFound, mapOf("error" to "El álbum con ID $albumId no existe"))
+                    return@post
+                }
+                if (generoRepository.getGeneroById(genero!!) == null) {
+                    call.respond(HttpStatusCode.NotFound, mapOf("error" to "el género con ID $genero no existe"))
+                    return@post
+                }
+
                 val cancion = cancionRepository.createCancion(
                     Cancion(
                         nombre = nombre!!,
@@ -427,9 +441,23 @@ fun Application.configureRouting() {
                             }
                         }
                         else -> Unit
-                    }
-                    part.dispose()
                 }
+                part.dispose()
+            }
+
+            // --- Validaciones de Integridad para Actualización ---
+            if (artistaId != null && artistaRepository.getArtistaById(artistaId!!) == null) {
+                call.respond(HttpStatusCode.NotFound, mapOf("error" to "El artista con ID $artistaId no existe"))
+                return@put
+            }
+            if (albumId != null && albumRepository.getAlbumById(albumId!!) == null) {
+                call.respond(HttpStatusCode.NotFound, mapOf("error" to "El álbum con ID $albumId no existe"))
+                return@put
+            }
+            if (genero != null && generoRepository.getGeneroById(genero!!) == null) {
+                call.respond(HttpStatusCode.NotFound, mapOf("error" to "El género con ID $genero no existe"))
+                return@put
+            }
 
                 val updated = cancionRepository.updateCancion(
                     id,
