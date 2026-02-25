@@ -39,8 +39,8 @@ Respuesta (201):
   "id": 1,
   "username": "Pedro",
   "correo": "pedro@mail.com",
-  "admin": false,
-  "premium": false,
+  "admin": 0,
+  "premium": 0,
   "pass": "",
   "token": null,
   "urlImagen": null
@@ -73,7 +73,7 @@ PUT /usuarios/{id}
 Body (JSON parcial):
 {
   "username": "Pedro Actualizado",
-  "premium": true
+  "premium": 1
 }
 
 DELETE /usuarios/{id}
@@ -157,8 +157,8 @@ Ejemplo de respuesta (200):
   "id": 1,
   "username": "Pedro",
   "correo": "pedro@mail.com",
-  "admin": false,
-  "premium": false,
+  "admin": 0,
+  "premium": 0,
   "pass": "",
   "token": null,
   "urlImagen": "/archivos/perfiles/uuid_foto.jpg"
@@ -196,19 +196,16 @@ DELETE /artistas/{id}
 ALBÚMES
 ------------------------------------------------------------
 
-POST /artistas/{id}/albums
-Body (JSON):
-{
-  "nombre": "Meteora",
-  "portadaUrl": "/archivos/portadas/uuid.jpg",
-  "artistaId": null    # se ignora, se usa el id de la ruta
-}
+POST /artistas/{id}/albums (multipart/form-data)
+Campos:
+- nombre (texto)
+- portada (archivo)
 
 Respuesta (201):
 {
   "id": 1,
   "nombre": "Meteora",
-  "portadaUrl": "/archivos/portadas/uuid.jpg",
+  "portadaUrl": "/archivos/albums/uuid_foto.jpg",
   "artistaId": 1
 }
 
@@ -218,11 +215,17 @@ GET /albums/{id}
 
 GET /albums/{id}/canciones
 
-PUT /albums/{id}
-Body (JSON):
+PUT /albums/{id} (multipart/form-data)
+Campos opcionales:
+- nombre (texto)
+- portada (archivo)
+- artistaId (entero)
+
+Ejemplo de respuesta:
 {
+  "id": 1,
   "nombre": "Meteora Remastered",
-  "portadaUrl": "/archivos/portadas/uuid2.jpg",
+  "portadaUrl": "/archivos/albums/uuid2.jpg",
   "artistaId": 1
 }
 

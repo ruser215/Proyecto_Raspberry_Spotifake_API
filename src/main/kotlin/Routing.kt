@@ -640,9 +640,39 @@ fun Application.configureRouting() {
                         call.respond(HttpStatusCode.BadRequest, mapOf("error" to "ID de artista inválido"))
                         return@post
                     }
-                    val album = call.receive<com.domain.models.Album>()
-                    val toCreate = album.copy(artistaId = id)
-                    val created = albumRepository.createAlbum(toCreate)
+
+                    val multipart = call.receiveMultipart()
+                    var nombre: String? = null
+                    var urlPortada: String? = null
+                    val albumDir = File("archivos/albums").apply { mkdirs() }
+
+                    multipart.forEachPart { part ->
+                        when(part) {
+                            is PartData.FormItem -> {
+                                if (part.name == "nombre") nombre = part.value
+                            }
+                            is PartData.FileItem -> {
+                                if (part.name == "portada") {
+                                    urlPortada = saveFile(part, albumDir, "/archivos/albums")
+                                }
+                            }
+                            else -> Unit
+                        }
+                        part.dispose()
+                    }
+
+                    if (nombre.isNullOrBlank()) {
+                        call.respond(HttpStatusCode.BadRequest, mapOf("error" to "El nombre es obligatorio"))
+                        return@post
+                    }
+
+                    val created = albumRepository.createAlbum(
+                        com.domain.models.Album(
+                            nombre = nombre!!,
+                            portadaUrl = urlPortada,
+                            artistaId = id
+                        )
+                    )
                     call.respond(HttpStatusCode.Created, created)
                 } catch (e: Exception) {
                     call.respond(HttpStatusCode.InternalServerError, mapOf("error" to "Error al crear álbum: ${e.message}"))
@@ -709,10 +739,46 @@ fun Application.configureRouting() {
                         call.respond(HttpStatusCode.BadRequest, mapOf("error" to "ID inválido"))
                         return@put
                     }
-                    val update = call.receive<com.domain.models.Album>()
-                    val updated = albumRepository.updateAlbum(id, update.nombre.takeIf { it.isNotBlank() }, update.portadaUrl, update.artistaId)
-                    if (updated != null) call.respond(HttpStatusCode.OK, updated)
-                    else call.respond(HttpStatusCode.NotFound, mapOf("error" to "Álbum no encontrado"))
+
+                    val existing = albumRepository.getAlbumById(id)
+                    if (existing == null) {
+                        call.respond(HttpStatusCode.NotFound, mapOf("error" to "Álbum no encontrado"))
+                        return@put
+                    }
+
+                    val multipart = call.receiveMultipart()
+                    var nombre: String? = null
+                    var newUrlPortada: String? = null
+                    var artistaId: Int? = null
+                    val albumDir = File("archivos/albums").apply { mkdirs() }
+
+                    multipart.forEachPart { part ->
+                        when(part) {
+                            is PartData.FormItem -> {
+                                when(part.name) {
+                                    "nombre" -> nombre = part.value
+                                    "artistaId" -> artistaId = part.value.toIntOrNull()
+                                }
+                            }
+                            is PartData.FileItem -> {
+                                if (part.name == "portada") {
+                                    newUrlPortada = saveFile(part, albumDir, "/archivos/albums")
+                                }
+                            }
+                            else -> Unit
+                        }
+                        part.dispose()
+                    }
+
+                    val updated = albumRepository.updateAlbum(id, nombre, newUrlPortada, artistaId)
+                    if (updated != null) {
+                        if (!newUrlPortada.isNullOrBlank() && !existing.portadaUrl.isNullOrBlank()) {
+                            deleteLocalFile(existing.portadaUrl)
+                        }
+                        call.respond(HttpStatusCode.OK, updated)
+                    } else {
+                        call.respond(HttpStatusCode.NotFound, mapOf("error" to "Álbum no encontrado"))
+                    }
                 } catch (e: Exception) {
                     call.respond(HttpStatusCode.InternalServerError, mapOf("error" to "Error al actualizar álbum: ${e.message}"))
                 }

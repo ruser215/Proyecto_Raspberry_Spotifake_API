@@ -25,8 +25,8 @@ class UsuarioDao(id: EntityID<Long>) : LongEntity(id) {
             id = this.id.value,
             username = this.username,
             correo = this.correo,
-            admin = this.admin,
-            premium = this.premium,
+            admin = if (this.admin) 1 else 0,
+            premium = if (this.premium) 1 else 0,
             pass = this.pass,
             token = this.token,
             urlImagen = this.urlImagen
