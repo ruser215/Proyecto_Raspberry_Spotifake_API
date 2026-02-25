@@ -1,182 +1,141 @@
-# SPOTIFAKE API - GUÍA DE USO DETALLADA
+# SPOTIFAKE API - GUIA TECNICA COMPLETA DE USO
 
-Guía completa de los endpoints de la API Spotifake con ejemplos de entrada y salida.
+Guia detallada de todos los endpoints, metodos y formatos de intercambio de datos de la API Spotifake.
 
 ---
 
-## INFORMACIÓN GENERAL
+## 1. INFORMACION GENERAL
 
-- **Base URL (Desarrollo):** http://localhost:8001/api
-- **Base URL (Producción):** https://tu-ngrok-o-dominio.dev/api
-- **Adminer (Base de Datos):** http://localhost:8080
+- **Base URL (Local):** http://localhost:8001/api
+- **Adminer (DB):** http://localhost:8080
   - Usuario: admin
   - Password: s8n38DGB8d72
 
+### CABECERAS (HEADERS)
+Para los endpoints protegidos, se debe incluir el token JWT obtenido en el login:
+`Authorization: Bearer <tu_token_aqui>`
+
 ---
 
-## USUARIOS Y AUTENTICACIÓN
+## 2. USUARIOS Y AUTENTICACION
 
-### Registro de Usuario
-- **Endpoint:** POST /register
-- **Envío (JSON):**
+### Registro
+**POST** `/register`
+- **Envio (JSON):**
 ```json
 {
-  "username": "usuario_ejemplo",
-  "correo": "ejemplo@mail.com",
-  "pass": "segura123"
+  "username": "nombre_usuario",
+  "correo": "usuario@mail.com",
+  "pass": "password123"
 }
 ```
-- **Respuesta (201 Created):**
-```json
-{
-  "id": 1,
-  "username": "usuario_ejemplo",
-  "correo": "ejemplo@mail.com",
-  "admin": 0,
-  "premium": 0,
-  "pass": "",
-  "token": null,
-  "urlImagen": null
-}
-```
+- **Respuesta (201 Created):** Objeto Usuario con token generado.
 
 ### Login
-- **Endpoint:** POST /login
-- **Envío (JSON):**
+**POST** `/login`
+- **Envio (JSON):**
 ```json
 {
-  "correo": "ejemplo@mail.com",
-  "pass": "segura123"
+  "correo": "usuario@mail.com",
+  "pass": "password123"
 }
 ```
-- **Respuesta (200 OK):**
-```json
-{
-  "id": 1,
-  "username": "usuario_ejemplo",
-  "correo": "ejemplo@mail.com",
-  "admin": false,
-  "premium": false,
-  "pass": "",
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-  "urlImagen": null
-}
-```
+- **Respuesta (200 OK):** Objeto Usuario con token.
+
+### CRUD Usuarios (Requiere Auth)
+- **GET** `/usuarios`: Lista de todos los usuarios.
+- **GET** `/usuarios/{id}`: Detalle de un usuario.
+- **GET** `/usuarios/correo/{correo}`: Buscar usuario por email.
+- **PUT** `/usuarios/{id}`:
+  - **Envio (JSON parcial):** `{"username": "nuevo_nombre", "premium": 1}`
+- **DELETE** `/usuarios/{id}`: Elimina la cuenta permanentemente.
+
+### Foto de Perfil (Requiere Auth)
+**POST** `/usuarios/{id}/perfil`
+- **Envio (Multipart/Form-Data):**
+  - `imagen`: (Archivo JPG/PNG)
+- **Respuesta (200 OK):** Usuario actualizado con `urlImagen`.
 
 ---
 
-## CATÁLOGO MUSICAL
+## 3. CATALOGO DE GENEROS
 
-### Artistas
-- **Endpoint:** POST /artistas
-- **Envío (Multipart/Form-Data):**
-  - nombre: "Linkin Park"
-  - foto: (Archivo img.jpg)
-- **Respuesta (201 Created):**
-```json
-{
-  "id": 5,
-  "nombre": "Linkin Park",
-  "fotoUrl": "/archivos/artistas/uuid_linkin.jpg"
-}
-```
-
-### Álbumes
-- **Endpoint:** POST /artistas/{id}/albums
-- **Envío (Multipart/Form-Data para Artista ID 5):**
-  - nombre: "Meteora"
-  - portada: (Archivo cover.png)
-- **Respuesta (201 Created):**
-```json
-{
-  "id": 10,
-  "nombre": "Meteora",
-  "portadaUrl": "/archivos/albums/uuid_meteora.png",
-  "artistaId": 5
-}
-```
-
-### Canciones
-- **Endpoint:** POST /canciones
-- **Envío (Multipart/Form-Data):**
-  - nombre: "Numb"
-  - artistaId: 5
-  - albumId: 10
-  - genero: 1 (Rock)
-  - audio: (Archivo numb.mp3)
-  - portada: (Opcional, si no se envía usa la del álbum)
-- **Respuesta (201 Created):**
-```json
-{
-  "id": 100,
-  "nombre": "Numb",
-  "artistaId": 5,
-  "albumId": 10,
-  "artista": "Linkin Park",
-  "album": "Meteora",
-  "genero": 1,
-  "likes": 0,
-  "urlAudio": "/archivos/audio/uuid_numb.mp3",
-  "urlPortada": "/archivos/albums/uuid_meteora.png"
-}
-```
+### Operaciones (Requiere Auth)
+- **GET** `/generos`: Obtener todos los generos.
+- **GET** `/generos/{id}`: Obtener detalle de un genero especifico.
+- **POST** `/generos`:
+  - **Envio (JSON):** `{"nombre": "Nombre del Genero"}`
+- **DELETE** `/generos/{id}`: **BORRADO EN CASCADA** (Elimina el genero y todas sus canciones).
 
 ---
 
-## GÉNEROS Y LISTAS
+## 4. ARTISTAS Y ALBUMES
 
-### Géneros
-- **Endpoint:** GET /generos/{id}
-- **Respuesta (200 OK):**
-```json
-{
-  "id": 1,
-  "nombre": "Rock"
-}
-```
+### Artistas (Requiere Auth)
+- **GET** `/artistas`: Lista artistas. Soporta filtro query `?nombre=...`.
+- **GET** `/artistas/{id}`: Detalle del artista.
+- **POST** `/artistas` (Multipart):
+  - `nombre`: (Texto)
+  - `foto`: (Archivo)
+- **PUT** `/artistas/{id}` (Multipart):
+  - `nombre`: (Opcional, texto)
+  - `foto`: (Opcional, archivo)
+- **DELETE** `/artistas/{id}`: **BORRADO EN CASCADA TOTAL** (Elimina artista, sus albumes y todas sus canciones).
 
-### Listas de Reproducción (Playlists)
-- **Endpoint:** POST /listas
-- **Envío (JSON):**
-```json
-{
-  "nombre": "Mis Favoritas",
-  "idUsuario": 1
-}
-```
-- **Respuesta (201 Created):**
-```json
-{
-  "id": 8,
-  "nombre": "Mis Favoritas",
-  "idUsuario": 1
-}
-```
-
-### Añadir canción a Lista
-- **Endpoint:** POST /listas/{id}/canciones
-- **Envío (JSON):**
-```json
-{
-  "idCancion": 100
-}
-```
-- **Respuesta (201 Created):**
-```json
-{
-  "message": "Canción agregada a la lista"
-}
-```
+### Albumes (Requiere Auth)
+- **GET** `/albums`: Todos los albumes del sistema. Soporta `?nombre=...`.
+- **GET** `/artistas/{id}/albums`: Albumes de un artista concreto.
+- **GET** `/albums/{id}`: Detalle del album.
+- **GET** `/albums/{id}/canciones`: Lista de canciones de este album.
+- **POST** `/artistas/{id}/albums` (Multipart):
+  - `nombre`: (Texto)
+  - `portada`: (Archivo)
+- **PUT** `/albums/{id}` (Multipart):
+  - `nombre`: (Texto)
+  - `portada`: (Archivo)
+  - `artistaId`: (ID de nuevo artista si se desea reasignar)
+- **DELETE** `/albums/{id}`: **BORRADO EN CASCADA** (Elimina album y sus canciones).
 
 ---
 
-## CÓDIGOS DE RESPUESTA
+## 5. CANCIONES (Requiere Auth)
 
-| Código | Descripción |
-| :--- | :--- |
-| 200/201 | Éxito. |
-| 400 | Error en los datos enviados o campos prohibidos. |
-| 401 | Credenciales incorrectas. |
-| 404 | El recurso (ID) no existe. |
-| 409 | Conflicto (ej: canción ya en la lista). |
-| 500 | Error interno del servidor. |
+### CRUD Canciones
+- **GET** `/canciones`: Busqueda con filtros query combinables:
+  - `?nombre=...&artista=...&album=...&genero={id}`
+- **GET** `/canciones/{id}`: Detalle completo de la pista.
+- **POST** `/canciones` (Multipart):
+  - **Campos:** `nombre` (Texto), `artistaId` (Int), `albumId` (Int), `genero` (Int), `audio` (Archivo MP3), `portada` (Opcional, Archivo), `likes` (Opcional, Int).
+- **PUT** `/canciones/{id}` (Multipart):
+  - Todos los campos del POST son opcionales para actualizacion parcial.
+- **DELETE** `/canciones/{id}`: Borra la pista y sus archivos locales.
+
+---
+
+## 6. LISTAS DE REPRODUCCION (Requiere Auth)
+
+### Gestion de Listas
+- **POST** `/listas`:
+  - **Envio (JSON):** `{"nombre": "Lista 1", "idUsuario": 1}`
+- **GET** `/usuarios/{id}/listas`: Listas de un usuario especifico.
+- **GET** `/listas/{id}/canciones`: Contenido de una lista.
+- **PUT** `/listas/{id}`:
+  - **Envio (JSON):** `{"nombre": "Nuevo Nombre"}`
+- **DELETE** `/listas/{id}`: Borra la lista (las canciones permanecen en el sistema).
+
+### Gestion de Contenido
+- **POST** `/listas/{id}/canciones`:
+  - **Envio (JSON):** `{"idCancion": 10}`
+- **DELETE** `/listas/{idLista}/canciones/{idCancion}`: Quita una cancion de la lista.
+
+---
+
+## 7. CODIGOS DE ESTADO (HTTP STATUS)
+
+- **200 OK**: Operacion exitosa.
+- **201 Created**: Recurso creado con exito.
+- **400 Bad Request**: Campos invalidos o faltantes.
+- **401 Unauthorized**: No se proporciono token o login fallido.
+- **404 Not Found**: El recurso con ese ID no existe.
+- **409 Conflict**: Conflicto de datos (ej. registro duplicado).
+- **500 Internal Server Error**: Error en la logica o base de datos.
