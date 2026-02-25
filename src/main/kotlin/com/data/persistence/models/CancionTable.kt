@@ -7,8 +7,8 @@ object CancionTable : IntIdTable("canciones") {
     val nombre = varchar("nombre", 200)
     // referencias normalizadas
     val artista = reference("artista", ArtistTable, onDelete = ReferenceOption.CASCADE).nullable()
-    val album = reference("album", AlbumTable, onDelete = ReferenceOption.SET_NULL).nullable()
-    val genero = reference("genero", GeneroTable)
+    val album = reference("album", AlbumTable, onDelete = ReferenceOption.CASCADE).nullable()
+    val genero = reference("genero", GeneroTable, onDelete = ReferenceOption.CASCADE)
     val likes = integer("likes").default(0)
     val urlAudio = varchar("urlaudio", 255)
     val urlPortada = varchar("urlportada", 255).nullable()

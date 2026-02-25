@@ -539,6 +539,25 @@ fun Application.configureRouting() {
                 }
             }
 
+            delete("/generos/{id}") {
+                try {
+                    val id = call.parameters["id"]?.toIntOrNull()
+                    if (id == null) {
+                        call.respond(HttpStatusCode.BadRequest, mapOf("error" to "ID inválido"))
+                        return@delete
+                    }
+
+                    val ok = generoRepository.deleteGenero(id)
+                    if (ok) {
+                        call.respond(HttpStatusCode.OK, mapOf("message" to "Género eliminado correctamente"))
+                    } else {
+                        call.respond(HttpStatusCode.NotFound, mapOf("error" to "Género no encontrado"))
+                    }
+                } catch (e: Exception) {
+                    call.respond(HttpStatusCode.InternalServerError, mapOf("error" to "Error al eliminar género: ${e.message}"))
+                }
+            }
+
             // --- CRUD de artistas ---
             post("/artistas") {
                 try {
