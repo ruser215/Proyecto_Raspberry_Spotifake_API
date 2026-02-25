@@ -168,18 +168,16 @@ Ejemplo de respuesta (200):
 ARTISTAS
 ------------------------------------------------------------
 
-POST /artistas
-Body (JSON):
-{
-  "nombre": "Linkin Park",
-  "fotoUrl": null
-}
+POST /artistas (multipart/form-data)
+Campos:
+- nombre (texto)
+- foto (archivo)
 
 Respuesta (201):
 {
   "id": 1,
   "nombre": "Linkin Park",
-  "fotoUrl": null
+  "fotoUrl": "/archivos/artistas/uuid_foto.jpg"
 }
 
 GET /artistas
@@ -187,12 +185,10 @@ Opcional query: ?nombre=Linkin
 
 GET /artistas/{id}
 
-PUT /artistas/{id}
-Body (JSON):
-{
-  "nombre": "Linkin Park Updated",
-  "fotoUrl": "/archivos/artistas/uuid.jpg"
-}
+PUT /artistas/{id} (multipart/form-data)
+Campos opcionales:
+- nombre (texto)
+- foto (archivo)
 
 DELETE /artistas/{id}
 

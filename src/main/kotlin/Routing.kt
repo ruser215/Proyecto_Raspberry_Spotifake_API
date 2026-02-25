@@ -520,12 +520,26 @@ fun Application.configureRouting() {
             // --- CRUD de artistas ---
             post("/artistas") {
                 try {
-                    val artista = call.receive<com.domain.models.Artista>()
-                    if (artista.nombre.isBlank()) {
+                    val multipart = call.receiveMultipart()
+                    var nombre: String? = null
+                    var urlFoto: String? = null
+                    val artistaDir = File("archivos/artistas").apply { mkdirs() }
+
+                    multipart.forEachPart { part ->
+                        if (part is PartData.FormItem && part.name == "nombre") {
+                            nombre = part.value
+                        } else if (part is PartData.FileItem && part.name == "foto") {
+                            urlFoto = saveFile(part, artistaDir, "/archivos/artistas")
+                        }
+                        part.dispose()
+                    }
+
+                    if (nombre.isNullOrBlank()) {
                         call.respond(HttpStatusCode.BadRequest, mapOf("error" to "El nombre es obligatorio"))
                         return@post
                     }
-                    val created = artistaRepository.createArtista(artista)
+
+                    val created = artistaRepository.createArtista(Artista(nombre = nombre!!, fotoUrl = urlFoto))
                     call.respond(HttpStatusCode.Created, created)
                 } catch (e: Exception) {
                     call.respond(HttpStatusCode.InternalServerError, mapOf("error" to "Error al crear artista: ${e.message}"))
@@ -568,10 +582,36 @@ fun Application.configureRouting() {
                         call.respond(HttpStatusCode.BadRequest, mapOf("error" to "ID inválido"))
                         return@put
                     }
-                    val update = call.receive<com.domain.models.Artista>()
-                    val updated = artistaRepository.updateArtista(id, update.nombre.takeIf { it.isNotBlank() }, update.fotoUrl)
-                    if (updated != null) call.respond(HttpStatusCode.OK, updated)
-                    else call.respond(HttpStatusCode.NotFound, mapOf("error" to "Artista no encontrado"))
+
+                    val existing = artistaRepository.getArtistaById(id)
+                    if (existing == null) {
+                        call.respond(HttpStatusCode.NotFound, mapOf("error" to "Artista no encontrado"))
+                        return@put
+                    }
+
+                    val multipart = call.receiveMultipart()
+                    var nombre: String? = null
+                    var newUrlFoto: String? = null
+                    val artistaDir = File("archivos/artistas").apply { mkdirs() }
+
+                    multipart.forEachPart { part ->
+                        if (part is PartData.FormItem && part.name == "nombre") {
+                            nombre = part.value
+                        } else if (part is PartData.FileItem && part.name == "foto") {
+                            newUrlFoto = saveFile(part, artistaDir, "/archivos/artistas")
+                        }
+                        part.dispose()
+                    }
+
+                    val updated = artistaRepository.updateArtista(id, nombre?.takeIf { it.isNotBlank() }, newUrlFoto)
+                    if (updated != null) {
+                        if (!newUrlFoto.isNullOrBlank() && !existing.fotoUrl.isNullOrBlank()) {
+                            deleteLocalFile(existing.fotoUrl)
+                        }
+                        call.respond(HttpStatusCode.OK, updated)
+                    } else {
+                        call.respond(HttpStatusCode.NotFound, mapOf("error" to "Artista no encontrado"))
+                    }
                 } catch (e: Exception) {
                     call.respond(HttpStatusCode.InternalServerError, mapOf("error" to "Error al actualizar artista: ${e.message}"))
                 }
