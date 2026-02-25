@@ -1,289 +1,182 @@
-# Ejemplos de uso de la API (actualizados)
+# 🎵 SPOTIFAKE API - GUÍA DE USO DETALLADA 🎵
 
-Base URL pública (ngrok): https://subpatronal-heathiest-kash.ngrok-free.dev/api
-Base URL local (Raspberry): http://localhost:8001/api
+Guía completa de los endpoints de la API Spotifake con ejemplos de entrada y salida.
 
---- ADMINER ---
-usuario: admin
-password: s8n38DGB8d72
+---
 
-Nota:
-- Todos los endpoints de este documento están bajo el prefijo /api.
-- Ejemplo: GET /usuarios equivale a GET https://subpatronal-heathiest-kash.ngrok-free.dev/api/usuarios
+## 🚀 INFORMACIÓN GENERAL
 
-------------------------------------------------------------
-SALUD
-------------------------------------------------------------
+- **Base URL (Desarrollo):** `http://localhost:8001/api`
+- **Base URL (Producción):** `https://tu-ngrok-o-dominio.dev/api`
+- **Adminer (Base de Datos):** `http://localhost:8080`
+  - *Usuario:* `admin`
+  - *Password:* `s8n38DGB8d72`
 
-GET /
-Respuesta:
-"¡API Spotifake funcionando!"
+---
 
-------------------------------------------------------------
-USUARIOS
-------------------------------------------------------------
+## 👤 USUARIOS Y AUTENTICACIÓN
 
-POST /register
-Nota: Solo se permiten los campos "username", "correo" y "pass". Otros campos (admin, premium, etc.) causarán error 400.
-Body (JSON):
+### Registro de Usuario
+- **Endpoint:** `POST /register`
+- **Envío (JSON):**
+```json
 {
-  "username": "Pedro",
-  "correo": "pedro@mail.com",
-  "pass": "123456",
-  "admin": false,
-  "premium": false
+  "username": "usuario_ejemplo",
+  "correo": "ejemplo@mail.com",
+  "pass": "segura123"
 }
-
-Respuesta (201):
+```
+- **Respuesta (201 Created):**
+```json
 {
   "id": 1,
-  "username": "Pedro",
-  "correo": "pedro@mail.com",
+  "username": "usuario_ejemplo",
+  "correo": "ejemplo@mail.com",
   "admin": 0,
   "premium": 0,
   "pass": "",
   "token": null,
   "urlImagen": null
 }
+```
 
-POST /login
-Body (JSON):
+### Login
+- **Endpoint:** `POST /login`
+- **Envío (JSON):**
+```json
 {
-  "correo": "pedro@mail.com",
-  "pass": "123456"
+  "correo": "ejemplo@mail.com",
+  "pass": "segura123"
 }
-
-Respuesta (200):
+```
+- **Respuesta (200 OK):**
+```json
 {
   "id": 1,
-  "username": "Pedro",
-  "correo": "pedro@mail.com",
+  "username": "usuario_ejemplo",
+  "correo": "ejemplo@mail.com",
   "admin": false,
   "premium": false,
   "pass": "",
-  "token": null,
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
   "urlImagen": null
 }
+```
 
-GET /usuarios
-GET /usuarios/{id}
-GET /usuarios/correo/{correo}
+---
 
-PUT /usuarios/{id}
-Body (JSON parcial):
+## 🎸 CATÁLOGO MUSICAL
+
+### Artistas
+- **Endpoint:** `POST /artistas`
+- **Envío (Multipart/Form-Data):**
+  - `nombre`: "Linkin Park"
+  - `foto`: (Archivo img.jpg)
+- **Respuesta (201 Created):**
+```json
 {
-  "username": "Pedro Actualizado",
-  "premium": 1
+  "id": 5,
+  "nombre": "Linkin Park",
+  "fotoUrl": "/archivos/artistas/uuid_linkin.jpg"
 }
+```
 
-DELETE /usuarios/{id}
-
-------------------------------------------------------------
-GÉNEROS
-------------------------------------------------------------
-
-POST /generos
-Body (JSON):
+### Álbumes
+- **Endpoint:** `POST /artistas/{id}/albums`
+- **Envío (Multipart/Form-Data para Artista ID 5):**
+  - `nombre`: "Meteora"
+  - `portada`: (Archivo cover.png)
+- **Respuesta (201 Created):**
+```json
 {
-  "nombre": "Rock"
+  "id": 10,
+  "nombre": "Meteora",
+  "portadaUrl": "/archivos/albums/uuid_meteora.png",
+  "artistaId": 5
 }
+```
 
-GET /generos
-
-GET /generos/{id}
-
-DELETE /generos/{id}
-
-------------------------------------------------------------
-CANCIONES
-------------------------------------------------------------
-
-POST /canciones  (multipart/form-data)
-Campos obligatorios:
-- nombre (texto)
-- artistaId (entero, id de /artistas)
-- albumId (entero, id de /albums)
-- genero (entero, id de /generos)
-- audio (archivo)
-
-Campos opcionales:
-- portada (archivo, se hereda del álbum si se omite)
-- likes (entero, por defecto 0)
-
-Respuesta (201):
+### Canciones
+- **Endpoint:** `POST /canciones`
+- **Envío (Multipart/Form-Data):**
+  - `nombre`: "Numb"
+  - `artistaId`: 5
+  - `albumId`: 10
+  - `genero`: 1 (Rock)
+  - `audio`: (Archivo numb.mp3)
+  - `portada`: (Opcional, si no se envía usa la del álbum)
+- **Respuesta (201 Created):**
+```json
 {
-  "id": 1,
+  "id": 100,
   "nombre": "Numb",
-  "artistaId": 1,
-  "albumId": 1,
+  "artistaId": 5,
+  "albumId": 10,
   "artista": "Linkin Park",
   "album": "Meteora",
   "genero": 1,
   "likes": 0,
   "urlAudio": "/archivos/audio/uuid_numb.mp3",
-  "urlPortada": "/archivos/portadas/uuid_meteora.jpg"
+  "urlPortada": "/archivos/albums/uuid_meteora.png"
 }
+```
 
-GET /canciones
-Filtros opcionales por query:
-- nombre
-- artista
-- album
-- genero (entero, id del género)
+---
 
-Ejemplo:
-GET /canciones?nombre=Numb&artista=Linkin&album=Meteora&genero=1
+## 📑 GÉNEROS Y LISTAS
 
-GET /canciones/{id}
-
-PUT /canciones/{id}  (multipart/form-data)
-Campos opcionales:
-- nombre
-- artista
-- album
-- genero
-- likes
-- audio
-- portada
-
-DELETE /canciones/{id}
-
-------------------------------------------------------------
-PERFIL DE USUARIO
-------------------------------------------------------------
-
-POST /usuarios/{id}/perfil  (multipart/form-data)
-Campo:
-- imagen (archivo JPG/PNG)
-
-Actualiza la foto de perfil del usuario.
-Ejemplo de respuesta (200):
+### Géneros
+- **Endpoint:** `GET /generos/{id}`
+- **Respuesta (200 OK):**
+```json
 {
   "id": 1,
-  "username": "Pedro",
-  "correo": "pedro@mail.com",
-  "admin": 0,
-  "premium": 0,
-  "pass": "",
-  "token": null,
-  "urlImagen": "/archivos/perfiles/uuid_foto.jpg"
+  "nombre": "Rock"
 }
+```
 
-------------------------------------------------------------
-ARTISTAS
-------------------------------------------------------------
-
-POST /artistas (multipart/form-data)
-Campos:
-- nombre (texto)
-- foto (archivo)
-
-Respuesta (201):
+### Listas de Reproducción (Playlists)
+- **Endpoint:** `POST /listas`
+- **Envío (JSON):**
+```json
 {
-  "id": 1,
-  "nombre": "Linkin Park",
-  "fotoUrl": "/archivos/artistas/uuid_foto.jpg"
-}
-
-GET /artistas
-Opcional query: ?nombre=Linkin
-
-GET /artistas/{id}
-
-PUT /artistas/{id} (multipart/form-data)
-Campos opcionales:
-- nombre (texto)
-- foto (archivo)
-
-DELETE /artistas/{id}
-
-------------------------------------------------------------
-ALBÚMES
-------------------------------------------------------------
-
-POST /artistas/{id}/albums (multipart/form-data)
-Campos:
-- nombre (texto)
-- portada (archivo)
-
-Respuesta (201):
-{
-  "id": 1,
-  "nombre": "Meteora",
-  "portadaUrl": "/archivos/albums/uuid_foto.jpg",
-  "artistaId": 1
-}
-
-GET /albums
-Opcional query: ?nombre=Meteora
-(Devuelve todos los álbumes del sistema)
-
-GET /artistas/{id}/albums
-
-GET /albums/{id}
-
-GET /albums/{id}/canciones
-
-PUT /albums/{id} (multipart/form-data)
-Campos opcionales:
-- nombre (texto)
-- portada (archivo)
-- artistaId (entero)
-
-Ejemplo de respuesta:
-{
-  "id": 1,
-  "nombre": "Meteora Remastered",
-  "portadaUrl": "/archivos/albums/uuid2.jpg",
-  "artistaId": 1
-}
-
-DELETE /albums/{id}
-
-------------------------------------------------------------
-LISTAS DE CANCIONES
-------------------------------------------------------------
-
-POST /listas
-Body (JSON):
-{
-  "nombre": "Favoritas",
+  "nombre": "Mis Favoritas",
   "idUsuario": 1
 }
-
-Respuesta (201):
+```
+- **Respuesta (201 Created):**
+```json
 {
-  "id": 1,
-  "nombre": "Favoritas",
+  "id": 8,
+  "nombre": "Mis Favoritas",
   "idUsuario": 1
 }
+```
 
-GET /usuarios/{id}/listas
-
-GET /listas/{id}/canciones
-
-POST /listas/{id}/canciones
-Body (JSON):
+### Añadir canción a Lista
+- **Endpoint:** `POST /listas/8/canciones`
+- **Envío (JSON):**
+```json
 {
-  "idCancion": 1
+  "idCancion": 100
 }
-
-PUT /listas/{id}
-Body (JSON):
+```
+- **Respuesta (201 Created):**
+```json
 {
-  "nombre": "Nuevo Nombre"
+  "message": "Canción agregada a la lista"
 }
+```
 
-DELETE /listas/{idLista}/canciones/{idCancion}
+---
 
-DELETE /listas/{id}
+## ⚠️ CÓDIGOS DE RESPUESTA
 
-------------------------------------------------------------
-ERRORES COMUNES
-------------------------------------------------------------
-
-400 BadRequest   -> datos inválidos o faltan campos
-401 Unauthorized -> login incorrecto
-404 NotFound     -> recurso no encontrado
-409 Conflict     -> duplicado en lista-canción
-500 ServerError  -> excepción interna
+| Código | Descripción |
+| :--- | :--- |
+| **200/201** | Éxito. |
+| **400** | Error en los datos enviados o campos prohibidos. |
+| **401** | Credenciales incorrectas. |
+| **404** | El recurso (ID) no existe. |
+| **409** | Conflicto (ej: canción ya en la lista). |
+| **500** | Error interno del servidor. |
