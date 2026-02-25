@@ -11,6 +11,6 @@ interface CancionInterface {
     suspend fun getCancionById(id: Int): Cancion?
     suspend fun getAllCanciones(): List<Cancion>
     suspend fun searchCanciones(nombre: String?, artista: String?, album: String?): List<Cancion>
-    suspend fun updateCancion(id: Int, nombre: String?, artista: String?, album: String?, genero: Int?, likes: Int?, urlAudio: String?, urlPortada: String?): Cancion?
+    suspend fun updateCancion(id: Int, nombre: String?, artista: String?, album: String?, genero: Int?, likes: Int?, urlAudio: String?, urlPortada: String?, artistaId: Int? = null, albumId: Int? = null): Cancion?
     suspend fun deleteCancion(id: Int): Cancion?
 }

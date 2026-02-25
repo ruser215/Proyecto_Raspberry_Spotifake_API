@@ -1,6 +1,7 @@
+package com.data.persistence.models
+
 /**
  * DAO de género musical.
- * Permite transformar registros de géneros en objetos de dominio.
  */
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass

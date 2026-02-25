@@ -4,13 +4,7 @@
  */
 package com.data.persistence.repository
 
-import CancionDao
-import CancionTable
-import ListaCancionesCancionesTable
-import ListaCancionesDao
-import ListaCancionesTable
-import UsuarioDao
-import UsuarioTable
+import com.data.persistence.models.*
 import com.domain.models.Cancion
 import com.domain.models.ListaCanciones
 import com.domain.repository.ListaCancionesInterface
@@ -20,7 +14,7 @@ import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.selectAll
-import suspendTransaction
+// suspendTransaction is already imported via com.data.persistence.models.*
 
 class PersistenceListaCancionesRepository : ListaCancionesInterface {
     override suspend fun createLista(lista: ListaCanciones): ListaCanciones? = suspendTransaction {

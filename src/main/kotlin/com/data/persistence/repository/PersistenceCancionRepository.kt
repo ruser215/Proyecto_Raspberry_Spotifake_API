@@ -13,16 +13,7 @@ import org.jetbrains.exposed.sql.Op
 import org.jetbrains.exposed.sql.update
 import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.dao.id.EntityID
-import CancionDao
-import CancionTable
-import GeneroTable
-import suspendTransaction
-
-// incorporamos nuevas entidades para normalización
-import com.data.persistence.models.ArtistDao
-import com.data.persistence.models.AlbumDao
-import com.data.persistence.models.ArtistTable
-import com.data.persistence.models.AlbumTable
+import com.data.persistence.models.*
 
 class PersistenceCancionRepository : CancionInterface {
     private fun findOrCreateArtist(name: String): ArtistDao = ArtistDao.find {
@@ -39,11 +30,16 @@ class PersistenceCancionRepository : CancionInterface {
     }
 
     override suspend fun createCancion(cancion: Cancion): Cancion = suspendTransaction {
-        // si el cliente nos manda nombre de artista/álbum convertimos a relaciones
-        val artistDao = findOrCreateArtist(cancion.artista)
-        val albumDao = findOrCreateAlbum(cancion.album, artistDao)
+        // Priorizar IDs si vienen el el modelo de dominio
+        val artistDao = if (cancion.artistaId != null) ArtistDao.findById(cancion.artistaId!!) 
+                        else cancion.artista?.let { findOrCreateArtist(it) }
+        val albumDao = if (cancion.albumId != null) AlbumDao.findById(cancion.albumId!!)
+                       else if (cancion.album != null && artistDao != null) findOrCreateAlbum(cancion.album!!, artistDao)
+                       else null
+        
         CancionDao.new {
             nombre = cancion.nombre
+            artista = artistDao
             album = albumDao
             genero = EntityID(cancion.genero, GeneroTable)
             likes = cancion.likes
@@ -65,7 +61,9 @@ class PersistenceCancionRepository : CancionInterface {
         CancionDao.all().filter { song ->
             val matchName = nombre.isNullOrBlank() || song.nombre.contains(nombre, ignoreCase = true)
             val matchAlbum = album.isNullOrBlank() || song.album?.nombre?.contains(album, ignoreCase = true) == true
-            val matchArtist = artista.isNullOrBlank() || song.album?.artista?.nombre?.contains(artista, ignoreCase = true) == true
+            // buscamos tanto en el artista directo como en el del álbum
+            val artistName = song.artista?.nombre ?: song.album?.artista?.nombre ?: ""
+            val matchArtist = artista.isNullOrBlank() || artistName.contains(artista, ignoreCase = true)
             matchName && matchAlbum && matchArtist
         }.map { it.toCancion() }
     }
@@ -78,24 +76,31 @@ class PersistenceCancionRepository : CancionInterface {
         genero: Int?,
         likes: Int?,
         urlAudio: String?,
-        urlPortada: String?
+        urlPortada: String?,
+        artistaId: Int?,
+        albumId: Int?
     ): Cancion? {
         suspendTransaction {
-            if (artista != null || album != null) {
-                // si cambian las referencias hay que localizar/crear nuevos
-                val song = CancionDao.findById(id)
-                if (song != null) {
-                    val artistDao = if (artista != null) findOrCreateArtist(artista) else song.album?.artista
-                    val albumDao = if (album != null && artistDao != null) findOrCreateAlbum(album, artistDao) else song.album
-                    if (albumDao != null) song.album = albumDao
-                }
-            }
-            CancionTable.update({ CancionTable.id eq id }) { stm ->
-                nombre?.let { stm[CancionTable.nombre] = it }
-                genero?.let { stm[CancionTable.genero] = EntityID(it, GeneroTable) }
-                likes?.let { stm[CancionTable.likes] = it }
-                urlAudio?.let { stm[CancionTable.urlAudio] = it }
-                urlPortada?.let { stm[CancionTable.urlPortada] = it }
+            val song = CancionDao.findById(id)
+            if (song != null) {
+                nombre?.let { song.nombre = it }
+                genero?.let { song.genero = EntityID(it, GeneroTable) }
+                likes?.let { song.likes = it }
+                urlAudio?.let { song.urlAudio = it }
+                urlPortada?.let { song.urlPortada = it }
+                
+                // Prioridad a IDs
+                val artistDao = if (artistaId != null) ArtistDao.findById(artistaId)
+                                else if (artista != null) findOrCreateArtist(artista)
+                                else song.artista ?: song.album?.artista
+                
+                if (artistDao != null) song.artista = artistDao
+                
+                val albumDao = if (albumId != null) AlbumDao.findById(albumId)
+                               else if (album != null && artistDao != null) findOrCreateAlbum(album, artistDao)
+                               else song.album
+                
+                if (albumDao != null) song.album = albumDao
             }
         }
         return getCancionById(id)

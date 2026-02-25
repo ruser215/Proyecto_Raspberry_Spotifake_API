@@ -6,9 +6,7 @@ package com.data.persistence.repository
 
 import com.domain.models.Genero
 import com.domain.repository.GeneroInterface
-import GeneroDao
-import GeneroTable
-import suspendTransaction
+import com.data.persistence.models.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.deleteWhere
 

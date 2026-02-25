@@ -1,14 +1,12 @@
-/**
- * Tabla de canciones.
- * Incluye metadatos de la canción y enlaces a los recursos de audio/portada.
- */
+package com.data.persistence.models
+
 import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.ReferenceOption
-import com.data.persistence.models.AlbumTable
 
 object CancionTable : IntIdTable("canciones") {
     val nombre = varchar("nombre", 200)
-    // referencia al álbum, de ahí se obtendrá el artista
+    // referencias normalizadas
+    val artista = reference("artista", ArtistTable, onDelete = ReferenceOption.CASCADE).nullable()
     val album = reference("album", AlbumTable, onDelete = ReferenceOption.SET_NULL).nullable()
     val genero = reference("genero", GeneroTable)
     val likes = integer("likes").default(0)

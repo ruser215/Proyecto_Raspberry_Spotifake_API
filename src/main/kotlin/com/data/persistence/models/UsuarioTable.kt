@@ -1,6 +1,7 @@
+package com.data.persistence.models
+
 /**
  * Tabla de usuarios en base de datos.
- * Define columnas, tipos y valores por defecto del módulo de cuentas.
  */
 import org.jetbrains.exposed.dao.id.LongIdTable
 

@@ -1,6 +1,7 @@
+package com.data.persistence.models
+
 /**
  * DAO de lista de canciones.
- * Gestiona la relación entre el identificador de lista y su usuario propietario.
  */
 import com.domain.models.ListaCanciones
 import org.jetbrains.exposed.dao.LongEntity

@@ -1,6 +1,7 @@
+package com.data.persistence.models
+
 /**
  * DAO de usuario con Exposed.
- * Mapea cada fila de la tabla de usuarios a objetos de dominio Kotlin.
  */
 import org.jetbrains.exposed.dao.LongEntity
 import org.jetbrains.exposed.dao.LongEntityClass

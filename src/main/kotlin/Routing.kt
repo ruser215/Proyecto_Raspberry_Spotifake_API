@@ -19,12 +19,8 @@ import io.ktor.server.auth.jwt.*
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import io.github.cdimascio.dotenv.dotenv
-import com.data.persistence.repository.PersistenceUsuarioRepository
-import com.data.persistence.repository.PersistenceCancionRepository
-import com.data.persistence.repository.PersistenceGeneroRepository
-import com.data.persistence.repository.PersistenceListaCancionesRepository
-import com.data.persistence.repository.PersistenceArtistaRepository
-import com.data.persistence.repository.PersistenceAlbumRepository
+import com.data.persistence.repository.*
+import com.data.persistence.models.*
 import com.domain.usecase.ProviderUseCase
 import com.domain.models.Usuario
 import com.domain.models.UpdateUsuario
@@ -300,6 +296,8 @@ fun Application.configureRouting() {
                 var nombre: String? = null
                 var artista: String? = null
                 var album: String? = null
+                var artistaId: Int? = null
+                var albumId: Int? = null
                 var genero: Int? = null
                 var likes: Int = 0
                 var urlAudio: String? = null
@@ -315,6 +313,8 @@ fun Application.configureRouting() {
                                 "nombre" -> nombre = part.value
                                 "artista" -> artista = part.value
                                 "album" -> album = part.value
+                                "artistaId" -> artistaId = part.value.toIntOrNull()
+                                "albumId" -> albumId = part.value.toIntOrNull()
                                 "genero" -> genero = part.value.toIntOrNull()
                                 "likes" -> likes = part.value.toIntOrNull() ?: 0
                             }
@@ -338,8 +338,10 @@ fun Application.configureRouting() {
                 val cancion = cancionRepository.createCancion(
                     Cancion(
                         nombre = nombre!!,
-                        artista = artista!!,
-                        album = album!!,
+                        artista = artista,
+                        album = album,
+                        artistaId = artistaId,
+                        albumId = albumId,
                         genero = genero!!,
                         likes = likes,
                         urlAudio = urlAudio!!,
@@ -394,6 +396,8 @@ fun Application.configureRouting() {
                 var nombre: String? = null
                 var artista: String? = null
                 var album: String? = null
+                var artistaId: Int? = null
+                var albumId: Int? = null
                 var genero: Int? = null
                 var likes: Int? = null
                 var newUrlAudio: String? = null
@@ -409,6 +413,8 @@ fun Application.configureRouting() {
                                 "nombre" -> nombre = part.value
                                 "artista" -> artista = part.value
                                 "album" -> album = part.value
+                                "artistaId" -> artistaId = part.value.toIntOrNull()
+                                "albumId" -> albumId = part.value.toIntOrNull()
                                 "genero" -> genero = part.value.toIntOrNull()
                                 "likes" -> likes = part.value.toIntOrNull()
                             }
@@ -432,7 +438,9 @@ fun Application.configureRouting() {
                     genero,
                     likes,
                     newUrlAudio,
-                    newUrlPortada
+                    newUrlPortada,
+                    artistaId,
+                    albumId
                 )
 
                 if (updated == null) {
@@ -643,6 +651,9 @@ fun Application.configureRouting() {
                         return@get
                     }
                     // utilizamos el nombre y artista para filtrar
+                    // Ahora podemos filtrar directamente por álbum ID si quisiéramos, 
+                    // pero mantenemos searchCanciones para compatibilidad si usa nombres. 
+                    // Sin embargo, para mayor precisión usamos el nombre del artista y álbum exactos.
                     val artistName = album.artistaId?.let { artistaRepository.getArtistaById(it)?.nombre }
                     val canciones = cancionRepository.searchCanciones(null, artistName, album.nombre)
                     call.respond(HttpStatusCode.OK, canciones)

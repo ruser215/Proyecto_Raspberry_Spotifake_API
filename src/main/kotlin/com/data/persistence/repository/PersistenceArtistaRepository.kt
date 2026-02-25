@@ -6,9 +6,7 @@ import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.update
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.like
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import suspendTransaction
-import com.data.persistence.models.ArtistDao
-import com.data.persistence.models.ArtistTable
+import com.data.persistence.models.*
 
 class PersistenceArtistaRepository : ArtistaInterface {
     override suspend fun createArtista(artista: Artista): Artista = suspendTransaction {

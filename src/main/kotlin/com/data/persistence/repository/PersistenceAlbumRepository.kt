@@ -6,10 +6,7 @@ import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.update
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.like
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import suspendTransaction
-import com.data.persistence.models.AlbumDao
-import com.data.persistence.models.AlbumTable
-import com.data.persistence.models.ArtistDao
+import com.data.persistence.models.*
 
 class PersistenceAlbumRepository : AlbumInterface {
     override suspend fun createAlbum(album: Album): Album = suspendTransaction {

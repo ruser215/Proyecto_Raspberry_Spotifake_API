@@ -10,11 +10,7 @@ import io.github.cdimascio.dotenv.dotenv
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
-import UsuarioTable
-import CancionTable
-import GeneroTable
-import ListaCancionesTable
-import ListaCancionesCancionesTable
+import com.data.persistence.models.*
 import com.data.persistence.models.ArtistTable
 import com.data.persistence.models.AlbumTable
 

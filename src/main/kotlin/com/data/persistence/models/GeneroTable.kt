@@ -1,6 +1,7 @@
+package com.data.persistence.models
+
 /**
  * Tabla de géneros musicales.
- * Se usa como catálogo de referencia para clasificar canciones.
  */
 import org.jetbrains.exposed.dao.id.IntIdTable
 

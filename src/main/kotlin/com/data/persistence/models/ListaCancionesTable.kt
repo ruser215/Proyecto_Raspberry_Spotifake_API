@@ -1,6 +1,7 @@
+package com.data.persistence.models
+
 /**
  * Tabla de listas de canciones por usuario.
- * Relaciona una lista con su propietario en el sistema.
  */
 import org.jetbrains.exposed.dao.id.LongIdTable
 

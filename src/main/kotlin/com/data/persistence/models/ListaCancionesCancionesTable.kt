@@ -1,6 +1,7 @@
+package com.data.persistence.models
+
 /**
  * Tabla pivote entre listas y canciones.
- * La clave compuesta impide insertar la misma canción dos veces en la misma lista.
  */
 import org.jetbrains.exposed.sql.Table
 
