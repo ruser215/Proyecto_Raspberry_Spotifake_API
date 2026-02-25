@@ -345,7 +345,7 @@ fun Application.configureRouting() {
                         genero = genero!!,
                         likes = likes,
                         urlAudio = urlAudio!!,
-                        urlPortada = urlPortada!!
+                        urlPortada = urlPortada
                     )
                 )
 
@@ -453,7 +453,7 @@ fun Application.configureRouting() {
                     deleteLocalFile(existing.urlAudio)
                 }
                 if (!newUrlPortada.isNullOrBlank()) {
-                    deleteLocalFile(existing.urlPortada)
+                    existing.urlPortada?.let { deleteLocalFile(it) }
                 }
 
                 call.respond(HttpStatusCode.OK, updated)
@@ -477,7 +477,7 @@ fun Application.configureRouting() {
                     if (deleted != null) {
                         // Borrar ficheros locales asociados si existen
                         if (!existing.urlAudio.isNullOrBlank()) deleteLocalFile(existing.urlAudio)
-                        if (!existing.urlPortada.isNullOrBlank()) deleteLocalFile(existing.urlPortada)
+                        existing.urlPortada?.let { deleteLocalFile(it) }
                         call.respond(HttpStatusCode.OK, mapOf("message" to "Canción eliminada correctamente"))
                     } else {
                         call.respond(HttpStatusCode.NotFound, mapOf("error" to "Canción no encontrada"))
