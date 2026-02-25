@@ -103,9 +103,9 @@ Campos obligatorios:
 - albumId (entero, id de /albums)
 - genero (entero, id de /generos)
 - audio (archivo)
-- portada (archivo)
 
-Campo opcional:
+Campos opcionales:
+- portada (archivo, se hereda del álbum si se omite)
 - likes (entero, por defecto 0)
 
 Respuesta (201):

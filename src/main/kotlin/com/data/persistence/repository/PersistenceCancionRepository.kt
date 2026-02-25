@@ -44,7 +44,7 @@ class PersistenceCancionRepository : CancionInterface {
             genero = EntityID(cancion.genero, GeneroTable)
             likes = cancion.likes
             urlAudio = cancion.urlAudio
-            urlPortada = cancion.urlPortada
+            urlPortada = cancion.urlPortada ?: albumDao?.portadaUrl
         }.toCancion()
     }
 

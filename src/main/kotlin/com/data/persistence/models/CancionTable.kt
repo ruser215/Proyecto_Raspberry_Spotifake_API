@@ -11,5 +11,5 @@ object CancionTable : IntIdTable("canciones") {
     val genero = reference("genero", GeneroTable)
     val likes = integer("likes").default(0)
     val urlAudio = varchar("urlaudio", 255)
-    val urlPortada = varchar("urlportada", 255)
+    val urlPortada = varchar("urlportada", 255).nullable()
 }

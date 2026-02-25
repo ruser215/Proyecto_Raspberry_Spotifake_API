@@ -17,5 +17,5 @@ data class Cancion(
     var genero: Int,
     var likes: Int = 0,
     var urlAudio: String,
-    var urlPortada: String
+    var urlPortada: String? = null
 )
