@@ -211,6 +211,10 @@ Respuesta (201):
   "artistaId": 1
 }
 
+GET /albums
+Opcional query: ?nombre=Meteora
+(Devuelve todos los álbumes del sistema)
+
 GET /artistas/{id}/albums
 
 GET /albums/{id}

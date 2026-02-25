@@ -679,6 +679,20 @@ fun Application.configureRouting() {
                 }
             }
 
+            get("/albums") {
+                try {
+                    val nombre = call.request.queryParameters["nombre"]
+                    val albums = if (nombre.isNullOrBlank()) {
+                        albumRepository.getAllAlbums()
+                    } else {
+                        albumRepository.searchAlbums(nombre, null)
+                    }
+                    call.respond(HttpStatusCode.OK, albums)
+                } catch (e: Exception) {
+                    call.respond(HttpStatusCode.InternalServerError, mapOf("error" to "Error al obtener álbumes: ${e.message}"))
+                }
+            }
+
             get("/artistas/{id}/albums") {
                 try {
                     val id = call.parameters["id"]?.toIntOrNull()
