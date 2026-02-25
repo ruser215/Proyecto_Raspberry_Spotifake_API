@@ -12,6 +12,7 @@ import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.server.request.*
+import kotlinx.serialization.json.*
 import io.ktor.http.*
 import io.ktor.http.content.*
 import io.ktor.server.auth.*
@@ -885,13 +886,17 @@ fun Application.configureRouting() {
             // --- Playlists ---
             post("/listas") {
                 try {
-                    val lista = call.receive<ListaCanciones>()
-                    if (lista.nombre.isBlank()) {
+                    // Usamos JsonObject para máxima flexibilidad con tipos numéricos/strings
+                    val body = call.receive<JsonObject>()
+                    val nombre = body["nombre"]?.jsonPrimitive?.content ?: ""
+                    val idUsuario = body["idUsuario"]?.jsonPrimitive?.longOrNull ?: 0L
+
+                    if (nombre.isBlank()) {
                         call.respond(HttpStatusCode.BadRequest, mapOf("error" to "El nombre de la lista es obligatorio"))
                         return@post
                     }
 
-                    val created = listaCancionesRepository.createLista(lista)
+                    val created = listaCancionesRepository.createLista(ListaCanciones(nombre = nombre, idUsuario = idUsuario))
                     if (created == null) {
                         call.respond(HttpStatusCode.NotFound, mapOf("error" to "Usuario no encontrado"))
                     } else {
@@ -955,8 +960,9 @@ fun Application.configureRouting() {
                         return@post
                     }
 
-                    val body = call.receive<com.domain.models.ListaCancionesCancionRequest>()
-                    val added = listaCancionesRepository.addCancionToLista(idLista, body.idCancion)
+                    val body = call.receive<JsonObject>()
+                    val idCancion = body["idCancion"]?.jsonPrimitive?.intOrNull ?: 0
+                    val added = listaCancionesRepository.addCancionToLista(idLista, idCancion)
 
                     if (added) {
                         call.respond(HttpStatusCode.Created, mapOf("message" to "Canción agregada a la lista"))
@@ -981,8 +987,9 @@ fun Application.configureRouting() {
                         call.respond(HttpStatusCode.BadRequest, mapOf("error" to "ID inválido"))
                         return@put
                     }
-                    val lista = call.receive<com.domain.models.ListaCanciones>()
-                    val updated = listaCancionesRepository.updateLista(id, lista)
+                    val body = call.receive<JsonObject>()
+                    val nombre = body["nombre"]?.jsonPrimitive?.content ?: ""
+                    val updated = listaCancionesRepository.updateLista(id, ListaCanciones(nombre = nombre))
                     if (updated != null) {
                         call.respond(HttpStatusCode.OK, updated)
                     } else {

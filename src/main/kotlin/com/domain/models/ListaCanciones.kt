@@ -9,6 +9,6 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ListaCanciones(
     val id: Long? = null,
-    var nombre: String,
-    var idUsuario: Long
+    var nombre: String = "",
+    var idUsuario: Long = 0L
 )
