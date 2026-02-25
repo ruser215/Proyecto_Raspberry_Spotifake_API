@@ -72,7 +72,7 @@ fun Application.configureRouting() {
         get("/") {
             call.respondText("¡API Spotifake funcionando! ")
         }
-        
+
         post("/register") {
             try {
                 val updateUsuario = call.receive<UpdateUsuario>()
