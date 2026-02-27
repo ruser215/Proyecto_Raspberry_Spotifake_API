@@ -154,7 +154,52 @@ Para los endpoints protegidos, se debe incluir el token JWT obtenido en el login
 
 ---
 
-## 7. CODIGOS DE ESTADO (HTTP STATUS)
+
+## 7. GESTIÓN DE IMÁGENES QR
+
+### Subir imagen QR
+- **POST** `/qr`
+  - **Envio (Multipart/Form-Data):**
+    - `qr`: (Archivo de imagen PNG/JPG)
+  - **Respuesta (201 Created):** `{ "url": "/archivos/qr/uuid_nombre.png" }`
+
+### Obtener imagen QR
+- **GET** `/qr/{nombre}`
+  - Devuelve la imagen QR almacenada con ese nombre.
+  - **Respuesta (200 OK):** Archivo de imagen.
+
+### Eliminar imagen QR
+- **DELETE** `/qr/{nombre}`
+  - Elimina la imagen QR almacenada con ese nombre.
+  - **Respuesta (200 OK):** `{ "message": "Archivo eliminado correctamente" }`
+
+---
+
+## 8. GESTIÓN DE ARCHIVOS APK
+
+### Subir archivo APK
+- **POST** `/apk`
+  - **Envio (Multipart/Form-Data):**
+    - `apk`: (Archivo APK)
+  - **Respuesta (201 Created):** `{ "url": "/archivos/apk/uuid_nombre.apk" }`
+
+### Obtener archivo APK
+- **GET** `/apk/{nombre}`
+  - Devuelve el archivo APK almacenado con ese nombre.
+  - **Respuesta (200 OK):** Archivo APK.
+
+### Eliminar archivo APK
+- **DELETE** `/apk/{nombre}`
+  - Elimina el archivo APK almacenado con ese nombre.
+  - **Respuesta (200 OK):** `{ "message": "Archivo APK eliminado correctamente" }`
+
+### Listar archivos APK
+- **GET** `/apk`
+  - Devuelve la lista de todos los archivos APK almacenados.
+  - **Respuesta (200 OK):** `{ "archivos": ["uuid1_app.apk", "uuid2_app.apk", ...] }`
+
+---
+## 9. CODIGOS DE ESTADO (HTTP STATUS)
 
 - **200 OK**: Operacion exitosa.
 - **201 Created**: Recurso creado con exito.

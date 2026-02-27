@@ -66,6 +66,119 @@ fun Application.configureRouting() {
     }
     
     routing {
+
+        // --- ENDPOINTS APK ---
+        // Subir archivo APK (multipart, campo 'apk')
+        post("/apk") {
+            val multipart = call.receiveMultipart()
+            val apkDir = File("archivos/apk").apply { mkdirs() }
+            var urlAPK: String? = null
+            multipart.forEachPart { part ->
+                if (part is PartData.FileItem && part.name == "apk") {
+                    urlAPK = saveFile(part, apkDir, "/archivos/apk")
+                }
+                part.dispose()
+            }
+            if (urlAPK != null) {
+                call.respond(HttpStatusCode.Created, mapOf("url" to urlAPK))
+            } else {
+                call.respond(HttpStatusCode.BadRequest, mapOf("error" to "No se recibió ningún archivo APK"))
+            }
+        }
+
+        // Obtener archivo APK por nombre
+        get("/apk/{nombre}") {
+            val nombre = call.parameters["nombre"]
+            if (nombre.isNullOrBlank()) {
+                call.respond(HttpStatusCode.BadRequest, mapOf("error" to "Nombre de archivo requerido"))
+                return@get
+            }
+            val file = File("archivos/apk/$nombre")
+            if (!file.exists()) {
+                call.respond(HttpStatusCode.NotFound, mapOf("error" to "Archivo no encontrado"))
+                return@get
+            }
+            call.respondFile(file)
+        }
+
+        // Eliminar archivo APK por nombre
+        delete("/apk/{nombre}") {
+            val nombre = call.parameters["nombre"]
+            if (nombre.isNullOrBlank()) {
+                call.respond(HttpStatusCode.BadRequest, mapOf("error" to "Nombre de archivo requerido"))
+                return@delete
+            }
+            val file = File("archivos/apk/$nombre")
+            if (!file.exists()) {
+                call.respond(HttpStatusCode.NotFound, mapOf("error" to "Archivo no encontrado"))
+                return@delete
+            }
+            if (file.delete()) {
+                call.respond(HttpStatusCode.OK, mapOf("message" to "Archivo APK eliminado correctamente"))
+            } else {
+                call.respond(HttpStatusCode.InternalServerError, mapOf("error" to "No se pudo eliminar el archivo"))
+            }
+        }
+
+        // Listar todos los archivos APK
+        get("/apk") {
+            val apkDir = File("archivos/apk").apply { mkdirs() }
+            val archivos = apkDir.listFiles()?.filter { it.isFile }?.map { it.name } ?: emptyList()
+            call.respond(HttpStatusCode.OK, mapOf("archivos" to archivos))
+        }
+
+                // --- ENDPOINTS QR ---
+                // Subir imagen QR (multipart, campo 'qr')
+                post("/qr") {
+                    val multipart = call.receiveMultipart()
+                    val qrDir = File("archivos/qr").apply { mkdirs() }
+                    var urlQR: String? = null
+                    multipart.forEachPart { part ->
+                        if (part is PartData.FileItem && part.name == "qr") {
+                            urlQR = saveFile(part, qrDir, "/archivos/qr")
+                        }
+                        part.dispose()
+                    }
+                    if (urlQR != null) {
+                        call.respond(HttpStatusCode.Created, mapOf("url" to urlQR))
+                    } else {
+                        call.respond(HttpStatusCode.BadRequest, mapOf("error" to "No se recibió ninguna imagen QR"))
+                    }
+                }
+
+                // Obtener imagen QR por nombre
+                get("/qr/{nombre}") {
+                    val nombre = call.parameters["nombre"]
+                    if (nombre.isNullOrBlank()) {
+                        call.respond(HttpStatusCode.BadRequest, mapOf("error" to "Nombre de archivo requerido"))
+                        return@get
+                    }
+                    val file = File("archivos/qr/$nombre")
+                    if (!file.exists()) {
+                        call.respond(HttpStatusCode.NotFound, mapOf("error" to "Archivo no encontrado"))
+                        return@get
+                    }
+                    call.respondFile(file)
+                }
+
+                // Eliminar imagen QR por nombre
+                delete("/qr/{nombre}") {
+                    val nombre = call.parameters["nombre"]
+                    if (nombre.isNullOrBlank()) {
+                        call.respond(HttpStatusCode.BadRequest, mapOf("error" to "Nombre de archivo requerido"))
+                        return@delete
+                    }
+                    val file = File("archivos/qr/$nombre")
+                    if (!file.exists()) {
+                        call.respond(HttpStatusCode.NotFound, mapOf("error" to "Archivo no encontrado"))
+                        return@delete
+                    }
+                    if (file.delete()) {
+                        call.respond(HttpStatusCode.OK, mapOf("message" to "Archivo eliminado correctamente"))
+                    } else {
+                        call.respond(HttpStatusCode.InternalServerError, mapOf("error" to "No se pudo eliminar el archivo"))
+                    }
+                }
         get("/") {
             call.respondText("¡API Spotifake funcionando! ")
         }
