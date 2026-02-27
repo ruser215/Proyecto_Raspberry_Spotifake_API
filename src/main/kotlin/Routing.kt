@@ -349,95 +349,92 @@ fun Application.configureRouting() {
                 }
             }
 
-            post("/usuarios/{id}/perfil") {
-                val id = call.parameters["id"]?.toLongOrNull()
-                if (id == null) {
-                    call.respond(HttpStatusCode.BadRequest, mapOf("error" to "ID inválido"))
-                    return@post
-                }
 
-                val multipart = call.receiveMultipart()
-                var urlImagen: String? = null
-                val perfilDir = File("archivos/perfiles").apply { mkdirs() }
-
-                multipart.forEachPart { part ->
-                    if (part is PartData.FileItem && part.name == "imagen") {
-                        urlImagen = saveFile(part, perfilDir, "/archivos/perfiles")
+            authenticate("auth-jwt") {
+                // --- ENDPOINTS QR PROTEGIDOS ---
+                post("/qr") {
+                    val multipart = call.receiveMultipart()
+                    val qrDir = File("archivos/qr").apply { mkdirs() }
+                    var urlQR: String? = null
+                    multipart.forEachPart { part ->
+                        if (part is PartData.FileItem && part.name == "qr") {
+                            urlQR = saveFile(part, qrDir, "/archivos/qr")
+                        }
+                        part.dispose()
                     }
-                    part.dispose()
-                }
-
-                if (urlImagen != null) {
-                    val usuario = repository.updateUsuario(UpdateUsuario(urlImagen = urlImagen), id)
-                    if (usuario != null) {
-                        usuario.pass = ""
-                        call.respond(HttpStatusCode.OK, usuario)
+                    if (urlQR != null) {
+                        call.respond(HttpStatusCode.Created, mapOf("url" to urlQR))
                     } else {
-                        call.respond(HttpStatusCode.InternalServerError, mapOf("error" to "Error al actualizar perfil"))
+                        call.respond(HttpStatusCode.BadRequest, mapOf("error" to "No se recibió ninguna imagen QR"))
                     }
-                } else {
-                    call.respond(HttpStatusCode.BadRequest, mapOf("error" to "No se recibió ninguna imagen"))
                 }
-            }
-            
-            delete("/usuarios/{id}") {
-                try {
-                    val id = call.parameters["id"]?.toLongOrNull()
-                    if (id == null) {
-                        call.respond(
-                            HttpStatusCode.BadRequest,
-                            mapOf("error" to "ID inválido")
-                        )
+
+                get("/qr") {
+                    val qrDir = File("archivos/qr").apply { mkdirs() }
+                    val archivos = qrDir.listFiles()?.filter { it.isFile }?.map { it.name } ?: emptyList()
+                    call.respond(HttpStatusCode.OK, mapOf("archivos" to archivos))
+                }
+
+                delete("/qr/{nombre}") {
+                    val nombre = call.parameters["nombre"]
+                    if (nombre.isNullOrBlank()) {
+                        call.respond(HttpStatusCode.BadRequest, mapOf("error" to "Nombre de archivo requerido"))
                         return@delete
                     }
-                    
-                    val deleted = repository.deleteUsuario(id)
-                    if (deleted) {
-                        call.respond(
-                            HttpStatusCode.OK,
-                            mapOf("message" to "Usuario eliminado correctamente")
-                        )
-                    } else {
-                        call.respond(
-                            HttpStatusCode.NotFound,
-                            mapOf("error" to "Usuario no encontrado")
-                        )
+                    val file = File("archivos/qr/$nombre")
+                    if (!file.exists()) {
+                        call.respond(HttpStatusCode.NotFound, mapOf("error" to "Archivo no encontrado"))
+                        return@delete
                     }
-                } catch (e: Exception) {
-                    call.respond(
-                        HttpStatusCode.InternalServerError,
-                        mapOf("error" to "Error al eliminar usuario: ${e.message}")
-                    )
+                    if (file.delete()) {
+                        call.respond(HttpStatusCode.OK, mapOf("message" to "Archivo eliminado correctamente"))
+                    } else {
+                        call.respond(HttpStatusCode.InternalServerError, mapOf("error" to "No se pudo eliminar el archivo"))
+                    }
+                }
+
+                // --- ENDPOINTS APK PROTEGIDOS ---
+                post("/apk") {
+                    val multipart = call.receiveMultipart()
+                    val apkDir = File("archivos/apk").apply { mkdirs() }
+                    var urlAPK: String? = null
+                    multipart.forEachPart { part ->
+                        if (part is PartData.FileItem && part.name == "apk") {
+                            urlAPK = saveFile(part, apkDir, "/archivos/apk")
+                        }
+                        part.dispose()
+                    }
+                    if (urlAPK != null) {
+                        call.respond(HttpStatusCode.Created, mapOf("url" to urlAPK))
+                    } else {
+                        call.respond(HttpStatusCode.BadRequest, mapOf("error" to "No se recibió ningún archivo APK"))
+                    }
+                }
+
+                delete("/apk/{nombre}") {
+                    val nombre = call.parameters["nombre"]
+                    if (nombre.isNullOrBlank()) {
+                        call.respond(HttpStatusCode.BadRequest, mapOf("error" to "Nombre de archivo requerido"))
+                        return@delete
+                    }
+                    val file = File("archivos/apk/$nombre")
+                    if (!file.exists()) {
+                        call.respond(HttpStatusCode.NotFound, mapOf("error" to "Archivo no encontrado"))
+                        return@delete
+                    }
+                    if (file.delete()) {
+                        call.respond(HttpStatusCode.OK, mapOf("message" to "Archivo APK eliminado correctamente"))
+                    } else {
+                        call.respond(HttpStatusCode.InternalServerError, mapOf("error" to "No se pudo eliminar el archivo"))
+                    }
+                }
+
+                get("/apk") {
+                    val apkDir = File("archivos/apk").apply { mkdirs() }
+                    val archivos = apkDir.listFiles()?.filter { it.isFile }?.map { it.name } ?: emptyList()
+                    call.respond(HttpStatusCode.OK, mapOf("archivos" to archivos))
                 }
             }
-
-            post("/canciones") {
-                val multipart = call.receiveMultipart()
-                var nombre: String? = null
-                var artista: String? = null
-                var album: String? = null
-                var artistaId: Int? = null
-                var albumId: Int? = null
-                var genero: Int? = null
-                var likes: Int = 0
-                var urlAudio: String? = null
-                var urlPortada: String? = null
-
-                val audioDir = File("archivos/audio").apply { mkdirs() }
-                val portadaDir = File("archivos/portadas").apply { mkdirs() }
-
-                multipart.forEachPart { part ->
-                    when (part) {
-                        is PartData.FormItem -> {
-                            when (part.name) {
-                                "nombre" -> nombre = part.value
-                                "artista" -> artista = part.value
-                                "album" -> album = part.value
-                                "artistaId" -> artistaId = part.value.toIntOrNull()
-                                "albumId" -> albumId = part.value.toIntOrNull()
-                                "genero" -> genero = part.value.toIntOrNull()
-                                "likes" -> likes = part.value.toIntOrNull() ?: 0
-                            }
                         }
                         is PartData.FileItem -> {
                             when (part.name) {
