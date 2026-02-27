@@ -439,8 +439,6 @@ fun Application.configureRouting() {
                     call.respond(HttpStatusCode.OK, mapOf("archivos" to archivos))
                 }
             }
-                call.respond(HttpStatusCode.OK, canciones)
-            }
 
             get("/canciones/{id}") {
                 val id = call.parameters["id"]?.toIntOrNull()
