@@ -672,7 +672,7 @@ fun Application.configureRouting() {
 
             delete("/artistas/{id}") {
                 val principal = call.principal<Usuario>()
-                if (principal == null || !principal.admin) {
+                if (principal == null || principal.admin != 1) {
                     call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden borrar artistas"))
                     return@delete
                 }
@@ -693,7 +693,7 @@ fun Application.configureRouting() {
             // --- CRUD de álbumes ---
             post("/artistas/{id}/albums") {
                 val principal = call.principal<Usuario>()
-                if (principal == null || !principal.admin) {
+                if (principal == null || principal.admin != 1) {
                     call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden crear álbumes"))
                     return@post
                 }
