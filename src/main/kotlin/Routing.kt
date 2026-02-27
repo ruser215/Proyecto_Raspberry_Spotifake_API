@@ -270,7 +270,7 @@ fun Application.configureRouting() {
         authenticate("auth-jwt") {
             get("/usuarios") {
                 val principal = call.principal<Usuario>()
-                if (principal == null || principal.admin == 0) {
+                if (principal == null || !principal.admin) {
                     call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden listar usuarios"))
                     return@get
                 }
@@ -376,7 +376,8 @@ fun Application.configureRouting() {
             }
 
 
-                if (principal == null || principal.admin == 0) {
+                val principal = call.principal<Usuario>()
+                if (principal == null || !principal.admin) {
                     call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden gestionar álbumes"))
                     return@authenticate
                 }
@@ -397,7 +398,7 @@ fun Application.configureRouting() {
 
             patch("/canciones/{id}") {
                 val principal = call.principal<Usuario>()
-                if (principal == null || principal.admin == 0) {
+                if (principal == null || !principal.admin) {
                     call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden editar canciones"))
                     return@patch
                 }
