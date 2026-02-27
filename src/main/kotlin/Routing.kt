@@ -270,7 +270,7 @@ fun Application.configureRouting() {
         authenticate("auth-jwt") {
             get("/usuarios") {
                 val principal = call.principal<Usuario>()
-                if (principal == null || !principal.admin) {
+                if (principal == null || principal.admin == 0) {
                     call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden listar usuarios"))
                     return@get
                 }
@@ -352,7 +352,7 @@ fun Application.configureRouting() {
                             HttpStatusCode.BadRequest,
                             mapOf("error" to "ID inválido")
                         )
-                        return
+                        return@patch
                     }
                     
                     val updateUsuario = call.receive<UpdateUsuario>()
@@ -376,91 +376,10 @@ fun Application.configureRouting() {
             }
 
 
-            authenticate("auth-jwt") {
-                // --- ENDPOINTS QR PROTEGIDOS ---
-                post("/qr") {
-                    val multipart = call.receiveMultipart()
-                    val qrDir = File("archivos/qr").apply { mkdirs() }
-                    var urlQR: String? = null
-                    multipart.forEachPart { part ->
-                        if (part is PartData.FileItem && part.name == "qr") {
-                            urlQR = saveFile(part, qrDir, "/archivos/qr")
-                        }
-                        part.dispose()
-                    }
-                    if (urlQR != null) {
-                        call.respond(HttpStatusCode.Created, mapOf("url" to urlQR))
-                    } else {
-                        call.respond(HttpStatusCode.BadRequest, mapOf("error" to "No se recibió ninguna imagen QR"))
-                    }
+                if (principal == null || principal.admin == 0) {
+                    call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden gestionar álbumes"))
+                    return@authenticate
                 }
-
-                get("/qr") {
-                    val qrDir = File("archivos/qr").apply { mkdirs() }
-                    val archivos = qrDir.listFiles()?.filter { it.isFile }?.map { it.name } ?: emptyList()
-                    call.respond(HttpStatusCode.OK, mapOf("archivos" to archivos))
-                }
-
-                delete("/qr/{nombre}") {
-                    val nombre = call.parameters["nombre"]
-                    if (nombre.isNullOrBlank()) {
-                        call.respond(HttpStatusCode.BadRequest, mapOf("error" to "Nombre de archivo requerido"))
-                        return@delete
-                    }
-                    val file = File("archivos/qr/$nombre")
-                    if (!file.exists()) {
-                        call.respond(HttpStatusCode.NotFound, mapOf("error" to "Archivo no encontrado"))
-                        return@delete
-                    }
-                    if (file.delete()) {
-                        call.respond(HttpStatusCode.OK, mapOf("message" to "Archivo eliminado correctamente"))
-                    } else {
-                        call.respond(HttpStatusCode.InternalServerError, mapOf("error" to "No se pudo eliminar el archivo"))
-                    }
-                }
-
-                // --- ENDPOINTS APK PROTEGIDOS ---
-                post("/apk") {
-                    val multipart = call.receiveMultipart()
-                    val apkDir = File("archivos/apk").apply { mkdirs() }
-                    var urlAPK: String? = null
-                    multipart.forEachPart { part ->
-                        if (part is PartData.FileItem && part.name == "apk") {
-                            urlAPK = saveFile(part, apkDir, "/archivos/apk")
-                        }
-                        part.dispose()
-                    }
-                    if (urlAPK != null) {
-                        call.respond(HttpStatusCode.Created, mapOf("url" to urlAPK))
-                    } else {
-                        call.respond(HttpStatusCode.BadRequest, mapOf("error" to "No se recibió ningún archivo APK"))
-                    }
-                }
-
-                delete("/apk/{nombre}") {
-                    val nombre = call.parameters["nombre"]
-                    if (nombre.isNullOrBlank()) {
-                        call.respond(HttpStatusCode.BadRequest, mapOf("error" to "Nombre de archivo requerido"))
-                        return@delete
-                    }
-                    val file = File("archivos/apk/$nombre")
-                    if (!file.exists()) {
-                        call.respond(HttpStatusCode.NotFound, mapOf("error" to "Archivo no encontrado"))
-                        return@delete
-                    }
-                    if (file.delete()) {
-                        call.respond(HttpStatusCode.OK, mapOf("message" to "Archivo APK eliminado correctamente"))
-                    } else {
-                        call.respond(HttpStatusCode.InternalServerError, mapOf("error" to "No se pudo eliminar el archivo"))
-                    }
-                }
-
-                get("/apk") {
-                    val apkDir = File("archivos/apk").apply { mkdirs() }
-                    val archivos = apkDir.listFiles()?.filter { it.isFile }?.map { it.name } ?: emptyList()
-                    call.respond(HttpStatusCode.OK, mapOf("archivos" to archivos))
-                }
-            }
 
             get("/canciones/{id}") {
                 val id = call.parameters["id"]?.toIntOrNull()
@@ -478,20 +397,20 @@ fun Application.configureRouting() {
 
             patch("/canciones/{id}") {
                 val principal = call.principal<Usuario>()
-                if (principal == null || !principal.admin) {
+                if (principal == null || principal.admin == 0) {
                     call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden editar canciones"))
-                    return
+                    return@patch
                 }
                 val id = call.parameters["id"]?.toIntOrNull()
                 if (id == null) {
                     call.respond(HttpStatusCode.BadRequest, mapOf("error" to "ID inválido"))
-                    return
+                    return@patch
                 }
 
                 val existing = cancionRepository.getCancionById(id)
                 if (existing == null) {
                     call.respond(HttpStatusCode.NotFound, mapOf("error" to "Canción no encontrada"))
-                    return
+                    return@patch
                 }
 
                 val multipart = call.receiveMultipart()
@@ -535,15 +454,15 @@ fun Application.configureRouting() {
             // --- Validaciones de Integridad para Actualización ---
             if (artistaId != null && artistaRepository.getArtistaById(artistaId!!) == null) {
                 call.respond(HttpStatusCode.NotFound, mapOf("error" to "El artista con ID $artistaId no existe"))
-                return
+                return@patch
             }
             if (albumId != null && albumRepository.getAlbumById(albumId!!) == null) {
                 call.respond(HttpStatusCode.NotFound, mapOf("error" to "El álbum con ID $albumId no existe"))
-                return
+                return@patch
             }
             if (genero != null && generoRepository.getGeneroById(genero!!) == null) {
                 call.respond(HttpStatusCode.NotFound, mapOf("error" to "El género con ID $genero no existe"))
-                return
+                return@patch
             }
 
                 val updated = cancionRepository.updateCancion(
@@ -561,7 +480,7 @@ fun Application.configureRouting() {
 
                 if (updated == null) {
                     call.respond(HttpStatusCode.InternalServerError, mapOf("error" to "Error al actualizar la canción"))
-                    return
+                    return@patch
                 }
 
                 if (!newUrlAudio.isNullOrBlank()) {
@@ -576,7 +495,7 @@ fun Application.configureRouting() {
 
             delete("/canciones/{id}") {
                 val principal = call.principal<Usuario>()
-                if (principal == null || !principal.admin) {
+                if (principal == null || principal.admin == 0) {
                     call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden borrar canciones"))
                     return@delete
                 }
@@ -638,60 +557,12 @@ fun Application.configureRouting() {
                 }
             }
 
-            get("/generos/{id}") {
-                    val principal = call.principal<Usuario>()
-                    if (principal == null || !principal.admin) {
-                        call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden ver usuarios"))
-                        return@get
-                    }
-                    try {
-                        val id = call.parameters["id"]?.toLongOrNull()
-                        if (id == null) {
-                            call.respond(
-                                HttpStatusCode.BadRequest,
-                                mapOf("error" to "ID inválido")
-                            )
-                            return@get
-                        }
-                        val usuario = repository.getUsuarioById(id)
-                        if (usuario != null) {
-                            usuario.pass = ""
-                            call.respond(HttpStatusCode.OK, usuario)
-                        } else {
-                            call.respond(
-                                HttpStatusCode.NotFound,
-                                mapOf("error" to "Usuario no encontrado")
-                            )
-                        }
-                    } catch (e: Exception) {
-                        call.respond(
-                            HttpStatusCode.InternalServerError,
-                            mapOf("error" to "Error al obtener usuario: ${e.message}")
-                        )
-                    }
-                }
-                try {
-                    val id = call.parameters["id"]?.toLongOrNull()
-                    if (id == null) {
-                        call.respond(HttpStatusCode.BadRequest, mapOf("error" to "ID inválido"))
-                        return@delete
-                    }
-                    val eliminado = repository.deleteUsuario(id)
-                    if (eliminado) {
-                        call.respond(HttpStatusCode.OK, mapOf("message" to "Usuario eliminado correctamente"))
-                    } else {
-                        call.respond(HttpStatusCode.NotFound, mapOf("error" to "Usuario no encontrado"))
-                    }
-                } catch (e: Exception) {
-                    call.respond(HttpStatusCode.InternalServerError, mapOf("error" to "Error al eliminar usuario: ${e.message}"))
-                }
-            }
-            }
+
 
             // --- CRUD de artistas ---
             post("/artistas") {
                 val principal = call.principal<Usuario>()
-                if (principal == null || !principal.admin) {
+                if (principal == null || principal.admin == 0) {
                     call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden crear artistas"))
                     return@post
                 }
@@ -753,21 +624,21 @@ fun Application.configureRouting() {
 
             patch("/artistas/{id}") {
                 val principal = call.principal<Usuario>()
-                if (principal == null || !principal.admin) {
+                if (principal == null || principal.admin == 0) {
                     call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden editar artistas"))
-                    return
+                    return@patch
                 }
                 try {
                     val id = call.parameters["id"]?.toIntOrNull()
                     if (id == null) {
                         call.respond(HttpStatusCode.BadRequest, mapOf("error" to "ID inválido"))
-                        return
+                        return@patch
                     }
 
                     val existing = artistaRepository.getArtistaById(id)
                     if (existing == null) {
                         call.respond(HttpStatusCode.NotFound, mapOf("error" to "Artista no encontrado"))
-                        return
+                        return@patch
                     }
 
                     val multipart = call.receiveMultipart()
@@ -939,21 +810,21 @@ fun Application.configureRouting() {
 
             patch("/albums/{id}") {
                 val principal = call.principal<Usuario>()
-                if (principal == null || !principal.admin) {
+                if (principal == null || principal.admin == 0) {
                     call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden editar álbumes"))
-                    return
+                    return@patch
                 }
                 try {
                     val id = call.parameters["id"]?.toIntOrNull()
                     if (id == null) {
                         call.respond(HttpStatusCode.BadRequest, mapOf("error" to "ID inválido"))
-                        return
+                        return@patch
                     }
 
                     val existing = albumRepository.getAlbumById(id)
                     if (existing == null) {
                         call.respond(HttpStatusCode.NotFound, mapOf("error" to "Álbum no encontrado"))
-                        return
+                        return@patch
                     }
 
                     val multipart = call.receiveMultipart()
@@ -996,7 +867,7 @@ fun Application.configureRouting() {
 
             delete("/albums/{id}") {
                 val principal = call.principal<Usuario>()
-                if (principal == null || !principal.admin) {
+                if (principal == null || principal.admin == 0) {
                     call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden borrar álbumes"))
                     return@delete
                 }
@@ -1116,7 +987,7 @@ fun Application.configureRouting() {
                     val id = call.parameters["id"]?.toLongOrNull()
                     if (id == null) {
                         call.respond(HttpStatusCode.BadRequest, mapOf("error" to "ID inválido"))
-                        return
+                        return@patch
                     }
                     val body = call.receive<JsonObject>()
                     val nombre = body["nombre"]?.jsonPrimitive?.content ?: ""
