@@ -270,7 +270,7 @@ fun Application.configureRouting() {
         authenticate("auth-jwt") {
             get("/usuarios") {
                 val principal = call.principal<Usuario>()
-                if (principal == null || !principal.admin) {
+                if (principal == null || principal.admin != 1) {
                     call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden listar usuarios"))
                     return@get
                 }
