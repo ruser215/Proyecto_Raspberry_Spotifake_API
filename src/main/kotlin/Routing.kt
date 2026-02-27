@@ -66,12 +66,7 @@ fun Application.configureRouting() {
     }
     
     routing {
-        // Listar todos los archivos QR
-        get("/qr") {
-            val qrDir = File("archivos/qr").apply { mkdirs() }
-            val archivos = qrDir.listFiles()?.filter { it.isFile }?.map { it.name } ?: emptyList()
-            call.respond(HttpStatusCode.OK, mapOf("archivos" to archivos))
-        }
+        // Listar todos los archivos QR (protegido, solo dentro de authenticate)
 
         // --- ENDPOINTS PÚBLICOS ---
         // Descargar archivo APK
@@ -194,41 +189,6 @@ fun Application.configureRouting() {
                 call.respond(HttpStatusCode.OK, mapOf("archivos" to archivos))
             }
         }
-                }
-
-                // Obtener imagen QR por nombre
-                get("/qr/{nombre}") {
-                    val nombre = call.parameters["nombre"]
-                    if (nombre.isNullOrBlank()) {
-                        call.respond(HttpStatusCode.BadRequest, mapOf("error" to "Nombre de archivo requerido"))
-                        return@get
-                    }
-                    val file = File("archivos/qr/$nombre")
-                    if (!file.exists()) {
-                        call.respond(HttpStatusCode.NotFound, mapOf("error" to "Archivo no encontrado"))
-                        return@get
-                    }
-                    call.respondFile(file)
-                }
-
-                // Eliminar imagen QR por nombre
-                delete("/qr/{nombre}") {
-                    val nombre = call.parameters["nombre"]
-                    if (nombre.isNullOrBlank()) {
-                        call.respond(HttpStatusCode.BadRequest, mapOf("error" to "Nombre de archivo requerido"))
-                        return@delete
-                    }
-                    val file = File("archivos/qr/$nombre")
-                    if (!file.exists()) {
-                        call.respond(HttpStatusCode.NotFound, mapOf("error" to "Archivo no encontrado"))
-                        return@delete
-                    }
-                    if (file.delete()) {
-                        call.respond(HttpStatusCode.OK, mapOf("message" to "Archivo eliminado correctamente"))
-                    } else {
-                        call.respond(HttpStatusCode.InternalServerError, mapOf("error" to "No se pudo eliminar el archivo"))
-                    }
-                }
         get("/") {
             call.respondText("¡API Spotifake funcionando! ")
         }
