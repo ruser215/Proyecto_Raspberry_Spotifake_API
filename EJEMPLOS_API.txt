@@ -1,27 +1,27 @@
-# SPOTIFAKE API - GUIA TECNICA COMPLETA DE USO
+# SPOTIFAKE API - GUÍA DE USO ACTUALIZADA
 
-Guia detallada de todos los endpoints, metodos y formatos de intercambio de datos de la API Spotifake.
+Guía completa de todos los endpoints, métodos y formatos de la API Spotifake.
 
 ---
 
-## 1. INFORMACION GENERAL
+## 1. INFORMACIÓN GENERAL
 
-- **Base URL (Local):** http://localhost:8001/api
+- **Base URL:** http://localhost:8001/api
 - **Adminer (DB):** http://localhost:8080
   - Usuario: admin
   - Password: s8n38DGB8d72
 
 ### CABECERAS (HEADERS)
-Para los endpoints protegidos, se debe incluir el token JWT obtenido en el login:
+Para endpoints protegidos, incluye el token JWT:
 `Authorization: Bearer <tu_token_aqui>`
 
 ---
 
-## 2. USUARIOS Y AUTENTICACION
+## 2. USUARIOS Y AUTENTICACIÓN
 
 ### Registro
-**POST** `/register`
-- **Envio (JSON):**
+**POST** `/register`  _(Usuario normal)_
+- **Envío:** JSON
 ```json
 {
   "username": "nombre_usuario",
@@ -44,8 +44,8 @@ Para los endpoints protegidos, se debe incluir el token JWT obtenido en el login
 ```
 
 ### Login
-**POST** `/login`
-- **Envio (JSON):**
+**POST** `/login`  _(Usuario normal)_
+- **Envío:** JSON
 ```json
 {
   "correo": "usuario@mail.com",
@@ -66,151 +66,149 @@ Para los endpoints protegidos, se debe incluir el token JWT obtenido en el login
 }
 ```
 
-### CRUD Usuarios (Requiere Auth)
-- **GET** `/usuarios`: Lista de todos los usuarios.
-- **GET** `/usuarios/{id}`: Detalle de un usuario.
-- **GET** `/usuarios/correo/{correo}`: Buscar usuario por email.
-- **PUT** `/usuarios/{id}`:
-  - **Envio (JSON parcial):** `{"username": "nuevo_nombre", "premium": 1}`
-- **DELETE** `/usuarios/{id}`: Elimina la cuenta permanentemente.
+### CRUD Usuarios
+- **GET** `/usuarios` _(Solo admin)_
+  - **Respuesta:** Array de usuarios (JSON)
+- **GET** `/usuarios/{id}` _(Solo admin)_
+  - **Respuesta:** Usuario (JSON)
+- **PATCH** `/usuarios/{id}` _(Solo admin)_
+  - **Envío:** JSON parcial
+    ```json
+    { "username": "nuevo_nombre", "premium": 1 }
+    ```
+  - **Respuesta:** Usuario actualizado (JSON)
+- **DELETE** `/usuarios/{id}` _(Solo admin)_
+  - **Respuesta:** Mensaje de éxito o error (JSON)
 
-### Foto de Perfil (Requiere Auth)
-**POST** `/usuarios/{id}/perfil`
-- **Envio (Multipart/Form-Data):**
-  - `imagen`: (Archivo JPG/PNG)
-- **Respuesta (200 OK):** Usuario actualizado con `urlImagen`.
-
----
-
-## 3. CATALOGO DE GENEROS
-
-### Operaciones (Requiere Auth)
-- **GET** `/generos`: Obtener todos los generos.
-- **GET** `/generos/{id}`: Obtener detalle de un genero especifico.
-- **POST** `/generos`:
-  - **Envio (JSON):** `{"nombre": "Nombre del Genero"}`
-- **DELETE** `/generos/{id}`: **BORRADO EN CASCADA** (Elimina el genero y todas sus canciones).
+### Buscar usuario por correo
+- **GET** `/usuarios/correo/{correo}` _(Usuario normal y admin)_
+  - **Respuesta:** Usuario (JSON)
 
 ---
 
-## 4. ARTISTAS Y ALBUMES
-
-### Artistas (Requiere Auth)
-- **GET** `/artistas`: Lista artistas. Soporta filtro query `?nombre=...`.
-- **GET** `/artistas/{id}`: Detalle del artista.
-- **POST** `/artistas` (Multipart):
-  - `nombre`: (Texto)
-  - `foto`: (Archivo)
-- **PUT** `/artistas/{id}` (Multipart):
-  - `nombre`: (Opcional, texto)
-  - `foto`: (Opcional, archivo)
-- **DELETE** `/artistas/{id}`: **BORRADO EN CASCADA TOTAL** (Elimina artista, sus albumes y todas sus canciones).
-
-### Albumes (Requiere Auth)
-- **GET** `/albums`: Todos los albumes del sistema. Soporta `?nombre=...`.
-- **GET** `/artistas/{id}/albums`: Albumes de un artista concreto.
-- **GET** `/albums/{id}`: Detalle del album.
-- **GET** `/albums/{id}/canciones`: Lista de canciones de este album.
-- **POST** `/artistas/{id}/albums` (Multipart):
-  - `nombre`: (Texto)
-  - `portada`: (Archivo)
-- **PUT** `/albums/{id}` (Multipart):
-  - `nombre`: (Texto)
-  - `portada`: (Archivo)
-  - `artistaId`: (ID de nuevo artista si se desea reasignar)
-- **DELETE** `/albums/{id}`: **BORRADO EN CASCADA** (Elimina album y sus canciones).
+## 3. GESTIÓN DE GENEROS
+- **GET** `/generos` _(Usuario normal y admin)_
+- **GET** `/generos/{id}` _(Usuario normal y admin)_
+- **POST** `/generos` _(Usuario normal y admin)_
+- **DELETE** `/generos/{id}` _(Usuario normal y admin)_
 
 ---
 
-## 5. CANCIONES (Requiere Auth)
+## 4. ARTISTAS Y ÁLBUMES
+
+### Artistas
+- **GET** `/artistas` _(Usuario normal y admin)_
+  - **Respuesta:** Array de artistas (JSON)
+- **GET** `/artistas/{id}` _(Usuario normal y admin)_
+  - **Respuesta:** Artista (JSON)
+- **POST** `/artistas` _(Solo admin)_
+  - **Envío:** FormData (multipart)
+    - Campos: `nombre` (string), `foto` (archivo)
+  - **Respuesta:** Artista creado (JSON)
+- **PATCH** `/artistas/{id}` _(Solo admin)_
+  - **Envío:** FormData (multipart)
+    - Campos opcionales: `nombre` (string), `foto` (archivo)
+  - **Respuesta:** Artista actualizado (JSON)
+- **DELETE** `/artistas/{id}` _(Solo admin)_
+  - **Respuesta:** Mensaje de éxito o error (JSON)
+
+### Álbumes
+- **GET** `/albums` _(Usuario normal y admin)_
+  - **Respuesta:** Array de álbumes (JSON)
+- **GET** `/artistas/{id}/albums` _(Usuario normal y admin)_
+  - **Respuesta:** Array de álbumes (JSON)
+- **GET** `/albums/{id}` _(Usuario normal y admin)_
+  - **Respuesta:** Álbum (JSON)
+- **GET** `/albums/{id}/canciones` _(Usuario normal y admin)_
+  - **Respuesta:** Array de canciones (JSON)
+- **POST** `/artistas/{id}/albums` _(Solo admin)_
+  - **Envío:** FormData (multipart)
+    - Campos: `nombre` (string), `portada` (archivo)
+  - **Respuesta:** Álbum creado (JSON)
+- **PATCH** `/albums/{id}` _(Solo admin)_
+  - **Envío:** FormData (multipart)
+    - Campos opcionales: `nombre` (string), `portada` (archivo), `artistaId` (int)
+  - **Respuesta:** Álbum actualizado (JSON)
+- **DELETE** `/albums/{id}` _(Solo admin)_
+  - **Respuesta:** Mensaje de éxito o error (JSON)
+
+---
+
+## 5. CANCIONES
 
 ### CRUD Canciones
-- **GET** `/canciones`: Busqueda con filtros query combinables:
-  - `?nombre=...&artista=...&album=...&genero={id}`
-- **GET** `/canciones/{id}`: Detalle completo de la pista.
-- **POST** `/canciones` (Multipart):
-  - **Campos:** `nombre` (Texto), `artistaId` (Int), `albumId` (Int), `genero` (Int), `audio` (Archivo MP3), `portada` (Opcional, Archivo), `likes` (Opcional, Int).
-- **PUT** `/canciones/{id}` (Multipart):
-  - Todos los campos del POST son opcionales para actualizacion parcial.
-- **DELETE** `/canciones/{id}`: Borra la pista y sus archivos locales.
+- **GET** `/canciones` _(Usuario normal y admin)_
+  - **Respuesta:** Array de canciones (JSON)
+- **GET** `/canciones/{id}` _(Usuario normal y admin)_
+  - **Respuesta:** Canción (JSON)
+- **POST** `/canciones` _(Solo admin)_
+  - **Envío:** FormData (multipart)
+    - Campos: `nombre` (string), `artistaId` (int), `albumId` (int), `genero` (int), `audio` (archivo), `portada` (archivo, opcional), `likes` (int, opcional)
+  - **Respuesta:** Canción creada (JSON)
+- **PATCH** `/canciones/{id}` _(Solo admin)_
+  - **Envío:** FormData (multipart)
+    - Campos opcionales: igual que POST
+  - **Respuesta:** Canción actualizada (JSON)
+- **DELETE** `/canciones/{id}` _(Solo admin)_
+  - **Respuesta:** Mensaje de éxito o error (JSON)
 
 ---
 
-## 6. LISTAS DE REPRODUCCION (Requiere Auth)
-
-### Gestion de Listas
-- **POST** `/listas`:
-  - **Envio (JSON):** `{"nombre": "Lista 1", "idUsuario": 1}`
-- **GET** `/usuarios/{id}/listas`: Listas de un usuario especifico.
-- **GET** `/listas/{id}/canciones`: Contenido de una lista.
-- **PUT** `/listas/{id}`:
-  - **Envio (JSON):** `{"nombre": "Nuevo Nombre"}`
-- **DELETE** `/listas/{id}`: Borra la lista (las canciones permanecen en el sistema).
-
-### Gestion de Contenido
-- **POST** `/listas/{id}/canciones`:
-  - **Envio (JSON):** `{"idCancion": 10}`
-- **DELETE** `/listas/{idLista}/canciones/{idCancion}`: Quita una cancion de la lista.
+## 6. LISTAS DE REPRODUCCIÓN
+- **POST** `/listas` _(Usuario normal y admin)_
+- **GET** `/usuarios/{id}/listas` _(Usuario normal y admin)_
+- **GET** `/listas/{id}/canciones` _(Usuario normal y admin)_
+- **PATCH** `/listas/{id}` _(Usuario normal y admin)_
+- **DELETE** `/listas/{id}` _(Usuario normal y admin)_
+- **POST** `/listas/{id}/canciones` _(Usuario normal y admin)_
+- **DELETE** `/listas/{idLista}/canciones/{idCancion}` _(Usuario normal y admin)_
 
 ---
-
 
 ## 7. GESTIÓN DE IMÁGENES QR
-
-### Subir imagen QR
-- **POST** `/qr`
-  - **Envio (Multipart/Form-Data):**
-    - `qr`: (Archivo de imagen PNG/JPG)
-  - **Respuesta (201 Created):** `{ "url": "/archivos/qr/uuid_nombre.png" }`
-
-### Obtener imagen QR
-- **GET** `/qr/{nombre}`
-  - Devuelve la imagen QR almacenada con ese nombre.
-  - **Respuesta (200 OK):** Archivo de imagen.
-
-
-### Listar imágenes QR
-- **GET** `/qr`
-  - Devuelve la lista de todos los archivos QR almacenados.
-  - **Respuesta (200 OK):** `{ "archivos": ["uuid1_qr.png", "uuid2_qr.jpg", ...] }`
-
-### Eliminar imagen QR
-- **DELETE** `/qr/{nombre}`
-  - Elimina la imagen QR almacenada con ese nombre.
-  - **Respuesta (200 OK):** `{ "message": "Archivo eliminado correctamente" }`
+- **POST** `/qr` _(Solo admin)_
+  - **Envío:** FormData (multipart)
+    - Campo: `qr` (archivo imagen)
+  - **Respuesta:** URL de la imagen subida (JSON)
+- **GET** `/qr/{nombre}` _(Público)_
+  - **Respuesta:** Imagen QR (archivo)
+- **GET** `/qr` _(Solo admin)_
+  - **Respuesta:** Array de nombres de imágenes (JSON)
+- **DELETE** `/qr/{nombre}` _(Solo admin)_
+  - **Respuesta:** Mensaje de éxito o error (JSON)
 
 ---
 
 ## 8. GESTIÓN DE ARCHIVOS APK
-
-### Subir archivo APK
-- **POST** `/apk`
-  - **Envio (Multipart/Form-Data):**
-    - `apk`: (Archivo APK)
-  - **Respuesta (201 Created):** `{ "url": "/archivos/apk/uuid_nombre.apk" }`
-
-### Obtener archivo APK
-- **GET** `/apk/{nombre}`
-  - Devuelve el archivo APK almacenado con ese nombre.
-  - **Respuesta (200 OK):** Archivo APK.
-
-### Eliminar archivo APK
-- **DELETE** `/apk/{nombre}`
-  - Elimina el archivo APK almacenado con ese nombre.
-  - **Respuesta (200 OK):** `{ "message": "Archivo APK eliminado correctamente" }`
-
-### Listar archivos APK
-- **GET** `/apk`
-  - Devuelve la lista de todos los archivos APK almacenados.
-  - **Respuesta (200 OK):** `{ "archivos": ["uuid1_app.apk", "uuid2_app.apk", ...] }`
+- **POST** `/apk` _(Solo admin)_
+  - **Envío:** FormData (multipart)
+    - Campo: `apk` (archivo)
+  - **Respuesta:** URL del archivo subido (JSON)
+- **GET** `/apk/{nombre}` _(Público)_
+  - **Respuesta:** Archivo APK (descarga)
+- **GET** `/apk` _(Solo admin)_
+  - **Respuesta:** Array de nombres de archivos APK (JSON)
+- **DELETE** `/apk/{nombre}` _(Solo admin)_
+  - **Respuesta:** Mensaje de éxito o error (JSON)
 
 ---
-## 9. CODIGOS DE ESTADO (HTTP STATUS)
 
-- **200 OK**: Operacion exitosa.
-- **201 Created**: Recurso creado con exito.
-- **400 Bad Request**: Campos invalidos o faltantes.
-- **401 Unauthorized**: No se proporciono token o login fallido.
-- **404 Not Found**: El recurso con ese ID no existe.
-- **409 Conflict**: Conflicto de datos (ej. registro duplicado).
-- **500 Internal Server Error**: Error en la logica o base de datos.
+## 9. CÓDIGOS DE ESTADO (HTTP STATUS)
+
+- **200 OK**: Operación exitosa.
+- **201 Created**: Recurso creado.
+- **400 Bad Request**: Campos inválidos o faltantes.
+- **401 Unauthorized**: Token faltante o login fallido.
+- **403 Forbidden**: Acción no permitida (no admin).
+- **404 Not Found**: Recurso no existe.
+- **409 Conflict**: Conflicto de datos.
+- **500 Internal Server Error**: Error interno.
+
+---
+
+## 10. NOTAS DE SEGURIDAD Y ROLES
+
+- Solo los administradores pueden crear, editar o borrar usuarios, canciones, artistas y álbumes.
+- Los endpoints públicos (descarga de QR y APK) no requieren autenticación.
+- El resto de acciones requieren token JWT válido.
+- Fecha de actualización: 27 de febrero de 2026

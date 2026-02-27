@@ -101,6 +101,23 @@ fun Application.configureRouting() {
 
         // --- ENDPOINTS PROTEGIDOS ---
         authenticate("auth-jwt") {
+                        delete("/usuarios/{id}") {
+                            try {
+                                val id = call.parameters["id"]?.toLongOrNull()
+                                if (id == null) {
+                                    call.respond(HttpStatusCode.BadRequest, mapOf("error" to "ID inválido"))
+                                    return@delete
+                                }
+                                val eliminado = repository.deleteUsuario(id)
+                                if (eliminado) {
+                                    call.respond(HttpStatusCode.OK, mapOf("message" to "Usuario eliminado correctamente"))
+                                } else {
+                                    call.respond(HttpStatusCode.NotFound, mapOf("error" to "Usuario no encontrado"))
+                                }
+                            } catch (e: Exception) {
+                                call.respond(HttpStatusCode.InternalServerError, mapOf("error" to "Error al eliminar usuario: ${e.message}"))
+                            }
+                        }
             // Subir imagen QR
             post("/qr") {
                 val multipart = call.receiveMultipart()
@@ -252,6 +269,11 @@ fun Application.configureRouting() {
 
         authenticate("auth-jwt") {
             get("/usuarios") {
+                val principal = call.principal<Usuario>()
+                if (principal == null || !principal.admin) {
+                    call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden listar usuarios"))
+                    return@get
+                }
                 try {
                     val usuarios = repository.getAllUsuarios()
                     usuarios.forEach { it.pass = "" }
@@ -322,7 +344,7 @@ fun Application.configureRouting() {
                 }
             }
             
-            put("/usuarios/{id}") {
+            patch("/usuarios/{id}") {
                 try {
                     val id = call.parameters["id"]?.toLongOrNull()
                     if (id == null) {
@@ -454,7 +476,12 @@ fun Application.configureRouting() {
                 }
             }
 
-            put("/canciones/{id}") {
+            patch("/canciones/{id}") {
+                val principal = call.principal<Usuario>()
+                if (principal == null || !principal.admin) {
+                    call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden editar canciones"))
+                    return@patch
+                }
                 val id = call.parameters["id"]?.toIntOrNull()
                 if (id == null) {
                     call.respond(HttpStatusCode.BadRequest, mapOf("error" to "ID inválido"))
@@ -548,6 +575,11 @@ fun Application.configureRouting() {
             }
 
             delete("/canciones/{id}") {
+                val principal = call.principal<Usuario>()
+                if (principal == null || !principal.admin) {
+                    call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden borrar canciones"))
+                    return@delete
+                }
                 try {
                     val id = call.parameters["id"]?.toIntOrNull()
                     if (id == null) {
@@ -607,47 +639,62 @@ fun Application.configureRouting() {
             }
 
             get("/generos/{id}") {
-                try {
-                    val id = call.parameters["id"]?.toIntOrNull()
-                    if (id == null) {
-                        call.respond(HttpStatusCode.BadRequest, mapOf("error" to "ID inválido"))
+                    val principal = call.principal<Usuario>()
+                    if (principal == null || !principal.admin) {
+                        call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden ver usuarios"))
                         return@get
                     }
-                    val genero = generoRepository.getGeneroById(id)
-                    if (genero != null) {
-                        call.respond(HttpStatusCode.OK, genero)
-                    } else {
-                        call.respond(HttpStatusCode.NotFound, mapOf("error" to "Género no encontrado"))
+                    try {
+                        val id = call.parameters["id"]?.toLongOrNull()
+                        if (id == null) {
+                            call.respond(
+                                HttpStatusCode.BadRequest,
+                                mapOf("error" to "ID inválido")
+                            )
+                            return@get
+                        }
+                        val usuario = repository.getUsuarioById(id)
+                        if (usuario != null) {
+                            usuario.pass = ""
+                            call.respond(HttpStatusCode.OK, usuario)
+                        } else {
+                            call.respond(
+                                HttpStatusCode.NotFound,
+                                mapOf("error" to "Usuario no encontrado")
+                            )
+                        }
+                    } catch (e: Exception) {
+                        call.respond(
+                            HttpStatusCode.InternalServerError,
+                            mapOf("error" to "Error al obtener usuario: ${e.message}")
+                        )
                     }
-                } catch (e: Exception) {
-                    call.respond(
-                        HttpStatusCode.InternalServerError,
-                        mapOf("error" to "Error al obtener género: ${e.message}")
-                    )
                 }
-            }
-
-            delete("/generos/{id}") {
                 try {
-                    val id = call.parameters["id"]?.toIntOrNull()
+                    val id = call.parameters["id"]?.toLongOrNull()
                     if (id == null) {
                         call.respond(HttpStatusCode.BadRequest, mapOf("error" to "ID inválido"))
                         return@delete
                     }
-
-                    val ok = generoRepository.deleteGenero(id)
-                    if (ok) {
-                        call.respond(HttpStatusCode.OK, mapOf("message" to "Género eliminado correctamente"))
+                    val eliminado = repository.deleteUsuario(id)
+                    if (eliminado) {
+                        call.respond(HttpStatusCode.OK, mapOf("message" to "Usuario eliminado correctamente"))
                     } else {
-                        call.respond(HttpStatusCode.NotFound, mapOf("error" to "Género no encontrado"))
+                        call.respond(HttpStatusCode.NotFound, mapOf("error" to "Usuario no encontrado"))
                     }
                 } catch (e: Exception) {
-                    call.respond(HttpStatusCode.InternalServerError, mapOf("error" to "Error al eliminar género: ${e.message}"))
+                    call.respond(HttpStatusCode.InternalServerError, mapOf("error" to "Error al eliminar usuario: ${e.message}"))
                 }
+            }
             }
 
             // --- CRUD de artistas ---
             post("/artistas") {
+                val principal = call.principal<Usuario>()
+                if (principal == null || !principal.admin) {
+                    call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden crear artistas"))
+                    return@post
+                }
                 try {
                     val multipart = call.receiveMultipart()
                     var nombre: String? = null
@@ -704,7 +751,12 @@ fun Application.configureRouting() {
                 }
             }
 
-            put("/artistas/{id}") {
+            patch("/artistas/{id}") {
+                val principal = call.principal<Usuario>()
+                if (principal == null || !principal.admin) {
+                    call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden editar artistas"))
+                    return@patch
+                }
                 try {
                     val id = call.parameters["id"]?.toIntOrNull()
                     if (id == null) {
@@ -747,6 +799,11 @@ fun Application.configureRouting() {
             }
 
             delete("/artistas/{id}") {
+                val principal = call.principal<Usuario>()
+                if (principal == null || !principal.admin) {
+                    call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden borrar artistas"))
+                    return@delete
+                }
                 try {
                     val id = call.parameters["id"]?.toIntOrNull()
                     if (id == null) {
@@ -763,6 +820,11 @@ fun Application.configureRouting() {
 
             // --- CRUD de álbumes ---
             post("/artistas/{id}/albums") {
+                val principal = call.principal<Usuario>()
+                if (principal == null || !principal.admin) {
+                    call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden crear álbumes"))
+                    return@post
+                }
                 try {
                     val id = call.parameters["id"]?.toIntOrNull()
                     if (id == null) {
@@ -875,7 +937,12 @@ fun Application.configureRouting() {
                 }
             }
 
-            put("/albums/{id}") {
+            patch("/albums/{id}") {
+                val principal = call.principal<Usuario>()
+                if (principal == null || !principal.admin) {
+                    call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden editar álbumes"))
+                    return@patch
+                }
                 try {
                     val id = call.parameters["id"]?.toIntOrNull()
                     if (id == null) {
@@ -928,6 +995,11 @@ fun Application.configureRouting() {
             }
 
             delete("/albums/{id}") {
+                val principal = call.principal<Usuario>()
+                if (principal == null || !principal.admin) {
+                    call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden borrar álbumes"))
+                    return@delete
+                }
                 try {
                     val id = call.parameters["id"]?.toIntOrNull()
                     if (id == null) {
@@ -1039,7 +1111,7 @@ fun Application.configureRouting() {
                 }
             }
 
-            put("/listas/{id}") {
+            patch("/listas/{id}") {
                 try {
                     val id = call.parameters["id"]?.toLongOrNull()
                     if (id == null) {
