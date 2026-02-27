@@ -66,6 +66,12 @@ fun Application.configureRouting() {
     }
     
     routing {
+        // Listar todos los archivos QR
+        get("/qr") {
+            val qrDir = File("archivos/qr").apply { mkdirs() }
+            val archivos = qrDir.listFiles()?.filter { it.isFile }?.map { it.name } ?: emptyList()
+            call.respond(HttpStatusCode.OK, mapOf("archivos" to archivos))
+        }
 
         // --- ENDPOINTS APK ---
         // Subir archivo APK (multipart, campo 'apk')

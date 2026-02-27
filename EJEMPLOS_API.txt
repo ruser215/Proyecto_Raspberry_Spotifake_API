@@ -168,6 +168,12 @@ Para los endpoints protegidos, se debe incluir el token JWT obtenido en el login
   - Devuelve la imagen QR almacenada con ese nombre.
   - **Respuesta (200 OK):** Archivo de imagen.
 
+
+### Listar imágenes QR
+- **GET** `/qr`
+  - Devuelve la lista de todos los archivos QR almacenados.
+  - **Respuesta (200 OK):** `{ "archivos": ["uuid1_qr.png", "uuid2_qr.jpg", ...] }`
+
 ### Eliminar imagen QR
 - **DELETE** `/qr/{nombre}`
   - Elimina la imagen QR almacenada con ese nombre.
