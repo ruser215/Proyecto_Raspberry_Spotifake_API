@@ -504,9 +504,9 @@ fun Application.configureRouting() {
 
                     val deleted = cancionRepository.deleteCancion(id)
                     if (deleted != null) {
-                        // Borrar ficheros locales asociados si existen
+                        // Borrar solo el archivo de audio asociado si existe
                         if (!existing.urlAudio.isNullOrBlank()) deleteLocalFile(existing.urlAudio)
-                        existing.urlPortada?.let { deleteLocalFile(it) }
+                        // No borrar la portada del álbum
                         call.respond(HttpStatusCode.OK, mapOf("message" to "Canción eliminada correctamente"))
                     } else {
                         call.respond(HttpStatusCode.NotFound, mapOf("error" to "Canción no encontrada"))
