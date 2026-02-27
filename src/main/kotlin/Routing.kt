@@ -398,7 +398,7 @@ fun Application.configureRouting() {
 
             patch("/canciones/{id}") {
                 val principal = call.principal<Usuario>()
-                if (principal == null || !principal.admin) {
+                if (principal == null || principal.admin != 1) {
                     call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden editar canciones"))
                     return@patch
                 }
