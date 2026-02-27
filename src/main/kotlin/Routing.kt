@@ -439,65 +439,6 @@ fun Application.configureRouting() {
                     call.respond(HttpStatusCode.OK, mapOf("archivos" to archivos))
                 }
             }
-                        }
-                        is PartData.FileItem -> {
-                            when (part.name) {
-                                "audio" -> urlAudio = saveFile(part, audioDir, "/archivos/audio")
-                                "portada" -> urlPortada = saveFile(part, portadaDir, "/archivos/portadas")
-                            }
-                        }
-                        else -> Unit
-                    }
-                    part.dispose()
-                }
-
-                if (nombre.isNullOrBlank() || artistaId == null || albumId == null || genero == null || urlAudio.isNullOrBlank()) {
-                    call.respond(HttpStatusCode.BadRequest, mapOf("error" to "Faltan campos obligatorios: nombre, artistaId, albumId, genero o audio"))
-                    return@post
-                }
-
-                // --- Validaciones de Integridad ---
-                if (artistaRepository.getArtistaById(artistaId!!) == null) {
-                    call.respond(HttpStatusCode.NotFound, mapOf("error" to "El artista con ID $artistaId no existe"))
-                    return@post
-                }
-                if (albumRepository.getAlbumById(albumId!!) == null) {
-                    call.respond(HttpStatusCode.NotFound, mapOf("error" to "El álbum con ID $albumId no existe"))
-                    return@post
-                }
-                if (generoRepository.getGeneroById(genero!!) == null) {
-                    call.respond(HttpStatusCode.NotFound, mapOf("error" to "el género con ID $genero no existe"))
-                    return@post
-                }
-
-                val cancion = cancionRepository.createCancion(
-                    Cancion(
-                        nombre = nombre!!,
-                        artista = artista,
-                        album = album,
-                        artistaId = artistaId,
-                        albumId = albumId,
-                        genero = genero!!,
-                        likes = likes,
-                        urlAudio = urlAudio!!,
-                        urlPortada = urlPortada
-                    )
-                )
-
-                call.respond(HttpStatusCode.Created, cancion)
-            }
-
-            get("/canciones") {
-                val nombre = call.request.queryParameters["nombre"]
-                val artista = call.request.queryParameters["artista"]
-                val album = call.request.queryParameters["album"]
-                val generoId = call.request.queryParameters["genero"]?.toIntOrNull()
-
-                val canciones = if (nombre.isNullOrBlank() && artista.isNullOrBlank() && album.isNullOrBlank() && generoId == null) {
-                    cancionRepository.getAllCanciones()
-                } else {
-                    cancionRepository.searchCanciones(nombre, artista, album, generoId)
-                }
                 call.respond(HttpStatusCode.OK, canciones)
             }
 
