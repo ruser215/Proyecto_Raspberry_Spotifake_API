@@ -1,5 +1,5 @@
 /**
- * Definición de rutas HTTP de la API.
+ *  Definición de rutas HTTP de la API.
  * Este archivo muestra cómo diseñar endpoints REST en Ktor y cómo conectar
  * la capa web con los repositorios de persistencia.
  */
@@ -352,7 +352,7 @@ fun Application.configureRouting() {
                             HttpStatusCode.BadRequest,
                             mapOf("error" to "ID inválido")
                         )
-                        return@put
+                        return
                     }
                     
                     val updateUsuario = call.receive<UpdateUsuario>()
@@ -480,18 +480,18 @@ fun Application.configureRouting() {
                 val principal = call.principal<Usuario>()
                 if (principal == null || !principal.admin) {
                     call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden editar canciones"))
-                    return@patch
+                    return
                 }
                 val id = call.parameters["id"]?.toIntOrNull()
                 if (id == null) {
                     call.respond(HttpStatusCode.BadRequest, mapOf("error" to "ID inválido"))
-                    return@put
+                    return
                 }
 
                 val existing = cancionRepository.getCancionById(id)
                 if (existing == null) {
                     call.respond(HttpStatusCode.NotFound, mapOf("error" to "Canción no encontrada"))
-                    return@put
+                    return
                 }
 
                 val multipart = call.receiveMultipart()
@@ -535,15 +535,15 @@ fun Application.configureRouting() {
             // --- Validaciones de Integridad para Actualización ---
             if (artistaId != null && artistaRepository.getArtistaById(artistaId!!) == null) {
                 call.respond(HttpStatusCode.NotFound, mapOf("error" to "El artista con ID $artistaId no existe"))
-                return@put
+                return
             }
             if (albumId != null && albumRepository.getAlbumById(albumId!!) == null) {
                 call.respond(HttpStatusCode.NotFound, mapOf("error" to "El álbum con ID $albumId no existe"))
-                return@put
+                return
             }
             if (genero != null && generoRepository.getGeneroById(genero!!) == null) {
                 call.respond(HttpStatusCode.NotFound, mapOf("error" to "El género con ID $genero no existe"))
-                return@put
+                return
             }
 
                 val updated = cancionRepository.updateCancion(
@@ -561,7 +561,7 @@ fun Application.configureRouting() {
 
                 if (updated == null) {
                     call.respond(HttpStatusCode.InternalServerError, mapOf("error" to "Error al actualizar la canción"))
-                    return@put
+                    return
                 }
 
                 if (!newUrlAudio.isNullOrBlank()) {
@@ -755,19 +755,19 @@ fun Application.configureRouting() {
                 val principal = call.principal<Usuario>()
                 if (principal == null || !principal.admin) {
                     call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden editar artistas"))
-                    return@patch
+                    return
                 }
                 try {
                     val id = call.parameters["id"]?.toIntOrNull()
                     if (id == null) {
                         call.respond(HttpStatusCode.BadRequest, mapOf("error" to "ID inválido"))
-                        return@put
+                        return
                     }
 
                     val existing = artistaRepository.getArtistaById(id)
                     if (existing == null) {
                         call.respond(HttpStatusCode.NotFound, mapOf("error" to "Artista no encontrado"))
-                        return@put
+                        return
                     }
 
                     val multipart = call.receiveMultipart()
@@ -941,19 +941,19 @@ fun Application.configureRouting() {
                 val principal = call.principal<Usuario>()
                 if (principal == null || !principal.admin) {
                     call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden editar álbumes"))
-                    return@patch
+                    return
                 }
                 try {
                     val id = call.parameters["id"]?.toIntOrNull()
                     if (id == null) {
                         call.respond(HttpStatusCode.BadRequest, mapOf("error" to "ID inválido"))
-                        return@put
+                        return
                     }
 
                     val existing = albumRepository.getAlbumById(id)
                     if (existing == null) {
                         call.respond(HttpStatusCode.NotFound, mapOf("error" to "Álbum no encontrado"))
-                        return@put
+                        return
                     }
 
                     val multipart = call.receiveMultipart()
@@ -1116,7 +1116,7 @@ fun Application.configureRouting() {
                     val id = call.parameters["id"]?.toLongOrNull()
                     if (id == null) {
                         call.respond(HttpStatusCode.BadRequest, mapOf("error" to "ID inválido"))
-                        return@put
+                        return
                     }
                     val body = call.receive<JsonObject>()
                     val nombre = body["nombre"]?.jsonPrimitive?.content ?: ""
