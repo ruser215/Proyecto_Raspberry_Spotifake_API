@@ -376,11 +376,7 @@ fun Application.configureRouting() {
             }
 
 
-                val principal = call.principal<Usuario>()
-                    if (principal == null || principal.admin != 1) {
-                        call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden gestionar álbumes"))
-                        return
-                    }
+                // Validación de admin debe ir dentro de cada endpoint que lo requiera
 
             get("/canciones/{id}") {
                 val id = call.parameters["id"]?.toIntOrNull()
