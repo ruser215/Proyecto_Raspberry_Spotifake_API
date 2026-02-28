@@ -399,21 +399,29 @@ fun Application.configureRouting() {
             patch("/usuarios/{id}") {
                 val principal = call.principal<JWTPrincipal>()
                 val isAdmin = principal?.getClaim("admin", Int::class) == 1
-                if (!isAdmin) {
-                    call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden editar usuarios"))
-                    return@patch
-                }
+                val currentUserId = principal?.getClaim("id", Long::class)
+                
                 try {
                     val id = call.parameters["id"]?.toLongOrNull()
                     if (id == null) {
-                        call.respond(
-                            HttpStatusCode.BadRequest,
-                            mapOf("error" to "ID inválido")
-                        )
+                        call.respond(HttpStatusCode.BadRequest, mapOf("error" to "ID inválido"))
+                        return@patch
+                    }
+                    
+                    // Allow if admin OR if the user is updating themselves
+                    if (!isAdmin && currentUserId != id) {
+                        call.respond(HttpStatusCode.Forbidden, mapOf("error" to "No tienes permiso para editar este usuario"))
                         return@patch
                     }
                     
                     val updateUsuario = call.receive<UpdateUsuario>()
+                    
+                    // Non-admins cannot change their own admin/premium status
+                    if (!isAdmin) {
+                        updateUsuario.admin = null
+                        updateUsuario.premium = null
+                    }
+                    
                     val usuario = repository.updateUsuario(updateUsuario, id)
                     
                     if (usuario != null) {
@@ -430,6 +438,45 @@ fun Application.configureRouting() {
                         HttpStatusCode.InternalServerError,
                         mapOf("error" to "Error al actualizar usuario: ${e.message}")
                     )
+                }
+            }
+
+            patch("/usuarios/{id}/perfil") {
+                val principal = call.principal<JWTPrincipal>()
+                val currentUserId = principal?.getClaim("id", Long::class)
+                
+                val id = call.parameters["id"]?.toLongOrNull()
+                if (id == null) {
+                    call.respond(HttpStatusCode.BadRequest, mapOf("error" to "ID inválido"))
+                    return@patch
+                }
+
+                if (currentUserId != id) {
+                    call.respond(HttpStatusCode.Forbidden, mapOf("error" to "No puedes cambiar la foto de otro usuario"))
+                    return@patch
+                }
+
+                val multipart = call.receiveMultipart()
+                var urlImagen: String? = null
+                val perfilDir = File("archivos/perfiles").apply { mkdirs() }
+
+                multipart.forEachPart { part ->
+                    if (part is PartData.FileItem && part.name == "imagen") {
+                        urlImagen = saveFile(part, perfilDir, "/archivos/perfiles")
+                    }
+                    part.dispose()
+                }
+
+                if (urlImagen != null) {
+                    val usuario = repository.updateUsuario(UpdateUsuario(urlImagen = urlImagen), id)
+                    if (usuario != null) {
+                        usuario.pass = ""
+                        call.respond(HttpStatusCode.OK, usuario)
+                    } else {
+                        call.respond(HttpStatusCode.InternalServerError, mapOf("error" to "Error al actualizar perfil"))
+                    }
+                } else {
+                    call.respond(HttpStatusCode.BadRequest, mapOf("error" to "No se recibió ninguna imagen"))
                 }
             }
 
@@ -722,6 +769,31 @@ fun Application.configureRouting() {
                     }
                 } catch (e: Exception) {
                     call.respond(HttpStatusCode.InternalServerError, mapOf("error" to "Error al obtener género: ${e.message}"))
+                }
+            }
+
+            patch("/generos/{id}") {
+                val principal = call.principal<JWTPrincipal>()
+                val isAdmin = principal?.getClaim("admin", Int::class) == 1
+                if (!isAdmin) {
+                    call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden editar géneros"))
+                    return@patch
+                }
+                val id = call.parameters["id"]?.toIntOrNull()
+                if (id == null) {
+                    call.respond(HttpStatusCode.BadRequest, mapOf("error" to "ID inválido"))
+                    return@patch
+                }
+                try {
+                    val genero = call.receive<Genero>()
+                    val updated = generoRepository.updateGenero(id, genero.nombre)
+                    if (updated != null) {
+                        call.respond(HttpStatusCode.OK, updated)
+                    } else {
+                        call.respond(HttpStatusCode.NotFound, mapOf("error" to "Género no encontrado"))
+                    }
+                } catch (e: Exception) {
+                    call.respond(HttpStatusCode.InternalServerError, mapOf("error" to "Error al actualizar género: ${e.message}"))
                 }
             }
 
