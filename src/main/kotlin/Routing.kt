@@ -61,6 +61,7 @@ fun Application.configureRouting() {
             .withIssuer(jwtDomain)
             .withClaim("correo", usuario.correo)
             .withClaim("id", usuario.id)
+            .withClaim("admin", usuario.admin)
             .withExpiresAt(Date(System.currentTimeMillis() + 3600000 * 24)) // 24 horas
             .sign(Algorithm.HMAC256(jwtSecret))
     }
