@@ -56,13 +56,7 @@ fun Application.configureRouting() {
     val jwtAudience = dotenv["JWT_AUDIENCE"] ?: "jwt-audience"
 
     fun generateToken(usuario: Usuario): String {
-        val adminInt = when (usuario.admin) {
-            1 -> 1
-            0 -> 0
-            true -> 1
-            false -> 0
-            else -> 0
-        }
+        val adminInt = if (usuario.admin == 1) 1 else 0
         return JWT.create()
             .withAudience(jwtAudience)
             .withIssuer(jwtDomain)
