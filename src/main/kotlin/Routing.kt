@@ -71,7 +71,10 @@ fun Application.configureRouting() {
         // Endpoint para agregar canciones (solo admin)
         post("/canciones") {
             val principal = call.principal<JWTPrincipal>()
-            val adminClaim = principal?.getClaim("admin", Int::class)
+            val adminInt = principal?.getClaim("admin", Int::class)
+            val adminLong = principal?.getClaim("admin", Long::class)?.toInt()
+            val adminStr = principal?.getClaim("admin", String::class)?.toIntOrNull()
+            val adminClaim = adminInt ?: adminLong ?: adminStr
             println("[DEBUG] Valor del claim 'admin': $adminClaim")
             val isAdmin = adminClaim == 1
             if (!isAdmin) {
