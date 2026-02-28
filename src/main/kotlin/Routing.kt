@@ -103,8 +103,9 @@ fun Application.configureRouting() {
         // --- ENDPOINTS PROTEGIDOS ---
         authenticate("auth-jwt") {
                         delete("/usuarios/{id}") {
-                            val principal = call.principal<Usuario>()
-                            if (principal == null || principal.admin != 1) {
+                            val principal = call.principal<JWTPrincipal>()
+                            val isAdmin = principal?.getClaim("admin", Int::class) == 1
+                            if (!isAdmin) {
                                 call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden eliminar usuarios"))
                                 return@delete
                             }
@@ -275,8 +276,9 @@ fun Application.configureRouting() {
 
         authenticate("auth-jwt") {
             get("/usuarios") {
-                val principal = call.principal<Usuario>()
-                if (principal == null || principal.admin != 1) {
+                val principal = call.principal<JWTPrincipal>()
+                val isAdmin = principal?.getClaim("admin", Int::class) == 1
+                if (!isAdmin) {
                     call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden listar usuarios"))
                     return@get
                 }
@@ -399,8 +401,9 @@ fun Application.configureRouting() {
             }
 
             patch("/canciones/{id}") {
-                val principal = call.principal<Usuario>()
-                if (principal == null || principal.admin != 1) {
+                val principal = call.principal<JWTPrincipal>()
+                val isAdmin = principal?.getClaim("admin", Int::class) == 1
+                if (!isAdmin) {
                     call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden editar canciones"))
                     return@patch
                 }
@@ -497,8 +500,9 @@ fun Application.configureRouting() {
             }
 
             delete("/canciones/{id}") {
-                val principal = call.principal<Usuario>()
-                if (principal == null || principal.admin == 0) {
+                val principal = call.principal<JWTPrincipal>()
+                val isAdmin = principal?.getClaim("admin", Int::class) == 1
+                if (!isAdmin) {
                     call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden borrar canciones"))
                     return@delete
                 }
@@ -564,8 +568,9 @@ fun Application.configureRouting() {
 
             // --- CRUD de artistas ---
             post("/artistas") {
-                val principal = call.principal<Usuario>()
-                if (principal == null || principal.admin == 0) {
+                val principal = call.principal<JWTPrincipal>()
+                val isAdmin = principal?.getClaim("admin", Int::class) == 1
+                if (!isAdmin) {
                     call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden crear artistas"))
                     return@post
                 }
@@ -626,8 +631,9 @@ fun Application.configureRouting() {
             }
 
             patch("/artistas/{id}") {
-                val principal = call.principal<Usuario>()
-                if (principal == null || principal.admin == 0) {
+                val principal = call.principal<JWTPrincipal>()
+                val isAdmin = principal?.getClaim("admin", Int::class) == 1
+                if (!isAdmin) {
                     call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden editar artistas"))
                     return@patch
                 }
@@ -673,8 +679,9 @@ fun Application.configureRouting() {
             }
 
             delete("/artistas/{id}") {
-                val principal = call.principal<Usuario>()
-                if (principal == null || principal.admin != 1) {
+                val principal = call.principal<JWTPrincipal>()
+                val isAdmin = principal?.getClaim("admin", Int::class) == 1
+                if (!isAdmin) {
                     call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden borrar artistas"))
                     return@delete
                 }
@@ -694,8 +701,9 @@ fun Application.configureRouting() {
 
             // --- CRUD de álbumes ---
             post("/artistas/{id}/albums") {
-                val principal = call.principal<Usuario>()
-                if (principal == null || principal.admin != 1) {
+                val principal = call.principal<JWTPrincipal>()
+                val isAdmin = principal?.getClaim("admin", Int::class) == 1
+                if (!isAdmin) {
                     call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden crear álbumes"))
                     return@post
                 }
@@ -812,8 +820,9 @@ fun Application.configureRouting() {
             }
 
             patch("/albums/{id}") {
-                val principal = call.principal<Usuario>()
-                if (principal == null || principal.admin == 0) {
+                val principal = call.principal<JWTPrincipal>()
+                val isAdmin = principal?.getClaim("admin", Int::class) == 1
+                if (!isAdmin) {
                     call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden editar álbumes"))
                     return@patch
                 }
@@ -869,8 +878,9 @@ fun Application.configureRouting() {
             }
 
             delete("/albums/{id}") {
-                val principal = call.principal<Usuario>()
-                if (principal == null || principal.admin == 0) {
+                val principal = call.principal<JWTPrincipal>()
+                val isAdmin = principal?.getClaim("admin", Int::class) == 1
+                if (!isAdmin) {
                     call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden borrar álbumes"))
                     return@delete
                 }
