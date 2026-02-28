@@ -70,9 +70,11 @@ fun Application.configureRouting() {
         // Endpoint para agregar canciones (solo admin)
         post("/canciones") {
             val principal = call.principal<JWTPrincipal>()
-            val isAdmin = principal?.getClaim("admin", Int::class) == 1
+            val adminClaim = principal?.getClaim("admin", Int::class)
+            println("[DEBUG] Valor del claim 'admin': $adminClaim")
+            val isAdmin = adminClaim == 1
             if (!isAdmin) {
-                call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden agregar canciones"))
+                call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden agregar canciones", "adminClaim" to adminClaim))
                 return@post
             }
             val multipart = call.receiveMultipart()
