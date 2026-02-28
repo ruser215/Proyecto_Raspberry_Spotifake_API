@@ -68,87 +68,7 @@ fun Application.configureRouting() {
     }
     
     routing {
-        // Endpoint para agregar canciones (solo admin)
-        post("/canciones") {
-            val principal = call.principal<JWTPrincipal>()
-            val adminClaim = principal?.payload?.getClaim("admin")?.asInt()
-            println("[DEBUG] Valor del claim 'admin': $adminClaim")
-            val isAdmin = adminClaim == 1
-            if (!isAdmin) {
-                call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden agregar canciones", "adminClaim" to adminClaim))
-                return@post
-            }
-            val multipart = call.receiveMultipart()
-            var nombre: String? = null
-            var artista: String? = null
-            var album: String? = null
-            var artistaId: Int? = null
-            var albumId: Int? = null
-            var genero: Int? = null
-            var likes: Int? = null
-            var urlAudio: String? = null
-            var urlPortada: String? = null
-            val audioDir = File("archivos/audio").apply { mkdirs() }
-            val portadaDir = File("archivos/portadas").apply { mkdirs() }
-            multipart.forEachPart { part ->
-                when (part) {
-                    is PartData.FormItem -> {
-                        when (part.name) {
-                            "nombre" -> nombre = part.value
-                            "artista" -> artista = part.value
-                            "album" -> album = part.value
-                            "artistaId" -> artistaId = part.value.toIntOrNull()
-                            "albumId" -> albumId = part.value.toIntOrNull()
-                            "genero" -> genero = part.value.toIntOrNull()
-                            "likes" -> likes = part.value.toIntOrNull()
-                        }
-                    }
-                    is PartData.FileItem -> {
-                        when (part.name) {
-                            "audio" -> urlAudio = saveFile(part, audioDir, "/archivos/audio")
-                            "portada" -> urlPortada = saveFile(part, portadaDir, "/archivos/portadas")
-                        }
-                    }
-                    else -> Unit
-                }
-                part.dispose()
-            }
-            // Validaciones de integridad
-            if (artistaId != null && artistaRepository.getArtistaById(artistaId!!) == null) {
-                call.respond(HttpStatusCode.NotFound, mapOf("error" to "El artista con ID $artistaId no existe"))
-                return@post
-            }
-            if (albumId != null && albumRepository.getAlbumById(albumId!!) == null) {
-                call.respond(HttpStatusCode.NotFound, mapOf("error" to "El álbum con ID $albumId no existe"))
-                return@post
-            }
-            if (genero != null && generoRepository.getGeneroById(genero!!) == null) {
-                call.respond(HttpStatusCode.NotFound, mapOf("error" to "El género con ID $genero no existe"))
-                return@post
-            }
-            if (nombre.isNullOrBlank()) {
-                call.respond(HttpStatusCode.BadRequest, mapOf("error" to "El nombre de la canción es obligatorio"))
-                return@post
-            }
-            try {
-                val created = cancionRepository.createCancion(
-                    Cancion(
-                        nombre = nombre!!,
-                        artista = artista,
-                        album = album,
-                        artistaId = artistaId,
-                        albumId = albumId,
-                        genero = genero ?: 0,
-                        likes = likes ?: 0,
-                        urlAudio = urlAudio ?: "",
-                        urlPortada = urlPortada
-                    )
-                )
-                call.respond(HttpStatusCode.Created, created)
-            } catch (e: Exception) {
-                call.respond(HttpStatusCode.InternalServerError, mapOf("error" to "Error al crear canción: ${e.message}"))
-            }
-        }
+
         // Listar todos los archivos QR (protegido, solo dentro de authenticate)
 
         // --- ENDPOINTS PÚBLICOS ---
@@ -467,6 +387,85 @@ fun Application.configureRouting() {
 
 
                 // Validación de admin debe ir dentro de cada endpoint que lo requiera
+
+            post("/canciones") {
+                val principal = call.principal<JWTPrincipal>()
+                val isAdmin = principal?.getClaim("admin", Int::class) == 1
+                if (!isAdmin) {
+                    call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden agregar canciones"))
+                    return@post
+                }
+                val multipart = call.receiveMultipart()
+                var nombre: String? = null
+                var artista: String? = null
+                var album: String? = null
+                var artistaId: Int? = null
+                var albumId: Int? = null
+                var genero: Int? = null
+                var likes: Int? = null
+                var urlAudio: String? = null
+                var urlPortada: String? = null
+                val audioDir = File("archivos/audio").apply { mkdirs() }
+                val portadaDir = File("archivos/portadas").apply { mkdirs() }
+                multipart.forEachPart { part ->
+                    when (part) {
+                        is PartData.FormItem -> {
+                            when (part.name) {
+                                "nombre" -> nombre = part.value
+                                "artista" -> artista = part.value
+                                "album" -> album = part.value
+                                "artistaId" -> artistaId = part.value.toIntOrNull()
+                                "albumId" -> albumId = part.value.toIntOrNull()
+                                "genero" -> genero = part.value.toIntOrNull()
+                                "likes" -> likes = part.value.toIntOrNull()
+                            }
+                        }
+                        is PartData.FileItem -> {
+                            when (part.name) {
+                                "audio" -> urlAudio = saveFile(part, audioDir, "/archivos/audio")
+                                "portada" -> urlPortada = saveFile(part, portadaDir, "/archivos/portadas")
+                            }
+                        }
+                        else -> Unit
+                    }
+                    part.dispose()
+                }
+                // Validaciones de integridad
+                if (artistaId != null && artistaRepository.getArtistaById(artistaId!!) == null) {
+                    call.respond(HttpStatusCode.NotFound, mapOf("error" to "El artista con ID $artistaId no existe"))
+                    return@post
+                }
+                if (albumId != null && albumRepository.getAlbumById(albumId!!) == null) {
+                    call.respond(HttpStatusCode.NotFound, mapOf("error" to "El álbum con ID $albumId no existe"))
+                    return@post
+                }
+                if (genero != null && generoRepository.getGeneroById(genero!!) == null) {
+                    call.respond(HttpStatusCode.NotFound, mapOf("error" to "El género con ID $genero no existe"))
+                    return@post
+                }
+                if (nombre.isNullOrBlank()) {
+                    call.respond(HttpStatusCode.BadRequest, mapOf("error" to "El nombre de la canción es obligatorio"))
+                    return@post
+                }
+                try {
+                    val created = cancionRepository.createCancion(
+                        Cancion(
+                            nombre = nombre!!,
+                            artista = artista,
+                            album = album,
+                            artistaId = artistaId,
+                            albumId = albumId,
+                            genero = genero ?: 0,
+                            likes = likes ?: 0,
+                            urlAudio = urlAudio ?: "",
+                            urlPortada = urlPortada
+                        )
+                    )
+                    call.respond(HttpStatusCode.Created, created)
+                } catch (e: Exception) {
+                    call.respond(HttpStatusCode.InternalServerError, mapOf("error" to "Error al crear canción: ${e.message}"))
+                }
+            }
 
             get("/canciones/{id}") {
                 val id = call.parameters["id"]?.toIntOrNull()
