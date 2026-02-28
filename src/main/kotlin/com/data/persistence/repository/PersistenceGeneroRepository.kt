@@ -25,6 +25,13 @@ class PersistenceGeneroRepository : GeneroInterface {
         GeneroDao.findById(id)?.toGenero()
     }
 
+    override suspend fun updateGenero(id: Int, nombre: String): Genero? = suspendTransaction {
+        val existing = GeneroDao.findById(id)
+        existing?.apply {
+            this.nombre = nombre
+        }?.toGenero()
+    }
+
     override suspend fun deleteGenero(id: Int): Boolean = suspendTransaction {
         val deleted = GeneroTable.deleteWhere { GeneroTable.id eq id }
         deleted == 1
