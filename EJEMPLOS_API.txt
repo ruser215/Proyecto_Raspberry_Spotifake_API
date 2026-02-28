@@ -1,214 +1,486 @@
-# SPOTIFAKE API - GUÍA DE USO ACTUALIZADA
+# SPOTIFAKE API - MANUAL TÉCNICO COMPLETO (v3.0)
 
-Guía completa de todos los endpoints, métodos y formatos de la API Spotifake.
+Este documento contiene la especificación completa de todos los endpoints de la API, detallando el formato de envío y ejemplos de respuesta.
 
 ---
 
-## 1. INFORMACIÓN GENERAL
+## 1. CONFIGURACIÓN BASE
 
-- **Base URL:** http://localhost:8001/api
-- **Adminer (DB):** http://localhost:8080
-  - Usuario: admin
-  - Password: s8n38DGB8d72
-
-### CABECERAS (HEADERS)
-Para endpoints protegidos, incluye el token JWT:
-`Authorization: Bearer <tu_token_aqui>`
+- **Base URL:** `http://localhost:8001/api`
+- **Puerto Nginx (Raspberry):** `90`
+- **Header obligatorio para rutas protegidas:** 
+  `Authorization: Bearer <TU_TOKEN>`
 
 ---
 
 ## 2. USUARIOS Y AUTENTICACIÓN
 
-### Registro
-**POST** `/register`  _(Usuario normal)_
-- **Envío:** JSON
+### Registro de Usuario
+- **Endpoint:** `POST /register`
+- **Body (JSON):** 
 ```json
 {
-  "username": "nombre_usuario",
-  "correo": "usuario@mail.com",
-  "pass": "password123"
+  "username": "tomas",
+  "correo": "tomas@red.com",
+  "pass": "1234"
 }
 ```
-- **Respuesta (201 Created):**
-```json
-{
-  "id": 1,
-  "username": "usuario_ejemplo",
-  "correo": "usuario@mail.com",
-  "admin": 0,
-  "premium": 0,
-  "pass": "",
-  "token": "eyJhbGciOi...",
-  "urlImagen": null
-}
-```
+- **Response (201 Created):** Objeto usuario con token.
 
-### Login
-**POST** `/login`  _(Usuario normal)_
-- **Envío:** JSON
-```json
-{
-  "correo": "usuario@mail.com",
-  "pass": "password123"
-}
-```
-- **Respuesta (200 OK):**
-```json
-{
-  "id": 1,
-  "username": "usuario_ejemplo",
-  "correo": "usuario@mail.com",
-  "admin": 0,
-  "premium": 0,
-  "pass": "",
-  "token": "eyJhbGciOi...",
-  "urlImagen": "/archivos/perfiles/uuid_foto.jpg"
-}
-```
 
-### CRUD Usuarios
-- **GET** `/usuarios` _(Solo admin)_
-  - **Respuesta:** Array de usuarios (JSON)
-- **GET** `/usuarios/{id}` _(Solo admin)_
-  - **Respuesta:** Usuario (JSON)
-- **PATCH** `/usuarios/{id}` _(Solo admin)_
-  - **Envío:** JSON parcial
-    ```json
-    { "username": "nuevo_nombre", "premium": 1 }
-    ```
-  - **Respuesta:** Usuario actualizado (JSON)
-- **DELETE** `/usuarios/{id}` _(Solo admin)_
-  - **Respuesta:** Mensaje de éxito o error (JSON)
-
-### Buscar usuario por correo
-- **GET** `/usuarios/correo/{correo}` _(Usuario normal y admin)_
-  - **Respuesta:** Usuario (JSON)
+# SPOTIFAKE API - EJEMPLOS DE USO APK Y QR
 
 ---
 
-## 3. GESTIÓN DE GENEROS
-- **GET** `/generos` _(Usuario normal y admin)_
-- **GET** `/generos/{id}` _(Usuario normal y admin)_
-- **POST** `/generos` _(Usuario normal y admin)_
-- **DELETE** `/generos/{id}` _(Usuario normal y admin)_
+## ENDPOINTS APK
 
----
+### Subir APK
+- **Endpoint:** `POST /apk`
+- **Formato de envío:** Form-Data
 
-## 4. ARTISTAS Y ÁLBUMES
+  # SPOTIFAKE API - EJEMPLOS DE USO COMPLETO
 
-### Artistas
-- **GET** `/artistas` _(Usuario normal y admin)_
-  - **Respuesta:** Array de artistas (JSON)
-- **GET** `/artistas/{id}` _(Usuario normal y admin)_
-  - **Respuesta:** Artista (JSON)
-- **POST** `/artistas` _(Solo admin)_
-  - **Envío:** FormData (multipart)
-    - Campos: `nombre` (string), `foto` (archivo)
-  - **Respuesta:** Artista creado (JSON)
-- **PATCH** `/artistas/{id}` _(Solo admin)_
-  - **Envío:** FormData (multipart)
-    - Campos opcionales: `nombre` (string), `foto` (archivo)
-  - **Respuesta:** Artista actualizado (JSON)
-- **DELETE** `/artistas/{id}` _(Solo admin)_
-  - **Respuesta:** Mensaje de éxito o error (JSON)
+  ---
 
-### Álbumes
-- **GET** `/albums` _(Usuario normal y admin)_
-  - **Respuesta:** Array de álbumes (JSON)
-- **GET** `/artistas/{id}/albums` _(Usuario normal y admin)_
-  - **Respuesta:** Array de álbumes (JSON)
-- **GET** `/albums/{id}` _(Usuario normal y admin)_
-  - **Respuesta:** Álbum (JSON)
-- **GET** `/albums/{id}/canciones` _(Usuario normal y admin)_
-  - **Respuesta:** Array de canciones (JSON)
-- **POST** `/artistas/{id}/albums` _(Solo admin)_
-  - **Envío:** FormData (multipart)
-    - Campos: `nombre` (string), `portada` (archivo)
-  - **Respuesta:** Álbum creado (JSON)
-- **PATCH** `/albums/{id}` _(Solo admin)_
-  - **Envío:** FormData (multipart)
-    - Campos opcionales: `nombre` (string), `portada` (archivo), `artistaId` (int)
-  - **Respuesta:** Álbum actualizado (JSON)
-- **DELETE** `/albums/{id}` _(Solo admin)_
-  - **Respuesta:** Mensaje de éxito o error (JSON)
+  ## USUARIOS Y AUTENTICACIÓN
 
----
+  ### Registro de Usuario
+  - **Endpoint:** `POST /register`
+  - **Body (JSON):**
+  ```json
+  {
+    "username": "tomas",
+    "correo": "tomas@red.com",
+    "pass": "1234"
+  }
+  ```
+  - **Respuesta:**
+  ```json
+  {
+    "id": 1,
+    "username": "tomas",
+    "correo": "tomas@red.com",
+    "token": "<TOKEN>"
+  }
+  ```
 
-## 5. CANCIONES
+  ### Login
+  - **Endpoint:** `POST /login`
+  - **Body (JSON):**
+  ```json
+  {
+    "correo": "tomas@red.com",
+    "pass": "1234"
+  }
+  ```
+  - **Respuesta:**
+  ```json
+  {
+    "id": 1,
+    "username": "tomas",
+    "correo": "tomas@red.com",
+    "token": "<TOKEN>"
+  }
+  ```
 
-### CRUD Canciones
-- **GET** `/canciones` _(Usuario normal y admin)_
-  - **Respuesta:** Array de canciones (JSON)
-- **GET** `/canciones/{id}` _(Usuario normal y admin)_
-  - **Respuesta:** Canción (JSON)
-- **POST** `/canciones` _(Solo admin)_
-  - **Envío:** FormData (multipart)
-    - Campos: `nombre` (string), `artistaId` (int), `albumId` (int), `genero` (int), `audio` (archivo), `portada` (archivo, opcional), `likes` (int, opcional)
-  - **Respuesta:** Canción creada (JSON)
-- **PATCH** `/canciones/{id}` _(Solo admin)_
-  - **Envío:** FormData (multipart)
-    - Campos opcionales: igual que POST
-  - **Respuesta:** Canción actualizada (JSON)
-- **DELETE** `/canciones/{id}` _(Solo admin)_
-  - **Respuesta:** Mensaje de éxito o error (JSON)
+  ---
 
----
+  ## APK Y QR
 
-## 6. LISTAS DE REPRODUCCIÓN
-- **POST** `/listas` _(Usuario normal y admin)_
-- **GET** `/usuarios/{id}/listas` _(Usuario normal y admin)_
-- **GET** `/listas/{id}/canciones` _(Usuario normal y admin)_
-- **PATCH** `/listas/{id}` _(Usuario normal y admin)_
-- **DELETE** `/listas/{id}` _(Usuario normal y admin)_
-- **POST** `/listas/{id}/canciones` _(Usuario normal y admin)_
-- **DELETE** `/listas/{idLista}/canciones/{idCancion}` _(Usuario normal y admin)_
+  ### Subir APK
+  - **Endpoint:** `POST /apk`
+  - **Formato de envío:** Form-Data
+    - `apk`: [Archivo .apk]
+  - **Ejemplo con curl:**
+  ```bash
+  curl -X POST http://localhost:8001/apk \
+    -H "Authorization: Bearer <TU_TOKEN>" \
+    -F "apk=@/ruta/app.apk"
+  ```
+  - **Respuesta:**
+  ```json
+  {
+    "url": "/archivos/apk/app.apk"
+  }
+  ```
 
----
+  ### Listar APK
+  - **Endpoint:** `GET /apk`
+  - **Ejemplo con curl:**
+  ```bash
+  curl -X GET http://localhost:8001/apk -H "Authorization: Bearer <TU_TOKEN>"
+  ```
+  - **Respuesta:**
+  ```json
+  {
+    "archivos": ["app.apk", "demo.apk"]
+  }
+  ```
 
-## 7. GESTIÓN DE IMÁGENES QR
-- **POST** `/qr` _(Solo admin)_
-  - **Envío:** FormData (multipart)
-    - Campo: `qr` (archivo imagen)
-  - **Respuesta:** URL de la imagen subida (JSON)
-- **GET** `/qr/{nombre}` _(Público)_
-  - **Respuesta:** Imagen QR (archivo)
-- **GET** `/qr` _(Solo admin)_
-  - **Respuesta:** Array de nombres de imágenes (JSON)
-- **DELETE** `/qr/{nombre}` _(Solo admin)_
-  - **Respuesta:** Mensaje de éxito o error (JSON)
+  ### Descargar APK
+  - **Endpoint:** `GET /apk/{nombre}`
+  - **Ejemplo con curl:**
+  ```bash
+  curl -O http://localhost:8001/apk/app.apk
+  ```
+  - **Respuesta:** Descarga el archivo APK.
 
----
+  ### Eliminar APK
+  - **Endpoint:** `DELETE /apk/{nombre}`
+  - **Ejemplo con curl:**
+  ```bash
+  curl -X DELETE http://localhost:8001/apk/app.apk -H "Authorization: Bearer <TU_TOKEN>"
+  ```
+  - **Respuesta:**
+  ```json
+  {
+    "message": "Archivo APK eliminado correctamente"
+  }
+  ```
 
-## 8. GESTIÓN DE ARCHIVOS APK
-- **POST** `/apk` _(Solo admin)_
-  - **Envío:** FormData (multipart)
-    - Campo: `apk` (archivo)
-  - **Respuesta:** URL del archivo subido (JSON)
-- **GET** `/apk/{nombre}` _(Público)_
-  - **Respuesta:** Archivo APK (descarga)
-- **GET** `/apk` _(Solo admin)_
-  - **Respuesta:** Array de nombres de archivos APK (JSON)
-- **DELETE** `/apk/{nombre}` _(Solo admin)_
-  - **Respuesta:** Mensaje de éxito o error (JSON)
+  ### Subir QR
+  - **Endpoint:** `POST /qr`
+  - **Formato de envío:** Form-Data
+    - `qr`: [Archivo Imagen]
+  - **Ejemplo con curl:**
+  ```bash
+  curl -X POST http://localhost:8001/qr \
+    -H "Authorization: Bearer <TU_TOKEN>" \
+    -F "qr=@/ruta/qr.png"
+  ```
+  - **Respuesta:**
+  ```json
+  {
+    "url": "/archivos/qr/qr.png"
+  }
+  ```
 
----
+  ### Listar QR
+  - **Endpoint:** `GET /qr`
+  - **Ejemplo con curl:**
+  ```bash
+  curl -X GET http://localhost:8001/qr -H "Authorization: Bearer <TU_TOKEN>"
+  ```
+  - **Respuesta:**
+  ```json
+  {
+    "archivos": ["qr.png", "demo.png"]
+  }
+  ```
 
-## 9. CÓDIGOS DE ESTADO (HTTP STATUS)
+  ### Descargar QR
+  - **Endpoint:** `GET /qr/{nombre}`
+  - **Ejemplo con curl:**
+  ```bash
+  curl -O http://localhost:8001/qr/qr.png
+  ```
+  - **Respuesta:** Descarga el archivo imagen QR.
 
-- **200 OK**: Operación exitosa.
-- **201 Created**: Recurso creado.
-- **400 Bad Request**: Campos inválidos o faltantes.
-- **401 Unauthorized**: Token faltante o login fallido.
-- **403 Forbidden**: Acción no permitida (no admin).
-- **404 Not Found**: Recurso no existe.
-- **409 Conflict**: Conflicto de datos.
-- **500 Internal Server Error**: Error interno.
+  ### Eliminar QR
+  - **Endpoint:** `DELETE /qr/{nombre}`
+  - **Ejemplo con curl:**
+  ```bash
+  curl -X DELETE http://localhost:8001/qr/qr.png -H "Authorization: Bearer <TU_TOKEN>"
+  ```
+  - **Respuesta:**
+  ```json
+  {
+    "message": "Archivo eliminado correctamente"
+  }
+  ```
 
----
+  ---
 
-## 10. NOTAS DE SEGURIDAD Y ROLES
+  ## USUARIOS (PROTEGIDO)
 
-- Solo los administradores pueden crear, editar o borrar usuarios, canciones, artistas y álbumes.
-- Los endpoints públicos (descarga de QR y APK) no requieren autenticación.
-- El resto de acciones requieren token JWT válido.
-- Fecha de actualización: 27 de febrero de 2026
+  ### Listar usuarios
+  - **Endpoint:** `GET /usuarios`
+  - **Ejemplo con curl:**
+  ```bash
+  curl -X GET http://localhost:8001/usuarios -H "Authorization: Bearer <TU_TOKEN>"
+  ```
+  - **Respuesta:**
+  ```json
+  [
+    {
+      "id": 1,
+      "username": "tomas",
+      "correo": "tomas@red.com"
+    },
+    ...
+  ]
+  ```
+
+  ### Ver usuario por ID
+  - **Endpoint:** `GET /usuarios/{id}`
+  - **Ejemplo con curl:**
+  ```bash
+  curl -X GET http://localhost:8001/usuarios/1 -H "Authorization: Bearer <TU_TOKEN>"
+  ```
+  - **Respuesta:**
+  ```json
+  {
+    "id": 1,
+    "username": "tomas",
+    "correo": "tomas@red.com"
+  }
+  ```
+
+  ### Eliminar usuario
+  - **Endpoint:** `DELETE /usuarios/{id}`
+  - **Ejemplo con curl:**
+  ```bash
+  curl -X DELETE http://localhost:8001/usuarios/1 -H "Authorization: Bearer <TU_TOKEN>"
+  ```
+  - **Respuesta:**
+  ```json
+  {
+    "message": "Usuario eliminado correctamente"
+  }
+  ```
+
+  ---
+
+  ## CANCIONES
+
+  ### Crear canción
+  - **Endpoint:** `POST /canciones`
+  - **Formato de envío:** Form-Data
+    - `nombre`, `artistaId`, `albumId`, `genero`, `audio`, `portada`
+  - **Ejemplo con curl:**
+  ```bash
+  curl -X POST http://localhost:8001/canciones \
+    -H "Authorization: Bearer <TU_TOKEN>" \
+    -F "nombre=Highway to Hell" \
+    -F "artistaId=2" \
+    -F "albumId=1" \
+    -F "genero=1" \
+    -F "audio=@/ruta/audio.mp3" \
+    -F "portada=@/ruta/portada.png"
+  ```
+  - **Respuesta:**
+  ```json
+  {
+    "id": 5,
+    "nombre": "Highway to Hell",
+    "urlAudio": "/archivos/audio/xxx.mp3",
+    "urlPortada": "/archivos/portadas/xxx.png"
+  }
+  ```
+
+  ### Buscar canciones
+  - **Endpoint:** `GET /canciones?nombre=Highway&artista=AC`
+  - **Ejemplo con curl:**
+  ```bash
+  curl -X GET "http://localhost:8001/canciones?nombre=Highway&artista=AC" -H "Authorization: Bearer <TU_TOKEN>"
+  ```
+  - **Respuesta:** Array de canciones que coincidan.
+
+  ### Eliminar canción
+  - **Endpoint:** `DELETE /canciones/{id}`
+  - **Ejemplo con curl:**
+  ```bash
+  curl -X DELETE http://localhost:8001/canciones/5 -H "Authorization: Bearer <TU_TOKEN>"
+  ```
+  - **Respuesta:**
+  ```json
+  {
+    "message": "Canción eliminada correctamente"
+  }
+  ```
+
+  ---
+
+  ## GÉNEROS
+
+  ### Crear género
+  - **Endpoint:** `POST /generos`
+  - **Body (JSON):**
+  ```json
+  {
+    "nombre": "Rock"
+  }
+  ```
+  - **Respuesta:**
+  ```json
+  {
+    "id": 1,
+    "nombre": "Rock"
+  }
+  ```
+
+  ### Listar géneros
+  - **Endpoint:** `GET /generos`
+  - **Ejemplo con curl:**
+  ```bash
+  curl -X GET http://localhost:8001/generos -H "Authorization: Bearer <TU_TOKEN>"
+  ```
+  - **Respuesta:**
+  ```json
+  [
+    { "id": 1, "nombre": "Rock" },
+    ...
+  ]
+  ```
+
+  ### Eliminar género
+  - **Endpoint:** `DELETE /generos/{id}`
+  - **Ejemplo con curl:**
+  ```bash
+  curl -X DELETE http://localhost:8001/generos/1 -H "Authorization: Bearer <TU_TOKEN>"
+  ```
+  - **Respuesta:**
+  ```json
+  {
+    "message": "Género eliminado"
+  }
+  ```
+
+  ---
+
+  ## ARTISTAS
+
+  ### Crear artista
+  - **Endpoint:** `POST /artistas`
+  - **Formato de envío:** Form-Data
+    - `nombre`, `foto`
+  - **Ejemplo con curl:**
+  ```bash
+  curl -X POST http://localhost:8001/artistas \
+    -H "Authorization: Bearer <TU_TOKEN>" \
+    -F "nombre=AC/DC" \
+    -F "foto=@/ruta/foto.png"
+  ```
+  - **Respuesta:**
+  ```json
+  {
+    "id": 2,
+    "nombre": "AC/DC",
+    "fotoUrl": "/archivos/artistas/xxx.png"
+  }
+  ```
+
+  ### Listar artistas
+  - **Endpoint:** `GET /artistas`
+  - **Ejemplo con curl:**
+  ```bash
+  curl -X GET http://localhost:8001/artistas -H "Authorization: Bearer <TU_TOKEN>"
+  ```
+  - **Respuesta:** Array de artistas.
+
+  ### Eliminar artista
+  - **Endpoint:** `DELETE /artistas/{id}`
+  - **Ejemplo con curl:**
+  ```bash
+  curl -X DELETE http://localhost:8001/artistas/2 -H "Authorization: Bearer <TU_TOKEN>"
+  ```
+  - **Respuesta:**
+  ```json
+  {
+    "message": "Artista eliminado"
+  }
+  ```
+
+  ---
+
+  ## ÁLBUMES
+
+  ### Crear álbum
+  - **Endpoint:** `POST /artistas/{id}/albums`
+  - **Formato de envío:** Form-Data
+    - `nombre`, `portada`
+  - **Ejemplo con curl:**
+  ```bash
+  curl -X POST http://localhost:8001/artistas/2/albums \
+    -H "Authorization: Bearer <TU_TOKEN>" \
+    -F "nombre=Back in Black" \
+    -F "portada=@/ruta/portada.png"
+  ```
+  - **Respuesta:**
+  ```json
+  {
+    "id": 1,
+    "nombre": "Back in Black",
+    "portadaUrl": "/archivos/albums/xxx.png",
+    "artistaId": 2
+  }
+  ```
+
+  ### Listar álbumes
+  - **Endpoint:** `GET /albums`
+  - **Ejemplo con curl:**
+  ```bash
+  curl -X GET http://localhost:8001/albums -H "Authorization: Bearer <TU_TOKEN>"
+  ```
+  - **Respuesta:** Array de álbumes.
+
+  ### Eliminar álbum
+  - **Endpoint:** `DELETE /albums/{id}`
+  - **Ejemplo con curl:**
+  ```bash
+  curl -X DELETE http://localhost:8001/albums/1 -H "Authorization: Bearer <TU_TOKEN>"
+  ```
+  - **Respuesta:**
+  ```json
+  {
+    "message": "Álbum eliminado"
+  }
+  ```
+
+  ---
+
+  ## PLAYLISTS
+
+  ### Crear playlist
+  - **Endpoint:** `POST /listas`
+  - **Body (JSON):**
+  ```json
+  {
+    "nombre": "Road Trip",
+    "idUsuario": 1
+  }
+  ```
+  - **Respuesta:**
+  ```json
+  {
+    "id": 10,
+    "nombre": "Road Trip",
+    "idUsuario": 1
+  }
+  ```
+
+  ### Añadir canción a playlist
+  - **Endpoint:** `POST /listas/{id}/canciones`
+  - **Body (JSON):**
+  ```json
+  {
+    "idCancion": 5
+  }
+  ```
+  - **Respuesta:**
+  ```json
+  {
+    "message": "Canción agregada a la lista"
+  }
+  ```
+
+  ### Ver canciones de playlist
+  - **Endpoint:** `GET /listas/{id}/canciones`
+  - **Ejemplo con curl:**
+  ```bash
+  curl -X GET http://localhost:8001/listas/10/canciones -H "Authorization: Bearer <TU_TOKEN>"
+  ```
+  - **Respuesta:** Array de canciones.
+
+  ### Eliminar playlist
+  - **Endpoint:** `DELETE /listas/{id}`
+  - **Ejemplo con curl:**
+  ```bash
+  curl -X DELETE http://localhost:8001/listas/10 -H "Authorization: Bearer <TU_TOKEN>"
+  ```
+  - **Respuesta:**
+  ```json
+  {
+    "message": "Lista eliminada"
+  }
+  ```

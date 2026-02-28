@@ -54,6 +54,18 @@ services:
     volumes:
       - ./archivos:/app/archivos
 
+  pagina-web:
+    image: bcmg/spotify-react-pi3:latest
+    container_name: pagina-web
+    restart: always
+    ports:
+      - "3000:3000"
+    networks:
+      - ktor-network
+    depends_on:
+      ktor-app:
+        condition: service_started
+
 networks:
   ktor-network:
     driver: bridge
