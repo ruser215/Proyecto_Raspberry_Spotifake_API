@@ -205,15 +205,17 @@ fun Application.configureRouting() {
             }
             try {
                 val created = cancionRepository.createCancion(
-                    nombre = nombre!!,
-                    artista = artista,
-                    album = album,
-                    artistaId = artistaId,
-                    albumId = albumId,
-                    genero = genero,
-                    likes = likes,
-                    urlAudio = urlAudio,
-                    urlPortada = urlPortada
+                    Cancion(
+                        nombre = nombre!!,
+                        artista = artista,
+                        album = album,
+                        artistaId = artistaId,
+                        albumId = albumId,
+                        genero = genero ?: 0,
+                        likes = likes ?: 0,
+                        urlAudio = urlAudio ?: "",
+                        urlPortada = urlPortada
+                    )
                 )
                 call.respond(HttpStatusCode.Created, created)
             } catch (e: Exception) {
