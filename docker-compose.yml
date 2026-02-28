@@ -59,7 +59,7 @@ services:
     container_name: pagina-web
     restart: always
     ports:
-      - "3000:3000"
+      - "3000:80"
     networks:
       - ktor-network
     depends_on:
