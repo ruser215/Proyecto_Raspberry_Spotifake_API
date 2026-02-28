@@ -56,12 +56,13 @@ fun Application.configureRouting() {
     val jwtAudience = dotenv["JWT_AUDIENCE"] ?: "jwt-audience"
 
     fun generateToken(usuario: Usuario): String {
+        val adminInt = if (usuario.admin == 1 || usuario.admin == true) 1 else 0
         return JWT.create()
             .withAudience(jwtAudience)
             .withIssuer(jwtDomain)
             .withClaim("correo", usuario.correo)
             .withClaim("id", usuario.id)
-            .withClaim("admin", usuario.admin)
+            .withClaim("admin", adminInt)
             .withExpiresAt(Date(System.currentTimeMillis() + 3600000 * 24)) // 24 horas
             .sign(Algorithm.HMAC256(jwtSecret))
     }
