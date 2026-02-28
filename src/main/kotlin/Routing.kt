@@ -129,6 +129,12 @@ fun Application.configureRouting() {
                         }
             // Subir imagen QR
             post("/qr") {
+                val principal = call.principal<JWTPrincipal>()
+                val isAdmin = principal?.getClaim("admin", Int::class) == 1
+                if (!isAdmin) {
+                    call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden subir códigos QR"))
+                    return@post
+                }
                 val multipart = call.receiveMultipart()
                 val qrDir = File("archivos/qr").apply { mkdirs() }
                 var urlQR: String? = null
@@ -147,6 +153,12 @@ fun Application.configureRouting() {
 
             // Listar imágenes QR
             get("/qr") {
+                val principal = call.principal<JWTPrincipal>()
+                val isAdmin = principal?.getClaim("admin", Int::class) == 1
+                if (!isAdmin) {
+                    call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden listar códigos QR"))
+                    return@get
+                }
                 val qrDir = File("archivos/qr").apply { mkdirs() }
                 val archivos = qrDir.listFiles()?.filter { it.isFile }?.map { it.name } ?: emptyList()
                 call.respond(HttpStatusCode.OK, mapOf("archivos" to archivos))
@@ -154,6 +166,12 @@ fun Application.configureRouting() {
 
             // Eliminar imagen QR
             delete("/qr/{nombre}") {
+                val principal = call.principal<JWTPrincipal>()
+                val isAdmin = principal?.getClaim("admin", Int::class) == 1
+                if (!isAdmin) {
+                    call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden eliminar códigos QR"))
+                    return@delete
+                }
                 val nombre = call.parameters["nombre"]
                 if (nombre.isNullOrBlank()) {
                     call.respond(HttpStatusCode.BadRequest, mapOf("error" to "Nombre de archivo requerido"))
@@ -173,6 +191,12 @@ fun Application.configureRouting() {
 
             // Subir archivo APK
             post("/apk") {
+                val principal = call.principal<JWTPrincipal>()
+                val isAdmin = principal?.getClaim("admin", Int::class) == 1
+                if (!isAdmin) {
+                    call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden subir archivos APK"))
+                    return@post
+                }
                 val multipart = call.receiveMultipart()
                 val apkDir = File("archivos/apk").apply { mkdirs() }
                 var urlAPK: String? = null
@@ -191,6 +215,12 @@ fun Application.configureRouting() {
 
             // Eliminar archivo APK
             delete("/apk/{nombre}") {
+                val principal = call.principal<JWTPrincipal>()
+                val isAdmin = principal?.getClaim("admin", Int::class) == 1
+                if (!isAdmin) {
+                    call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden eliminar archivos APK"))
+                    return@delete
+                }
                 val nombre = call.parameters["nombre"]
                 if (nombre.isNullOrBlank()) {
                     call.respond(HttpStatusCode.BadRequest, mapOf("error" to "Nombre de archivo requerido"))
@@ -210,6 +240,12 @@ fun Application.configureRouting() {
 
             // Listar archivos APK
             get("/apk") {
+                val principal = call.principal<JWTPrincipal>()
+                val isAdmin = principal?.getClaim("admin", Int::class) == 1
+                if (!isAdmin) {
+                    call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden listar archivos APK"))
+                    return@get
+                }
                 val apkDir = File("archivos/apk").apply { mkdirs() }
                 val archivos = apkDir.listFiles()?.filter { it.isFile }?.map { it.name } ?: emptyList()
                 call.respond(HttpStatusCode.OK, mapOf("archivos" to archivos))
@@ -297,6 +333,12 @@ fun Application.configureRouting() {
             }
             
             get("/usuarios/{id}") {
+                val principal = call.principal<JWTPrincipal>()
+                val isAdmin = principal?.getClaim("admin", Int::class) == 1
+                if (!isAdmin) {
+                    call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden ver detalles de otros usuarios"))
+                    return@get
+                }
                 try {
                     val id = call.parameters["id"]?.toLongOrNull()
                     if (id == null) {
@@ -355,6 +397,12 @@ fun Application.configureRouting() {
             }
             
             patch("/usuarios/{id}") {
+                val principal = call.principal<JWTPrincipal>()
+                val isAdmin = principal?.getClaim("admin", Int::class) == 1
+                if (!isAdmin) {
+                    call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden editar usuarios"))
+                    return@patch
+                }
                 try {
                     val id = call.parameters["id"]?.toLongOrNull()
                     if (id == null) {
@@ -464,6 +512,20 @@ fun Application.configureRouting() {
                     call.respond(HttpStatusCode.Created, created)
                 } catch (e: Exception) {
                     call.respond(HttpStatusCode.InternalServerError, mapOf("error" to "Error al crear canción: ${e.message}"))
+                }
+            }
+            
+            get("/canciones") {
+                try {
+                    val nombre = call.request.queryParameters["nombre"]
+                    val artista = call.request.queryParameters["artista"]
+                    val album = call.request.queryParameters["album"]
+                    val generoId = call.request.queryParameters["generoId"]?.toIntOrNull()
+                    
+                    val canciones = cancionRepository.searchCanciones(nombre, artista, album, generoId)
+                    call.respond(HttpStatusCode.OK, canciones)
+                } catch (e: Exception) {
+                    call.respond(HttpStatusCode.InternalServerError, mapOf("error" to "Error al obtener canciones: ${e.message}"))
                 }
             }
 
@@ -634,23 +696,6 @@ fun Application.configureRouting() {
             }
 
             get("/generos") {
-                            get("/generos/{id}") {
-                                val id = call.parameters["id"]?.toIntOrNull()
-                                if (id == null) {
-                                    call.respond(HttpStatusCode.BadRequest, mapOf("error" to "ID inválido"))
-                                    return@get
-                                }
-                                try {
-                                    val genero = generoRepository.getGeneroById(id)
-                                    if (genero == null) {
-                                        call.respond(HttpStatusCode.NotFound, mapOf("error" to "Género no encontrado"))
-                                    } else {
-                                        call.respond(HttpStatusCode.OK, genero)
-                                    }
-                                } catch (e: Exception) {
-                                    call.respond(HttpStatusCode.InternalServerError, mapOf("error" to "Error al obtener género: ${e.message}"))
-                                }
-                            }
                 try {
                     val generos = generoRepository.getAllGeneros()
                     call.respond(HttpStatusCode.OK, generos)
@@ -659,6 +704,48 @@ fun Application.configureRouting() {
                         HttpStatusCode.InternalServerError,
                         mapOf("error" to "Error al obtener géneros: ${e.message}")
                     )
+                }
+            }
+
+            get("/generos/{id}") {
+                val id = call.parameters["id"]?.toIntOrNull()
+                if (id == null) {
+                    call.respond(HttpStatusCode.BadRequest, mapOf("error" to "ID inválido"))
+                    return@get
+                }
+                try {
+                    val genero = generoRepository.getGeneroById(id)
+                    if (genero == null) {
+                        call.respond(HttpStatusCode.NotFound, mapOf("error" to "Género no encontrado"))
+                    } else {
+                        call.respond(HttpStatusCode.OK, genero)
+                    }
+                } catch (e: Exception) {
+                    call.respond(HttpStatusCode.InternalServerError, mapOf("error" to "Error al obtener género: ${e.message}"))
+                }
+            }
+
+            delete("/generos/{id}") {
+                val principal = call.principal<JWTPrincipal>()
+                val isAdmin = principal?.getClaim("admin", Int::class) == 1
+                if (!isAdmin) {
+                    call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden borrar géneros"))
+                    return@delete
+                }
+                val id = call.parameters["id"]?.toIntOrNull()
+                if (id == null) {
+                    call.respond(HttpStatusCode.BadRequest, mapOf("error" to "ID inválido"))
+                    return@delete
+                }
+                try {
+                    val deleted = generoRepository.deleteGenero(id)
+                    if (deleted) {
+                        call.respond(HttpStatusCode.OK, mapOf("message" to "Género eliminado"))
+                    } else {
+                        call.respond(HttpStatusCode.NotFound, mapOf("error" to "Género no encontrado"))
+                    }
+                } catch (e: Exception) {
+                    call.respond(HttpStatusCode.InternalServerError, mapOf("error" to "Error al eliminar género: ${e.message}"))
                 }
             }
 
