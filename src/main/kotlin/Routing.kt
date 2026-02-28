@@ -553,6 +553,23 @@ fun Application.configureRouting() {
             }
 
             get("/generos") {
+                            get("/generos/{id}") {
+                                val id = call.parameters["id"]?.toIntOrNull()
+                                if (id == null) {
+                                    call.respond(HttpStatusCode.BadRequest, mapOf("error" to "ID inválido"))
+                                    return@get
+                                }
+                                try {
+                                    val genero = generoRepository.getGeneroById(id)
+                                    if (genero == null) {
+                                        call.respond(HttpStatusCode.NotFound, mapOf("error" to "Género no encontrado"))
+                                    } else {
+                                        call.respond(HttpStatusCode.OK, genero)
+                                    }
+                                } catch (e: Exception) {
+                                    call.respond(HttpStatusCode.InternalServerError, mapOf("error" to "Error al obtener género: ${e.message}"))
+                                }
+                            }
                 try {
                     val generos = generoRepository.getAllGeneros()
                     call.respond(HttpStatusCode.OK, generos)
