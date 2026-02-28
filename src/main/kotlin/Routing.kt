@@ -102,6 +102,11 @@ fun Application.configureRouting() {
         // --- ENDPOINTS PROTEGIDOS ---
         authenticate("auth-jwt") {
                         delete("/usuarios/{id}") {
+                            val principal = call.principal<Usuario>()
+                            if (principal == null || principal.admin != 1) {
+                                call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden eliminar usuarios"))
+                                return@delete
+                            }
                             try {
                                 val id = call.parameters["id"]?.toLongOrNull()
                                 if (id == null) {
