@@ -689,6 +689,49 @@ fun Application.configureRouting() {
                 call.respond(HttpStatusCode.OK, updated)
             }
 
+            // --- Like / Unlike (accesible para todos los usuarios autenticados) ---
+            patch("/canciones/{id}/likes") {
+                val id = call.parameters["id"]?.toIntOrNull()
+                if (id == null) {
+                    call.respond(HttpStatusCode.BadRequest, mapOf("error" to "ID inválido"))
+                    return@patch
+                }
+                val existing = cancionRepository.getCancionById(id)
+                if (existing == null) {
+                    call.respond(HttpStatusCode.NotFound, mapOf("error" to "Canción no encontrada"))
+                    return@patch
+                }
+                val updated = cancionRepository.updateCancion(
+                    id, null, null, null, null, existing.likes + 1, null, null, null, null
+                )
+                if (updated == null) {
+                    call.respond(HttpStatusCode.InternalServerError, mapOf("error" to "Error al actualizar likes"))
+                } else {
+                    call.respond(HttpStatusCode.OK, updated)
+                }
+            }
+
+            patch("/canciones/{id}/unlikes") {
+                val id = call.parameters["id"]?.toIntOrNull()
+                if (id == null) {
+                    call.respond(HttpStatusCode.BadRequest, mapOf("error" to "ID inválido"))
+                    return@patch
+                }
+                val existing = cancionRepository.getCancionById(id)
+                if (existing == null) {
+                    call.respond(HttpStatusCode.NotFound, mapOf("error" to "Canción no encontrada"))
+                    return@patch
+                }
+                val updated = cancionRepository.updateCancion(
+                    id, null, null, null, null, maxOf(0, existing.likes - 1), null, null, null, null
+                )
+                if (updated == null) {
+                    call.respond(HttpStatusCode.InternalServerError, mapOf("error" to "Error al actualizar likes"))
+                } else {
+                    call.respond(HttpStatusCode.OK, updated)
+                }
+            }
+
             delete("/canciones/{id}") {
                 val principal = call.principal<JWTPrincipal>()
                 val isAdmin = principal?.getClaim("admin", Int::class) == 1
