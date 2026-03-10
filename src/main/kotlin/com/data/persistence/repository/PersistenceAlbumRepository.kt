@@ -8,6 +8,11 @@ import org.jetbrains.exposed.sql.SqlExpressionBuilder.like
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import com.data.persistence.models.*
 
+import org.jetbrains.exposed.sql.insert
+import org.jetbrains.exposed.sql.insertIgnore
+import org.jetbrains.exposed.dao.id.EntityID
+import org.jetbrains.exposed.sql.SqlExpressionBuilder
+
 class PersistenceAlbumRepository : AlbumInterface {
     override suspend fun createAlbum(album: Album): Album = suspendTransaction {
         val albumDao = AlbumDao.new {

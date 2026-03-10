@@ -15,6 +15,10 @@ import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.dao.id.EntityID
 import com.data.persistence.models.*
 
+import org.jetbrains.exposed.sql.insert
+import org.jetbrains.exposed.sql.insertIgnore
+import org.jetbrains.exposed.sql.SqlExpressionBuilder
+
 class PersistenceCancionRepository : CancionInterface {
     private fun findOrCreateArtist(name: String): ArtistDao = ArtistDao.find {
         ArtistTable.nombre eq name

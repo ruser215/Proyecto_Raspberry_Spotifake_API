@@ -8,6 +8,8 @@ import org.jetbrains.exposed.sql.SqlExpressionBuilder.like
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import com.data.persistence.models.*
 
+import org.jetbrains.exposed.sql.SqlExpressionBuilder
+
 class PersistenceArtistaRepository : ArtistaInterface {
     override suspend fun createArtista(artista: Artista): Artista = suspendTransaction {
         ArtistDao.new {
