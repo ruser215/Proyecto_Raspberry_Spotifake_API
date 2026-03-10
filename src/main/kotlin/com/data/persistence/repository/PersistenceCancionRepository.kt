@@ -55,7 +55,7 @@ class PersistenceCancionRepository : CancionInterface {
         // Sincronizar muchos-a-muchos
         cancion.artistasIds?.forEach { id ->
             ArtistDao.findById(id)?.let { artist ->
-                org.jetbrains.exposed.sql.insert {
+                SongArtistsTable.insert {
                     it[SongArtistsTable.songId] = song.id
                     it[SongArtistsTable.artistId] = artist.id
                 }
@@ -64,7 +64,7 @@ class PersistenceCancionRepository : CancionInterface {
         
         cancion.albumIds?.forEach { id ->
             AlbumDao.findById(id)?.let { album ->
-                org.jetbrains.exposed.sql.insert {
+                SongAlbumsTable.insert {
                     it[SongAlbumsTable.songId] = song.id
                     it[SongAlbumsTable.albumId] = album.id
                 }
@@ -74,7 +74,7 @@ class PersistenceCancionRepository : CancionInterface {
         // Also ensure the primary artist is in the list
         artistDao?.let { primary ->
             if (cancion.artistasIds?.contains(primary.id.value) != true) {
-                org.jetbrains.exposed.sql.insertIgnore {
+                SongArtistsTable.insertIgnore {
                     it[SongArtistsTable.songId] = song.id
                     it[SongArtistsTable.artistId] = primary.id
                 }

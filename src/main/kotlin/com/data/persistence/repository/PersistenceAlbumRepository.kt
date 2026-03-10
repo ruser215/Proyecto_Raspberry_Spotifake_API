@@ -24,7 +24,7 @@ class PersistenceAlbumRepository : AlbumInterface {
         // Sincronizar muchos-a-muchos
         album.artistaIds?.forEach { id ->
             ArtistDao.findById(id)?.let { artist ->
-                org.jetbrains.exposed.sql.insert {
+                AlbumArtistsTable.insert {
                     it[AlbumArtistsTable.albumId] = albumDao.id
                     it[AlbumArtistsTable.artistId] = artist.id
                 }
@@ -34,7 +34,7 @@ class PersistenceAlbumRepository : AlbumInterface {
         // Ensure primary artist is included
         album.artistaId?.let { primaryId ->
             if (album.artistaIds?.contains(primaryId) != true) {
-                org.jetbrains.exposed.sql.insertIgnore {
+                AlbumArtistsTable.insertIgnore {
                     it[AlbumArtistsTable.albumId] = albumDao.id
                     it[AlbumArtistsTable.artistId] = EntityID(primaryId, ArtistTable)
                 }
