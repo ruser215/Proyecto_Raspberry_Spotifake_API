@@ -29,14 +29,40 @@ class PersistenceArtistaRepository : ArtistaInterface {
         ArtistDao.find { ArtistTable.nombre like "%$nombre%" }.map { it.toArtista() }
     }
 
-    override suspend fun updateArtista(id: Int, nombre: String?, fotoUrl: String?): Artista? {
+    override suspend fun updateArtista(
+        id: Int,
+        nombre: String?,
+        fotoUrl: String?,
+        seguidores: Int?,
+        likesTotales: Int?
+    ): Artista? {
         suspendTransaction {
             ArtistTable.update({ ArtistTable.id eq id }) { stm ->
                 nombre?.let { stm[ArtistTable.nombre] = it }
                 fotoUrl?.let { stm[ArtistTable.fotoUrl] = it }
+                seguidores?.let { stm[ArtistTable.seguidores] = it }
+                likesTotales?.let { stm[ArtistTable.likesTotales] = it }
             }
         }
         return getArtistaById(id)
+    }
+
+    override suspend fun followArtista(id: Int): Boolean = suspendTransaction {
+        val rows = ArtistTable.update({ ArtistTable.id eq id }) {
+            with(SqlExpressionBuilder) {
+                it.update(ArtistTable.seguidores, ArtistTable.seguidores + 1)
+            }
+        }
+        rows > 0
+    }
+
+    override suspend fun unfollowArtista(id: Int): Boolean = suspendTransaction {
+        val rows = ArtistTable.update({ ArtistTable.id eq id }) {
+            with(SqlExpressionBuilder) {
+                it.update(ArtistTable.seguidores, (ArtistTable.seguidores - 1).coerceAtLeast(0))
+            }
+        }
+        rows > 0
     }
 
     override suspend fun deleteArtista(id: Int): Boolean {

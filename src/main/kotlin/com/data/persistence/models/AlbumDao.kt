@@ -10,6 +10,7 @@ class AlbumDao(id: EntityID<Int>) : IntEntity(id) {
 
     var nombre by AlbumTable.nombre
     var artista by ArtistDao referencedOn AlbumTable.artista
+    var artistas by ArtistDao via AlbumArtistsTable
     var portadaUrl by AlbumTable.portadaUrl
 
     fun toAlbum(): Album {
@@ -17,6 +18,8 @@ class AlbumDao(id: EntityID<Int>) : IntEntity(id) {
             id = this.id.value,
             nombre = this.nombre,
             artistaId = this.artista.id.value,
+            artistaIds = this.artistas.map { it.id.value },
+            artistasNombre = this.artistas.map { it.nombre },
             portadaUrl = this.portadaUrl
         )
     }

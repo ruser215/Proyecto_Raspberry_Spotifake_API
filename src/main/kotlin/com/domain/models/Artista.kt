@@ -6,5 +6,7 @@ import kotlinx.serialization.Serializable
 data class Artista(
     val id: Int? = null,
     val nombre: String,
-    val fotoUrl: String? = null
+    val fotoUrl: String? = null,
+    val seguidores: Int = 0,
+    val likesTotales: Int = 0
 )

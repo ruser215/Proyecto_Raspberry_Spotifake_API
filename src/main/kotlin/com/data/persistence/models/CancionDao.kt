@@ -13,19 +13,27 @@ class CancionDao(id: EntityID<Int>) : IntEntity(id) {
     var album by AlbumDao optionalReferencedOn CancionTable.album
     var genero by CancionTable.genero
     var likes by CancionTable.likes
+    var reproducciones by CancionTable.reproducciones
     var urlAudio by CancionTable.urlAudio
     var urlPortada by CancionTable.urlPortada
+    var artistas by ArtistDao via SongArtistsTable
+    var albumes by AlbumDao via SongAlbumsTable
 
     fun toCancion(): Cancion {
         return Cancion(
             id = this.id.value,
             nombre = this.nombre,
             artistaId = artista?.id?.value,
+            artistasIds = this.artistas.map { it.id.value },
             albumId = album?.id?.value,
+            albumIds = this.albumes.map { it.id.value },
             artista = artista?.nombre ?: album?.artista?.nombre ?: "",
+            artistas = this.artistas.map { it.nombre },
             album = album?.nombre ?: "",
+            albumes = this.albumes.map { it.nombre },
             genero = this.genero.value,
             likes = this.likes,
+            reproducciones = this.reproducciones,
             urlAudio = this.urlAudio,
             urlPortada = this.urlPortada
         )

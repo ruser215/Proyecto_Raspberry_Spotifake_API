@@ -33,6 +33,9 @@ object DatabaseFactory {
                 SchemaUtils.drop(
                     ListaCancionesCancionesTable,
                     ListaCancionesTable,
+                    SongArtistsTable,
+                    SongAlbumsTable,
+                    AlbumArtistsTable,
                     CancionTable,
                     AlbumTable,
                     ArtistTable,
@@ -54,7 +57,10 @@ object DatabaseFactory {
                 AlbumTable,
                 CancionTable,
                 ListaCancionesTable,
-                ListaCancionesCancionesTable
+                ListaCancionesCancionesTable,
+                SongArtistsTable,
+                SongAlbumsTable,
+                AlbumArtistsTable
             )
 
             // Asegurar directorios de archivos

@@ -10,12 +10,16 @@ class ArtistDao(id: EntityID<Int>) : IntEntity(id) {
 
     var nombre by ArtistTable.nombre
     var fotoUrl by ArtistTable.fotoUrl
+    var seguidores by ArtistTable.seguidores
+    var likesTotales by ArtistTable.likesTotales
 
     fun toArtista(): Artista {
         return Artista(
             id = this.id.value,
             nombre = this.nombre,
-            fotoUrl = this.fotoUrl
+            fotoUrl = this.fotoUrl,
+            seguidores = this.seguidores,
+            likesTotales = this.likesTotales
         )
     }
 }

@@ -732,6 +732,20 @@ fun Application.configureRouting() {
                 }
             }
 
+            patch("/canciones/{id}/reproducciones") {
+                val id = call.parameters["id"]?.toIntOrNull()
+                if (id == null) {
+                    call.respond(HttpStatusCode.BadRequest, mapOf("error" to "ID inválido"))
+                    return@patch
+                }
+                val ok = cancionRepository.incrementReproducciones(id)
+                if (ok) {
+                    call.respond(HttpStatusCode.OK, mapOf("message" to "Reproducción incrementada"))
+                } else {
+                    call.respond(HttpStatusCode.NotFound, mapOf("error" to "Canción no encontrada"))
+                }
+            }
+
             delete("/canciones/{id}") {
                 val principal = call.principal<JWTPrincipal>()
                 val isAdmin = principal?.getClaim("admin", Int::class) == 1
@@ -996,6 +1010,34 @@ fun Application.configureRouting() {
                     else call.respond(HttpStatusCode.NotFound, mapOf("error" to "Artista no encontrado"))
                 } catch (e: Exception) {
                     call.respond(HttpStatusCode.InternalServerError, mapOf("error" to "Error al eliminar artista: ${e.message}"))
+                }
+            }
+
+            patch("/artistas/{id}/follow") {
+                val id = call.parameters["id"]?.toIntOrNull()
+                if (id == null) {
+                    call.respond(HttpStatusCode.BadRequest, mapOf("error" to "ID inválido"))
+                    return@patch
+                }
+                val ok = artistaRepository.followArtista(id)
+                if (ok) {
+                    call.respond(HttpStatusCode.OK, mapOf("message" to "Siguiendo al artista"))
+                } else {
+                    call.respond(HttpStatusCode.NotFound, mapOf("error" to "Artista no encontrado"))
+                }
+            }
+
+            patch("/artistas/{id}/unfollow") {
+                val id = call.parameters["id"]?.toIntOrNull()
+                if (id == null) {
+                    call.respond(HttpStatusCode.BadRequest, mapOf("error" to "ID inválido"))
+                    return@patch
+                }
+                val ok = artistaRepository.unfollowArtista(id)
+                if (ok) {
+                    call.respond(HttpStatusCode.OK, mapOf("message" to "Dejado de seguir al artista"))
+                } else {
+                    call.respond(HttpStatusCode.NotFound, mapOf("error" to "Artista no encontrado"))
                 }
             }
 

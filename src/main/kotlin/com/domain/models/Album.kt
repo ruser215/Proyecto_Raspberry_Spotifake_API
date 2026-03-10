@@ -6,7 +6,8 @@ import kotlinx.serialization.Serializable
 data class Album(
     val id: Int? = null,
     val nombre: String,
-    /** referencia al identificador del artista dueño del álbum */
     val artistaId: Int? = null,
+    val artistaIds: List<Int>? = emptyList(),
+    val artistasNombre: List<String>? = emptyList(),
     val portadaUrl: String? = null
 )

@@ -10,12 +10,17 @@ import kotlinx.serialization.Serializable
 data class Cancion(
     val id: Int? = null,
     var nombre: String,
-    var artistaId: Int? = null, // ID del artista
-    var albumId: Int? = null,   // ID del álbum
-    var artista: String? = null, // Nombre del artista (para el frontend)
-    var album: String? = null,   // Nombre del álbum (para el frontend)
+    var artistaId: Int? = null,
+    var artistasIds: List<Int>? = emptyList(),
+    var albumId: Int? = null,
+    var albumIds: List<Int>? = emptyList(),
+    var artista: String? = null,
+    var artistas: List<String>? = emptyList(),
+    var album: String? = null,
+    var albumes: List<String>? = emptyList(),
     var genero: Int,
     var likes: Int = 0,
+    var reproducciones: Int = 0,
     var urlAudio: String,
     var urlPortada: String? = null
 )

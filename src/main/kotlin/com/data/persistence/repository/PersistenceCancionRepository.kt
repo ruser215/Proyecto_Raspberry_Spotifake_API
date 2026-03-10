@@ -37,15 +37,47 @@ class PersistenceCancionRepository : CancionInterface {
                        else if (cancion.album != null && artistDao != null) findOrCreateAlbum(cancion.album!!, artistDao)
                        else null
         
-        CancionDao.new {
+        val song = CancionDao.new {
             nombre = cancion.nombre
             artista = artistDao
             album = albumDao
             genero = EntityID(cancion.genero, GeneroTable)
             likes = cancion.likes
+            reproducciones = cancion.reproducciones
             urlAudio = cancion.urlAudio
             urlPortada = cancion.urlPortada ?: albumDao?.portadaUrl
-        }.toCancion()
+        }
+        
+        // Sincronizar muchos-a-muchos
+        cancion.artistasIds?.forEach { id ->
+            ArtistDao.findById(id)?.let { artist ->
+                org.jetbrains.exposed.sql.insert {
+                    it[SongArtistsTable.songId] = song.id
+                    it[SongArtistsTable.artistId] = artist.id
+                }
+            }
+        }
+        
+        cancion.albumIds?.forEach { id ->
+            AlbumDao.findById(id)?.let { album ->
+                org.jetbrains.exposed.sql.insert {
+                    it[SongAlbumsTable.songId] = song.id
+                    it[SongAlbumsTable.albumId] = album.id
+                }
+            }
+        }
+        
+        // Also ensure the primary artist is in the list
+        artistDao?.let { primary ->
+            if (cancion.artistasIds?.contains(primary.id.value) != true) {
+                org.jetbrains.exposed.sql.insertIgnore {
+                    it[SongArtistsTable.songId] = song.id
+                    it[SongArtistsTable.artistId] = primary.id
+                }
+            }
+        }
+        
+        song.toCancion()
     }
 
     override suspend fun getCancionById(id: Int): Cancion? = suspendTransaction {
@@ -102,9 +134,21 @@ class PersistenceCancionRepository : CancionInterface {
                                else song.album
                 
                 if (albumDao != null) song.album = albumDao
+
+                // Note: Full many-to-many sync for artistIds/albumIds could be added here if needed
+                // For now, we update the primary ones which are used for backward compatibility.
             }
         }
         return getCancionById(id)
+    }
+
+    override suspend fun incrementReproducciones(id: Int): Boolean = suspendTransaction {
+        val rows = CancionTable.update({ CancionTable.id eq id }) {
+            with(SqlExpressionBuilder) {
+                it.update(CancionTable.reproducciones, CancionTable.reproducciones + 1)
+            }
+        }
+        rows > 0
     }
 
     override suspend fun deleteCancion(id: Int): Cancion? {
