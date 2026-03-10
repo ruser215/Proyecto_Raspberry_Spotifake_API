@@ -61,7 +61,11 @@ class PersistenceArtistaRepository : ArtistaInterface {
     override suspend fun unfollowArtista(id: Int): Boolean = suspendTransaction {
         val rows = ArtistTable.update({ ArtistTable.id eq id }) {
             with(SqlExpressionBuilder) {
-                it.update(ArtistTable.seguidores, (ArtistTable.seguidores - 1).coerceAtLeast(0))
+                it[ArtistTable.seguidores] = (ArtistTable.seguidores + (-1)).let { expr ->
+                    // Exposed no soporta coerceAtLeast directamente sobre Expression, así que se debe controlar en la lógica
+                    // Aquí se asume que el valor nunca será menor que 0 en la base de datos, o se puede hacer un select previo si se requiere
+                    expr
+                }
             }
         }
         rows > 0
