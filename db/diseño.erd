@@ -1,0 +1,3725 @@
+{
+    "documentName": "Spotifake",
+    "lastUpdatedAt": "2026-03-22T23:18:01.807Z",
+    "tableViewModels": [
+        {
+            "tableModel": {
+                "tableModelId": "03148f9f-0b40-43dd-acab-5f2471a01741",
+                "physicalName": "usuario",
+                "logicalName": "usuario",
+                "columnModelIds": [
+                    "fff1719a-0dbd-4389-8898-c508c9e58e57",
+                    "60beeae6-91c3-4602-8f8e-9275e6feca7a",
+                    "04fa89a5-5714-4965-b886-44ed1513bf8a",
+                    "7992b22a-cb93-4462-bad8-e63f543c52cc",
+                    "95bb8255-6f4b-4b7e-8dec-cbeb0fa06fdb",
+                    "0d32d659-18cc-42f7-a8c3-c8f61c68ea57",
+                    "901e18da-4b5e-4aa7-9422-835b76225196",
+                    "09891d9b-947d-4d61-9b50-904f51a68f23",
+                    "15574bc1-1223-44e1-9529-9814d3b1fd6a"
+                ]
+            },
+            "top": 167,
+            "left": -918,
+            "headerBackgroundColor": {
+                "red": 227,
+                "green": 242,
+                "blue": 253
+            },
+            "headerForegroundColor": {
+                "red": 0,
+                "green": 0,
+                "blue": 0
+            },
+            "createdAt": "2026-03-19T22:13:45.755Z"
+        },
+        {
+            "tableModel": {
+                "tableModelId": "16150aa8-b04c-454a-99c8-c3206e497c73",
+                "physicalName": "alarma",
+                "logicalName": "alarma",
+                "columnModelIds": [
+                    "55f06d16-51f6-41bb-90a6-24683bc92803",
+                    "c347cd34-5333-4cf3-b5b9-61b277ddc314",
+                    "0595be95-0e74-4f8b-ba33-aeb373051caf",
+                    "21df2eb8-5a14-4a6b-b737-77f2ec6836ab",
+                    "383279af-876f-46ea-a285-c802aa7fb494",
+                    "16638b8e-5a70-4f78-8c43-844c9ebb87fa"
+                ]
+            },
+            "top": 247.25,
+            "left": -371.75,
+            "headerBackgroundColor": {
+                "red": 227,
+                "green": 242,
+                "blue": 253
+            },
+            "headerForegroundColor": {
+                "red": 0,
+                "green": 0,
+                "blue": 0
+            },
+            "createdAt": "2026-03-18T22:38:49.092Z"
+        },
+        {
+            "tableModel": {
+                "tableModelId": "e311c3eb-8304-4412-b721-38a2fefa584f",
+                "physicalName": "tema",
+                "logicalName": "tema",
+                "columnModelIds": [
+                    "4d04ddd9-7c6b-4f81-9ffe-a50f57037d96",
+                    "21486b92-5cdf-47a8-b7c8-f0866a7ff8bf",
+                    "12b63e53-3f48-4896-858a-cb1c2893935e"
+                ]
+            },
+            "top": 594.5,
+            "left": -409.25,
+            "headerBackgroundColor": {
+                "red": 227,
+                "green": 242,
+                "blue": 253
+            },
+            "headerForegroundColor": {
+                "red": 0,
+                "green": 0,
+                "blue": 0
+            },
+            "createdAt": "2026-03-18T22:57:08.027Z"
+        },
+        {
+            "tableModel": {
+                "tableModelId": "b63509c4-2f3c-4e46-9a12-fc4f14ff6711",
+                "physicalName": "empresa",
+                "logicalName": "empresa",
+                "columnModelIds": [
+                    "9b1e2710-0bfb-4f8d-9ab3-bba492825c13",
+                    "9eda1373-4497-4172-973d-6934184315ba",
+                    "6b2a67c2-9448-4dbd-b2d1-d6c4afa2e1f6"
+                ]
+            },
+            "top": -461.5,
+            "left": -1847.5,
+            "headerBackgroundColor": {
+                "red": 229,
+                "green": 115,
+                "blue": 115
+            },
+            "headerForegroundColor": {
+                "red": 0,
+                "green": 0,
+                "blue": 0
+            },
+            "createdAt": "2026-03-18T23:04:49.211Z"
+        },
+        {
+            "tableModel": {
+                "tableModelId": "12286066-eb78-44bb-9701-e704d3271d5f",
+                "physicalName": "anuncio",
+                "logicalName": "anuncio",
+                "columnModelIds": [
+                    "5dc7bc5c-e7f5-4825-be0e-a8c20f16a16d",
+                    "366ccc3a-4247-4f3a-9dbc-9a1cc4507911",
+                    "d55d19f0-3bf6-4e8b-8698-db1427fe3858",
+                    "dee7bd2b-2876-4f7c-b6b6-a2db73e74376",
+                    "eba22f54-f7ab-44db-b110-fa9d9793db92",
+                    "53b96b53-c5a5-4ed2-bdb2-05c8a10d72f7",
+                    "9af64351-787d-450c-b00c-881d0b82b917",
+                    "97608976-86a4-44db-b511-98ad03862350",
+                    "365df909-381f-4c71-a313-2585d3988c39"
+                ]
+            },
+            "top": -205.75,
+            "left": -1889.5,
+            "headerBackgroundColor": {
+                "red": 229,
+                "green": 115,
+                "blue": 115
+            },
+            "headerForegroundColor": {
+                "red": 0,
+                "green": 0,
+                "blue": 0
+            },
+            "createdAt": "2026-03-19T23:03:48.353Z"
+        },
+        {
+            "tableModel": {
+                "tableModelId": "ae9c1785-1775-4481-bfe3-d3b43f0cfedd",
+                "physicalName": "mascota",
+                "logicalName": "mascota",
+                "columnModelIds": [
+                    "40680caa-e62a-4d7b-b458-9683a6610aba",
+                    "da4e80c2-6151-4d3e-b726-b35a3e1cc79e",
+                    "cc2d5407-4a7a-4915-8635-2885ae65f697",
+                    "aba7515f-aa8e-48a6-853a-3cbe0cef9092",
+                    "530b070b-b1ef-4af6-8237-36659aaf65a8",
+                    "32747d91-7f6e-4cc7-a6db-dd0927f00b17"
+                ]
+            },
+            "top": -156,
+            "left": -1379,
+            "headerBackgroundColor": {
+                "red": 255,
+                "green": 213,
+                "blue": 79
+            },
+            "headerForegroundColor": {
+                "red": 0,
+                "green": 0,
+                "blue": 0
+            },
+            "createdAt": "2026-03-22T21:30:01.809Z"
+        },
+        {
+            "tableModel": {
+                "tableModelId": "f0232f0c-85e9-4973-90a9-05bebee4cf7a",
+                "physicalName": "tipo_mascota",
+                "logicalName": "tipo_mascota",
+                "columnModelIds": [
+                    "28f648cd-94a9-471f-b439-4e2d84931f0b",
+                    "fa1d67f1-4321-41b0-aab3-4ace22d707d2"
+                ]
+            },
+            "top": -436,
+            "left": -1310,
+            "headerBackgroundColor": {
+                "red": 255,
+                "green": 213,
+                "blue": 79
+            },
+            "headerForegroundColor": {
+                "red": 0,
+                "green": 0,
+                "blue": 0
+            },
+            "createdAt": "2026-03-19T23:18:40.140Z"
+        },
+        {
+            "tableModel": {
+                "tableModelId": "f8268c05-ad88-4616-afa8-cd5a31a0f4f5",
+                "physicalName": "usuario_mascota",
+                "logicalName": "usuario_mascota",
+                "columnModelIds": [
+                    "6699fef6-2f97-4084-b2e0-a350a4f79f18",
+                    "f876fbaf-5236-48db-b27a-ace1ac2c7166",
+                    "ad970c0e-5eac-4ea5-88f9-5e0e9fa6d718",
+                    "243d756f-f6ba-4d4d-bb52-3ac089dcfe15"
+                ]
+            },
+            "top": -401,
+            "left": -909,
+            "headerBackgroundColor": {
+                "red": 255,
+                "green": 213,
+                "blue": 79
+            },
+            "headerForegroundColor": {
+                "red": 0,
+                "green": 0,
+                "blue": 0
+            },
+            "createdAt": "2026-03-22T20:49:42.140Z"
+        },
+        {
+            "tableModel": {
+                "tableModelId": "3cabe681-bc1f-4e93-9797-cca324508b05",
+                "physicalName": "estado_solicitud",
+                "logicalName": "estado_solicitud",
+                "columnModelIds": [
+                    "24446737-34b6-45a2-9710-18727e291aea",
+                    "7b0e1a82-5ced-49f3-8cab-ef0bf9f94b18",
+                    "1a4e0f6d-67b2-4692-b9cd-3dee61622b92",
+                    "e13f7bfd-02d6-4f31-b438-b009f54b2bba",
+                    "ca1f6674-49a7-4088-8de5-3b0d6e57be90"
+                ]
+            },
+            "top": -182.44,
+            "left": -627.78,
+            "headerBackgroundColor": {
+                "red": 38,
+                "green": 198,
+                "blue": 218
+            },
+            "headerForegroundColor": {
+                "red": 0,
+                "green": 0,
+                "blue": 0
+            },
+            "createdAt": "2026-03-22T21:29:46.884Z"
+        },
+        {
+            "tableModel": {
+                "tableModelId": "db260910-aab4-4390-b118-306e1813c28f",
+                "physicalName": "estado_notificacion",
+                "logicalName": "estado_notificacion",
+                "columnModelIds": [
+                    "65e91386-29b8-4f03-b9a1-c8b7795f303e",
+                    "846a230e-b9fc-42f4-83fd-908a7d545f64"
+                ]
+            },
+            "top": 218,
+            "left": -1413.1100000000001,
+            "headerBackgroundColor": {
+                "red": 171,
+                "green": 71,
+                "blue": 188
+            },
+            "headerForegroundColor": {
+                "red": 255,
+                "green": 255,
+                "blue": 255
+            },
+            "createdAt": "2026-03-22T21:29:07.333Z"
+        },
+        {
+            "tableModel": {
+                "tableModelId": "3f7cb0d3-79d1-4d87-a9b1-9caed6274371",
+                "physicalName": "amistad",
+                "logicalName": "amistad",
+                "columnModelIds": [
+                    "c62207d9-6400-4088-bc82-ccb5d7bb442d",
+                    "e0b4de73-801b-4b94-a4b7-1e50abe66b47",
+                    "8d074bf0-404e-4bf5-add9-a69b07787b44"
+                ],
+                "description": "Al crear esta tabla se tienen que crear 2, tanto por un usuario como por el otro y borrar la notificacion"
+            },
+            "top": -397.79,
+            "left": -36.67999999999995,
+            "headerBackgroundColor": {
+                "red": 38,
+                "green": 198,
+                "blue": 218
+            },
+            "headerForegroundColor": {
+                "red": 0,
+                "green": 0,
+                "blue": 0
+            },
+            "createdAt": "2026-03-22T21:29:28.629Z"
+        },
+        {
+            "tableModel": {
+                "tableModelId": "f1e6646f-b266-4589-9b47-312561b47c4d",
+                "physicalName": "like_cancion",
+                "logicalName": "like_cancion",
+                "columnModelIds": [
+                    "ed7e3365-58ab-45cb-8382-a3f1fbc52bc2",
+                    "ea3c084c-a5bb-4460-9d0d-02a88a5d12b5",
+                    "371fe2a3-400e-433b-8e2c-c020221a64a6"
+                ]
+            },
+            "top": 59.990000000000066,
+            "left": 58.879999999999995,
+            "headerBackgroundColor": {
+                "red": 38,
+                "green": 198,
+                "blue": 218
+            },
+            "headerForegroundColor": {
+                "red": 0,
+                "green": 0,
+                "blue": 0
+            },
+            "createdAt": "2026-03-22T21:29:21.681Z"
+        },
+        {
+            "tableModel": {
+                "tableModelId": "a9c89fe2-c11e-412a-9cc2-b850918643fe",
+                "physicalName": "reproduccion",
+                "logicalName": "reproduccion",
+                "columnModelIds": [
+                    "fb9ce62d-ef6a-4c4a-9b9a-1fe26d74eb4a",
+                    "5985489d-8ace-47ab-887b-7a1411c5964c",
+                    "f426569b-89a4-4514-bf9a-b244e7b7ad08",
+                    "38de8a40-052f-4d31-8d36-e5b9913c788a"
+                ]
+            },
+            "top": -134.45,
+            "left": 15.550000000000068,
+            "headerBackgroundColor": {
+                "red": 38,
+                "green": 198,
+                "blue": 218
+            },
+            "headerForegroundColor": {
+                "red": 0,
+                "green": 0,
+                "blue": 0
+            },
+            "createdAt": "2026-03-22T21:29:37.528Z"
+        },
+        {
+            "tableModel": {
+                "tableModelId": "abb5e52f-ae81-446d-aecd-70fcba55f714",
+                "physicalName": "artista",
+                "logicalName": "artista",
+                "columnModelIds": [
+                    "cc2a1d03-ba77-4f86-aaea-4ad41465ba7a",
+                    "0e0e146f-c570-460f-b8c8-977a39b7b52d",
+                    "7a9911f4-32e4-4883-8934-d03ed5cab5f7"
+                ]
+            },
+            "top": 454.44000000000005,
+            "left": 719.9799999999999,
+            "headerBackgroundColor": {
+                "red": 129,
+                "green": 199,
+                "blue": 132
+            },
+            "headerForegroundColor": {
+                "red": 0,
+                "green": 0,
+                "blue": 0
+            },
+            "createdAt": "2026-03-22T21:34:22.407Z"
+        },
+        {
+            "tableModel": {
+                "tableModelId": "beb3a4fb-332c-403d-b155-f7b773d5a403",
+                "physicalName": "album",
+                "logicalName": "album",
+                "columnModelIds": [
+                    "cf15a069-d6ac-483f-a0c8-d9e729237910",
+                    "d607cc22-d41b-4da8-a015-085be17c0315",
+                    "d80d824a-b761-4ecd-9b26-f2d64749da70",
+                    "d2c62293-59ca-493e-867f-ab18e2b82dec"
+                ]
+            },
+            "top": 212.89000000000004,
+            "left": 1309.99,
+            "headerBackgroundColor": {
+                "red": 129,
+                "green": 199,
+                "blue": 132
+            },
+            "headerForegroundColor": {
+                "red": 0,
+                "green": 0,
+                "blue": 0
+            },
+            "createdAt": "2026-03-22T21:39:58.669Z"
+        },
+        {
+            "tableModel": {
+                "tableModelId": "bbe29558-d359-4527-b3d7-62d3f20499b5",
+                "physicalName": "genero",
+                "logicalName": "genero",
+                "columnModelIds": [
+                    "fda9771a-e9cf-492d-b097-d44550047c20",
+                    "9422454d-e58f-4778-b06a-482c6471aba3"
+                ]
+            },
+            "top": -390,
+            "left": 717.78,
+            "headerBackgroundColor": {
+                "red": 129,
+                "green": 199,
+                "blue": 132
+            },
+            "headerForegroundColor": {
+                "red": 0,
+                "green": 0,
+                "blue": 0
+            },
+            "createdAt": "2026-03-22T21:40:56.757Z"
+        },
+        {
+            "tableModel": {
+                "tableModelId": "bd430c27-efbc-47ea-87a4-5d655c757750",
+                "physicalName": "cancion",
+                "logicalName": "cancion",
+                "columnModelIds": [
+                    "a54bee7c-3529-4c78-92ba-8d5a32805a2d",
+                    "a05caa81-5a97-4cef-8355-40e9bbcb80bc",
+                    "73572bab-28e6-4f74-877a-d11fd6c5c187",
+                    "d99f1e8f-0b21-4d56-bc12-47177fae5495",
+                    "665ea20a-8806-4d74-8ee1-a5eaa12e3015"
+                ]
+            },
+            "top": -39.999999999999986,
+            "left": 806.6400000000001,
+            "headerBackgroundColor": {
+                "red": 129,
+                "green": 199,
+                "blue": 132
+            },
+            "headerForegroundColor": {
+                "red": 0,
+                "green": 0,
+                "blue": 0
+            },
+            "createdAt": "2026-03-22T21:45:16.655Z"
+        },
+        {
+            "tableModel": {
+                "tableModelId": "ae442d33-ebcd-4fbc-913b-14c135b59db8",
+                "physicalName": "genero_cancion",
+                "logicalName": "genero_cancion",
+                "columnModelIds": [
+                    "3c6b7924-485d-4548-9370-f5cff9498ee7",
+                    "fc44a1b4-87db-4c61-9399-f6735bf776e2"
+                ]
+            },
+            "top": -226.67000000000002,
+            "left": 716.6699999999996,
+            "headerBackgroundColor": {
+                "red": 129,
+                "green": 199,
+                "blue": 132
+            },
+            "headerForegroundColor": {
+                "red": 0,
+                "green": 0,
+                "blue": 0
+            },
+            "createdAt": "2026-03-22T21:46:36.354Z"
+        },
+        {
+            "tableModel": {
+                "tableModelId": "50e5d6c4-888a-4010-8d44-0624198fdee5",
+                "physicalName": "album_cancion",
+                "logicalName": "album_cancion",
+                "columnModelIds": [
+                    "7ba5fca1-a62f-4c0b-9b96-5a7d8f85e8a1",
+                    "d571b642-ac4f-45f8-b7f2-e54c9f056c72"
+                ]
+            },
+            "top": 12.220000000000022,
+            "left": 1386,
+            "headerBackgroundColor": {
+                "red": 129,
+                "green": 199,
+                "blue": 132
+            },
+            "headerForegroundColor": {
+                "red": 0,
+                "green": 0,
+                "blue": 0
+            },
+            "createdAt": "2026-03-22T21:49:10.857Z"
+        },
+        {
+            "tableModel": {
+                "tableModelId": "39a50c2a-70a0-4fdb-bb79-74fdb559db2c",
+                "physicalName": "artista_cancion",
+                "logicalName": "artista_cancion",
+                "columnModelIds": [
+                    "d51db0de-307d-4945-8741-8feaa94d2cce",
+                    "37316b96-4c71-4db0-91bc-c229e2b3e599"
+                ]
+            },
+            "top": 250,
+            "left": 780,
+            "headerBackgroundColor": {
+                "red": 129,
+                "green": 199,
+                "blue": 132
+            },
+            "headerForegroundColor": {
+                "red": 0,
+                "green": 0,
+                "blue": 0
+            },
+            "createdAt": "2026-03-22T21:52:20.528Z"
+        },
+        {
+            "tableModel": {
+                "tableModelId": "e6d93fdd-facc-4f8e-9bf9-0eadcb1b49c1",
+                "physicalName": "follow_artista",
+                "logicalName": "follow_artista",
+                "columnModelIds": [
+                    "0ea89b6f-37cd-4ac4-a8bc-45153b82a63c",
+                    "7227ccdc-43b3-4f8b-9bf5-573f91cc39ac",
+                    "e9b41f35-9e8a-4ffb-82b1-025c42ead1b1"
+                ]
+            },
+            "top": 264.44000000000005,
+            "left": 226.67000000000002,
+            "headerBackgroundColor": {
+                "red": 38,
+                "green": 198,
+                "blue": 218
+            },
+            "headerForegroundColor": {
+                "red": 0,
+                "green": 0,
+                "blue": 0
+            },
+            "createdAt": "2026-03-22T22:00:13.749Z"
+        },
+        {
+            "tableModel": {
+                "tableModelId": "ca27bf1c-24cd-4214-b068-2a38fbbd7fac",
+                "physicalName": "playlist",
+                "logicalName": "playlist",
+                "columnModelIds": [
+                    "038a62b1-d072-4569-b1b3-ad7a70705dfb",
+                    "62f4e9f3-9071-4f87-aa8f-e0fd082aa7a9",
+                    "1a49b5a1-9b51-435c-81dd-7b5dafb2409a",
+                    "256a63d6-d5b7-47be-8665-3f58a5f45dc5",
+                    "5231b066-c461-4293-880b-cb973a4631a3"
+                ]
+            },
+            "top": 834,
+            "left": -718,
+            "headerBackgroundColor": {
+                "red": 240,
+                "green": 98,
+                "blue": 146
+            },
+            "headerForegroundColor": {
+                "red": 255,
+                "green": 255,
+                "blue": 255
+            },
+            "createdAt": "2026-03-22T22:39:53.552Z"
+        },
+        {
+            "tableModel": {
+                "tableModelId": "92eae2c2-3b54-4d7a-aa6e-a4e209174761",
+                "physicalName": "playlist_cancion",
+                "logicalName": "playlist_cancion",
+                "columnModelIds": [
+                    "05e1e045-f717-4103-bda3-6b1819344aa2",
+                    "bfd39bba-5dc2-4ed7-9a72-21ab97a24a42",
+                    "c0de6290-59bf-4756-8f39-d7a6077127f4"
+                ]
+            },
+            "top": 842,
+            "left": -140,
+            "headerBackgroundColor": {
+                "red": 240,
+                "green": 98,
+                "blue": 146
+            },
+            "headerForegroundColor": {
+                "red": 255,
+                "green": 255,
+                "blue": 255
+            },
+            "createdAt": "2026-03-22T22:45:52.892Z"
+        },
+        {
+            "tableModel": {
+                "tableModelId": "5049a020-6beb-4d92-8f8b-897d1bca41d4",
+                "physicalName": "solicitud_colab_playlist",
+                "logicalName": "solicitud_colab_playlist",
+                "columnModelIds": [
+                    "c6a20406-860e-4d65-ba0a-4568a0a43448",
+                    "19723c01-a741-4eab-a4b9-ebe4ecfe9e0d",
+                    "40cbaa5c-b4ec-4e9b-9ca7-2c9f9c5f08e5",
+                    "84684c1b-f2eb-40e9-9541-5b62d70a745e",
+                    "a01d0b98-c485-4692-a3b6-ee533cb9bd4f"
+                ],
+                "description": "Al aceptar se crea la tabla de cpolaborador"
+            },
+            "top": 408,
+            "left": -1432,
+            "headerBackgroundColor": {
+                "red": 240,
+                "green": 98,
+                "blue": 146
+            },
+            "headerForegroundColor": {
+                "red": 255,
+                "green": 255,
+                "blue": 255
+            },
+            "createdAt": "2026-03-22T23:10:26.750Z"
+        },
+        {
+            "tableModel": {
+                "tableModelId": "bc9b0ba9-7d6a-4a3c-92b5-88fb9f657d50",
+                "physicalName": "rol",
+                "logicalName": "rol",
+                "columnModelIds": [
+                    "07033efc-edfe-4b54-8d2e-9fe8afda9eaf",
+                    "19a7b312-ae1a-4f3d-bdf6-2f7ae16a3967"
+                ]
+            },
+            "top": 814,
+            "left": -1552,
+            "headerBackgroundColor": {
+                "red": 171,
+                "green": 71,
+                "blue": 188
+            },
+            "headerForegroundColor": {
+                "red": 255,
+                "green": 255,
+                "blue": 255
+            },
+            "createdAt": "2026-03-22T23:12:41.912Z"
+        },
+        {
+            "tableModel": {
+                "tableModelId": "e0e6ca10-115e-42f7-99fa-ea57e4dc767c",
+                "physicalName": "colaborador_playlist",
+                "logicalName": "colaborador_playlist",
+                "columnModelIds": [
+                    "ae2e7dab-ccdc-407f-87b4-e080872bcb16",
+                    "d51dfedf-25a7-414b-ae3e-2d43e5cc35fe",
+                    "22007ce3-2ee9-46be-892b-63536d9252c3"
+                ],
+                "description": "Esta tabla se crea al crear una playlist"
+            },
+            "top": 649.3299999999999,
+            "left": -1164,
+            "headerBackgroundColor": {
+                "red": 240,
+                "green": 98,
+                "blue": 146
+            },
+            "headerForegroundColor": {
+                "red": 255,
+                "green": 255,
+                "blue": 255
+            },
+            "createdAt": "2026-03-22T23:13:43.785Z"
+        },
+        {
+            "tableModel": {
+                "tableModelId": "93aca7bd-3bc6-45d9-a20b-a51e869ba09f",
+                "physicalName": "artista_album",
+                "logicalName": "artista_album",
+                "columnModelIds": [
+                    "45957887-c0f6-44ec-a954-41d42b9bc40c",
+                    "125aef4e-a4bb-44a1-b60a-8208f988c967"
+                ]
+            },
+            "top": 481.32000000000005,
+            "left": 1254.6599999999999,
+            "headerBackgroundColor": {
+                "red": 129,
+                "green": 199,
+                "blue": 132
+            },
+            "headerForegroundColor": {
+                "red": 0,
+                "green": 0,
+                "blue": 0
+            },
+            "createdAt": "2026-03-22T23:16:48.232Z"
+        }
+    ],
+    "columnGroupModels": [
+        {
+            "columnGroupId": "ee4290f4-01b9-4c8b-a82a-a5bcbf309542",
+            "groupName": "Usuario",
+            "columnModelIds": [
+                "a608e46f-8a56-472f-91a9-2f7ee3c07663"
+            ]
+        }
+    ],
+    "columnModels": [
+        {
+            "columnModelId": "038a62b1-d072-4569-b1b3-ad7a70705dfb",
+            "columnShareModelId": "22c1cf09-09a1-44c5-a763-9363869ac6d0",
+            "primaryKey": true,
+            "notNull": true,
+            "autoIncrement": true
+        },
+        {
+            "columnModelId": "04fa89a5-5714-4965-b886-44ed1513bf8a",
+            "columnShareModelId": "6dd7c095-5a6a-463d-b393-1f8b3b63784b",
+            "notNull": true,
+            "unique": true
+        },
+        {
+            "columnModelId": "0595be95-0e74-4f8b-ba33-aeb373051caf",
+            "columnShareModelId": "59a6ce1f-d6fe-4e2b-bc5f-e34fed3755f0",
+            "defaultValue": "Alarma"
+        },
+        {
+            "columnModelId": "05e1e045-f717-4103-bda3-6b1819344aa2",
+            "columnShareModelId": "a1800387-d57f-4c69-a8cc-4d11d397b793",
+            "primaryKey": true,
+            "notNull": true
+        },
+        {
+            "columnModelId": "07033efc-edfe-4b54-8d2e-9fe8afda9eaf",
+            "columnShareModelId": "b556d31b-e638-4a13-a43a-8670300d0e6e",
+            "primaryKey": true,
+            "notNull": true,
+            "autoIncrement": true
+        },
+        {
+            "columnModelId": "09891d9b-947d-4d61-9b50-904f51a68f23",
+            "columnShareModelId": "3b431f8a-35a9-407d-ba5c-4c6bfc2523f6"
+        },
+        {
+            "columnModelId": "0d32d659-18cc-42f7-a8c3-c8f61c68ea57",
+            "columnShareModelId": "235f7a0a-4c90-4c8c-9506-04c429997f4c",
+            "defaultValue": "0"
+        },
+        {
+            "columnModelId": "0e0e146f-c570-460f-b8c8-977a39b7b52d",
+            "columnShareModelId": "2f009e33-8e0c-4f32-8e2c-d656e302cd4f",
+            "notNull": true
+        },
+        {
+            "columnModelId": "0ea89b6f-37cd-4ac4-a8bc-45153b82a63c",
+            "columnShareModelId": "3e78c47f-0dd6-41ca-99c1-6846a6e52320",
+            "primaryKey": true,
+            "notNull": true
+        },
+        {
+            "columnModelId": "125aef4e-a4bb-44a1-b60a-8208f988c967",
+            "columnShareModelId": "58c21453-7984-40f0-a050-a553bd071bc2",
+            "primaryKey": true,
+            "notNull": true
+        },
+        {
+            "columnModelId": "12b63e53-3f48-4896-858a-cb1c2893935e",
+            "columnShareModelId": "f81c39a9-a1d5-4387-ba17-cd00b3c96834"
+        },
+        {
+            "columnModelId": "15574bc1-1223-44e1-9529-9814d3b1fd6a",
+            "columnShareModelId": "44881205-8984-42da-accc-a4dacb040fc3",
+            "notNull": true
+        },
+        {
+            "columnModelId": "16638b8e-5a70-4f78-8c43-844c9ebb87fa",
+            "columnShareModelId": "3c141503-cd2b-48f8-87b6-225dee7234c7",
+            "defaultValue": "1"
+        },
+        {
+            "columnModelId": "19723c01-a741-4eab-a4b9-ebe4ecfe9e0d",
+            "columnShareModelId": "bc2b2acc-da80-42c5-a356-478b26c864a4",
+            "primaryKey": true,
+            "notNull": true
+        },
+        {
+            "columnModelId": "19a7b312-ae1a-4f3d-bdf6-2f7ae16a3967",
+            "columnShareModelId": "a28eb1a9-e096-41c5-8248-3679daa437b5",
+            "notNull": true
+        },
+        {
+            "columnModelId": "1a49b5a1-9b51-435c-81dd-7b5dafb2409a",
+            "columnShareModelId": "6a70a727-c09c-4040-b5bc-d2d70b076d4e",
+            "notNull": true
+        },
+        {
+            "columnModelId": "1a4e0f6d-67b2-4692-b9cd-3dee61622b92",
+            "columnShareModelId": "c12d224f-39c1-4fde-8b65-787b3c0c0492",
+            "notNull": true
+        },
+        {
+            "columnModelId": "21486b92-5cdf-47a8-b7c8-f0866a7ff8bf",
+            "columnShareModelId": "1704c02a-5adf-468d-8ebd-cfb0337498c6"
+        },
+        {
+            "columnModelId": "21df2eb8-5a14-4a6b-b737-77f2ec6836ab",
+            "columnShareModelId": "6227c635-2872-4385-a38b-f3f18e5f024a",
+            "notNull": true
+        },
+        {
+            "columnModelId": "22007ce3-2ee9-46be-892b-63536d9252c3",
+            "columnShareModelId": "397a9881-815f-4a41-89e6-ff0f120ed351",
+            "notNull": true
+        },
+        {
+            "columnModelId": "243d756f-f6ba-4d4d-bb52-3ac089dcfe15",
+            "columnShareModelId": "ed9881ac-0e72-4078-844a-2d7054da1e90",
+            "notNull": true
+        },
+        {
+            "columnModelId": "24446737-34b6-45a2-9710-18727e291aea",
+            "columnShareModelId": "32b5c986-ea6e-4d0f-8a14-1dddddb0933c",
+            "primaryKey": true,
+            "notNull": true,
+            "autoIncrement": true
+        },
+        {
+            "columnModelId": "256a63d6-d5b7-47be-8665-3f58a5f45dc5",
+            "columnShareModelId": "d66d005d-6f93-4063-804b-78386db8ba8e",
+            "notNull": true,
+            "defaultValue": "0"
+        },
+        {
+            "columnModelId": "28f648cd-94a9-471f-b439-4e2d84931f0b",
+            "columnShareModelId": "6b39979b-911d-4b40-9dfc-e04eb34338f5",
+            "primaryKey": true,
+            "notNull": true,
+            "autoIncrement": true
+        },
+        {
+            "columnModelId": "32747d91-7f6e-4cc7-a6db-dd0927f00b17",
+            "columnShareModelId": "a79d9161-7540-4214-8735-d327abd3865d",
+            "notNull": true,
+            "defaultValue": "0"
+        },
+        {
+            "columnModelId": "365df909-381f-4c71-a313-2585d3988c39",
+            "columnShareModelId": "c344c139-cca6-41f5-8e75-8d2cc563d9c4",
+            "notNull": true
+        },
+        {
+            "columnModelId": "366ccc3a-4247-4f3a-9dbc-9a1cc4507911",
+            "columnShareModelId": "88619ac0-619c-4486-bc7e-ac9cbe0837ca",
+            "notNull": true
+        },
+        {
+            "columnModelId": "371fe2a3-400e-433b-8e2c-c020221a64a6",
+            "columnShareModelId": "4ab04065-8d7d-4fab-ad54-d11181a0f0bf",
+            "notNull": true
+        },
+        {
+            "columnModelId": "37316b96-4c71-4db0-91bc-c229e2b3e599",
+            "columnShareModelId": "e1df5065-4f62-44ef-bc49-60f136abd271",
+            "primaryKey": true,
+            "notNull": true
+        },
+        {
+            "columnModelId": "383279af-876f-46ea-a285-c802aa7fb494",
+            "columnShareModelId": "cc6c713d-cd56-4dba-81f0-414cbd42315a",
+            "notNull": true
+        },
+        {
+            "columnModelId": "38de8a40-052f-4d31-8d36-e5b9913c788a",
+            "columnShareModelId": "eb3c057c-9ff8-40fc-97a9-c1e756c5c54b",
+            "notNull": true
+        },
+        {
+            "columnModelId": "3c6b7924-485d-4548-9370-f5cff9498ee7",
+            "columnShareModelId": "31573ab9-39bb-4cb0-9283-b411e29954ca",
+            "primaryKey": true,
+            "notNull": true
+        },
+        {
+            "columnModelId": "40680caa-e62a-4d7b-b458-9683a6610aba",
+            "columnShareModelId": "bffbaa80-0ad4-4e61-b2c1-2e2ab13c037a",
+            "primaryKey": true,
+            "notNull": true,
+            "autoIncrement": true
+        },
+        {
+            "columnModelId": "40cbaa5c-b4ec-4e9b-9ca7-2c9f9c5f08e5",
+            "columnShareModelId": "7e357806-d55e-4b86-98bd-0d607e92daa3",
+            "primaryKey": true,
+            "notNull": true
+        },
+        {
+            "columnModelId": "45957887-c0f6-44ec-a954-41d42b9bc40c",
+            "columnShareModelId": "28ee617b-8777-43b9-96ae-89d45125a782",
+            "primaryKey": true,
+            "notNull": true
+        },
+        {
+            "columnModelId": "4d04ddd9-7c6b-4f81-9ffe-a50f57037d96",
+            "columnShareModelId": "42577b88-6bc0-4285-93a8-830db649adc6",
+            "primaryKey": true,
+            "notNull": true
+        },
+        {
+            "columnModelId": "5231b066-c461-4293-880b-cb973a4631a3",
+            "columnShareModelId": "7db05d22-ed43-4841-9061-f7247b240b00",
+            "notNull": true
+        },
+        {
+            "columnModelId": "530b070b-b1ef-4af6-8237-36659aaf65a8",
+            "columnShareModelId": "7201a9b1-3911-42ac-b88b-db99d11fb6b9",
+            "notNull": true
+        },
+        {
+            "columnModelId": "53b96b53-c5a5-4ed2-bdb2-05c8a10d72f7",
+            "columnShareModelId": "1b854fbc-094d-4351-818a-186d08c2a0fe"
+        },
+        {
+            "columnModelId": "55f06d16-51f6-41bb-90a6-24683bc92803",
+            "columnShareModelId": "d748b6a8-648d-439a-a9b6-bbf513dde008",
+            "primaryKey": true,
+            "notNull": true,
+            "autoIncrement": true
+        },
+        {
+            "columnModelId": "5985489d-8ace-47ab-887b-7a1411c5964c",
+            "columnShareModelId": "07826c61-3e0b-404f-83a7-de3b599f13dc",
+            "primaryKey": true,
+            "notNull": true
+        },
+        {
+            "columnModelId": "5dc7bc5c-e7f5-4825-be0e-a8c20f16a16d",
+            "columnShareModelId": "acab6e83-6738-4e0a-b8c7-eb07d115ec12",
+            "primaryKey": true,
+            "notNull": true,
+            "autoIncrement": true
+        },
+        {
+            "columnModelId": "60beeae6-91c3-4602-8f8e-9275e6feca7a",
+            "columnShareModelId": "e4f341cc-0fb4-4b6b-ad1d-bacaae8cd889",
+            "notNull": true,
+            "unique": true
+        },
+        {
+            "columnModelId": "62f4e9f3-9071-4f87-aa8f-e0fd082aa7a9",
+            "columnShareModelId": "3e48971c-97c3-4153-bd37-93a5c933a227",
+            "notNull": true
+        },
+        {
+            "columnModelId": "65e91386-29b8-4f03-b9a1-c8b7795f303e",
+            "columnShareModelId": "7d03f63e-0f64-4f02-b7a1-40640f3abb1a",
+            "primaryKey": true,
+            "notNull": true,
+            "autoIncrement": true
+        },
+        {
+            "columnModelId": "665ea20a-8806-4d74-8ee1-a5eaa12e3015",
+            "columnShareModelId": "32232a32-8980-4532-815b-901c3bedff0c",
+            "notNull": true
+        },
+        {
+            "columnModelId": "6699fef6-2f97-4084-b2e0-a350a4f79f18",
+            "columnShareModelId": "541e2945-67c6-4d4d-8ace-e047cac2cbdb",
+            "primaryKey": true,
+            "notNull": true
+        },
+        {
+            "columnModelId": "6b2a67c2-9448-4dbd-b2d1-d6c4afa2e1f6",
+            "columnShareModelId": "9885b282-25ab-49b3-999f-6734d0a75ccc"
+        },
+        {
+            "columnModelId": "7227ccdc-43b3-4f8b-9bf5-573f91cc39ac",
+            "columnShareModelId": "2c7ca4a3-ac2b-438e-9ace-ec29cffb252d",
+            "primaryKey": true,
+            "notNull": true
+        },
+        {
+            "columnModelId": "73572bab-28e6-4f74-877a-d11fd6c5c187",
+            "columnShareModelId": "5bacdc41-24a9-4f38-bcc9-7c8d3f937b71",
+            "notNull": true
+        },
+        {
+            "columnModelId": "7992b22a-cb93-4462-bad8-e63f543c52cc",
+            "columnShareModelId": "4d41dfaa-387a-410b-bb01-9dd8ebd8f67a",
+            "notNull": true
+        },
+        {
+            "columnModelId": "7a9911f4-32e4-4883-8934-d03ed5cab5f7",
+            "columnShareModelId": "4324824a-1bf4-4864-a18a-290bf93269c6"
+        },
+        {
+            "columnModelId": "7b0e1a82-5ced-49f3-8cab-ef0bf9f94b18",
+            "columnShareModelId": "f34025c5-cabd-4d65-9160-acd5d70f6d6f",
+            "notNull": true
+        },
+        {
+            "columnModelId": "7ba5fca1-a62f-4c0b-9b96-5a7d8f85e8a1",
+            "columnShareModelId": "08cc3fe7-483b-421d-846f-774f5c362cae",
+            "primaryKey": true,
+            "notNull": true
+        },
+        {
+            "columnModelId": "84684c1b-f2eb-40e9-9541-5b62d70a745e",
+            "columnShareModelId": "7776ed90-863c-4b6f-8273-bc55fffc0c03",
+            "notNull": true
+        },
+        {
+            "columnModelId": "846a230e-b9fc-42f4-83fd-908a7d545f64",
+            "columnShareModelId": "190e9b82-5b0a-4d09-83b2-fdeae9da45fd",
+            "notNull": true
+        },
+        {
+            "columnModelId": "8d074bf0-404e-4bf5-add9-a69b07787b44",
+            "columnShareModelId": "56533957-a908-4104-a0cd-cb1761aca65a",
+            "notNull": true
+        },
+        {
+            "columnModelId": "901e18da-4b5e-4aa7-9422-835b76225196",
+            "columnShareModelId": "1d4521f1-b876-4193-92da-3c23c5ba3b91"
+        },
+        {
+            "columnModelId": "9422454d-e58f-4778-b06a-482c6471aba3",
+            "columnShareModelId": "eec6d9e3-d618-49c3-b595-c39f5ed6a38a",
+            "notNull": true
+        },
+        {
+            "columnModelId": "95bb8255-6f4b-4b7e-8dec-cbeb0fa06fdb",
+            "columnShareModelId": "aed2e1e0-cee2-4e3e-a656-81a1e22cd677",
+            "defaultValue": "0"
+        },
+        {
+            "columnModelId": "97608976-86a4-44db-b511-98ad03862350",
+            "columnShareModelId": "89bf673a-2cea-43b0-aebd-41b227d63fae",
+            "notNull": true
+        },
+        {
+            "columnModelId": "9af64351-787d-450c-b00c-881d0b82b917",
+            "columnShareModelId": "69004206-e900-41c2-bfaf-0ecf58f9f81c"
+        },
+        {
+            "columnModelId": "9b1e2710-0bfb-4f8d-9ab3-bba492825c13",
+            "columnShareModelId": "46083530-6e94-4103-bcde-afc07c42d782",
+            "primaryKey": true,
+            "notNull": true,
+            "autoIncrement": true
+        },
+        {
+            "columnModelId": "9eda1373-4497-4172-973d-6934184315ba",
+            "columnShareModelId": "d4c77ea5-9ccf-4a85-9b43-6d3d962c6e85",
+            "notNull": true
+        },
+        {
+            "columnModelId": "a01d0b98-c485-4692-a3b6-ee533cb9bd4f",
+            "columnShareModelId": "49eed04e-cfd2-4074-8a4b-18eaa6ec4b25",
+            "notNull": true
+        },
+        {
+            "columnModelId": "a05caa81-5a97-4cef-8355-40e9bbcb80bc",
+            "columnShareModelId": "4184e6e4-78b1-4a51-9785-0265e8d5d23b",
+            "notNull": true
+        },
+        {
+            "columnModelId": "a54bee7c-3529-4c78-92ba-8d5a32805a2d",
+            "columnShareModelId": "a4fe168e-50a5-446a-83a7-71db75220b5c",
+            "primaryKey": true,
+            "notNull": true,
+            "autoIncrement": true
+        },
+        {
+            "columnModelId": "a608e46f-8a56-472f-91a9-2f7ee3c07663",
+            "columnShareModelId": "33de5fda-4027-4d45-a32d-4b26ce6367e7",
+            "primaryKey": true,
+            "notNull": true,
+            "autoIncrement": true
+        },
+        {
+            "columnModelId": "aba7515f-aa8e-48a6-853a-3cbe0cef9092",
+            "columnShareModelId": "537ead6b-0e3b-4ccb-85aa-d51ba181524c",
+            "notNull": true
+        },
+        {
+            "columnModelId": "ad970c0e-5eac-4ea5-88f9-5e0e9fa6d718",
+            "columnShareModelId": "4bcfc58b-ff19-456f-9859-19e5e4e8eaeb",
+            "defaultValue": "0"
+        },
+        {
+            "columnModelId": "ae2e7dab-ccdc-407f-87b4-e080872bcb16",
+            "columnShareModelId": "5b353c20-ff96-4ded-a8c1-351bf97a0dfd",
+            "primaryKey": true,
+            "notNull": true
+        },
+        {
+            "columnModelId": "bfd39bba-5dc2-4ed7-9a72-21ab97a24a42",
+            "columnShareModelId": "5be2b0d7-158f-42b7-8c36-52230fae4db2",
+            "primaryKey": true,
+            "notNull": true
+        },
+        {
+            "columnModelId": "c0de6290-59bf-4756-8f39-d7a6077127f4",
+            "columnShareModelId": "d818303f-da17-4a4f-bf65-ea3eca75f389",
+            "notNull": true
+        },
+        {
+            "columnModelId": "c347cd34-5333-4cf3-b5b9-61b277ddc314",
+            "columnShareModelId": "e8119680-a508-46d9-97bc-74f50cd46055",
+            "notNull": true
+        },
+        {
+            "columnModelId": "c62207d9-6400-4088-bc82-ccb5d7bb442d",
+            "columnShareModelId": "210ed41f-d62b-4ccf-96d4-c9fb7e16f8cf",
+            "primaryKey": true,
+            "notNull": true
+        },
+        {
+            "columnModelId": "c6a20406-860e-4d65-ba0a-4568a0a43448",
+            "columnShareModelId": "cacf4ee2-cb4c-4d81-af17-aa237818f855",
+            "primaryKey": true,
+            "notNull": true
+        },
+        {
+            "columnModelId": "ca1f6674-49a7-4088-8de5-3b0d6e57be90",
+            "columnShareModelId": "64505f6c-6734-43ab-90ea-ecb51b9e2b10",
+            "notNull": true
+        },
+        {
+            "columnModelId": "cc2a1d03-ba77-4f86-aaea-4ad41465ba7a",
+            "columnShareModelId": "436cff07-7756-4d53-be75-087599cdc3ad",
+            "primaryKey": true,
+            "notNull": true,
+            "autoIncrement": true
+        },
+        {
+            "columnModelId": "cc2d5407-4a7a-4915-8635-2885ae65f697",
+            "columnShareModelId": "22b4419c-3ab1-4d4a-a397-dd885d0cbc7a",
+            "notNull": true
+        },
+        {
+            "columnModelId": "cf15a069-d6ac-483f-a0c8-d9e729237910",
+            "columnShareModelId": "1d4239f9-030b-4419-911f-cdf9d7d9e1b8",
+            "primaryKey": true,
+            "notNull": true,
+            "autoIncrement": true
+        },
+        {
+            "columnModelId": "d2c62293-59ca-493e-867f-ab18e2b82dec",
+            "columnShareModelId": "6d52b448-bd72-42fb-be19-339a82445d81"
+        },
+        {
+            "columnModelId": "d51db0de-307d-4945-8741-8feaa94d2cce",
+            "columnShareModelId": "6f682b04-4a44-42c6-b062-9612ab958857",
+            "primaryKey": true,
+            "notNull": true
+        },
+        {
+            "columnModelId": "d51dfedf-25a7-414b-ae3e-2d43e5cc35fe",
+            "columnShareModelId": "957eb2c0-68a0-421f-bd92-9106aee05ccd",
+            "primaryKey": true,
+            "notNull": true
+        },
+        {
+            "columnModelId": "d55d19f0-3bf6-4e8b-8698-db1427fe3858",
+            "columnShareModelId": "860c22d2-1492-44b5-a7d8-c11e75723438",
+            "notNull": true
+        },
+        {
+            "columnModelId": "d571b642-ac4f-45f8-b7f2-e54c9f056c72",
+            "columnShareModelId": "884ee30d-5bd9-486e-93db-dfdf41d97ffa",
+            "primaryKey": true,
+            "notNull": true
+        },
+        {
+            "columnModelId": "d607cc22-d41b-4da8-a015-085be17c0315",
+            "columnShareModelId": "99535c13-c32f-41d9-8e42-e527d7a38668",
+            "notNull": true
+        },
+        {
+            "columnModelId": "d80d824a-b761-4ecd-9b26-f2d64749da70",
+            "columnShareModelId": "ebb592bf-3b4a-45aa-8df9-001347746172",
+            "notNull": true
+        },
+        {
+            "columnModelId": "d99f1e8f-0b21-4d56-bc12-47177fae5495",
+            "columnShareModelId": "b80e20d4-b876-45f8-a157-16a59f4bf6b1",
+            "notNull": true
+        },
+        {
+            "columnModelId": "da4e80c2-6151-4d3e-b726-b35a3e1cc79e",
+            "columnShareModelId": "d613a2b1-d36a-467c-ae06-6b18457c0217",
+            "notNull": true
+        },
+        {
+            "columnModelId": "dee7bd2b-2876-4f7c-b6b6-a2db73e74376",
+            "columnShareModelId": "5eac6f42-1d5d-44a8-ac75-c37902ca1aaf"
+        },
+        {
+            "columnModelId": "e0b4de73-801b-4b94-a4b7-1e50abe66b47",
+            "columnShareModelId": "c844ee74-b4e1-4204-a233-6eb3b1c6f254",
+            "primaryKey": true,
+            "notNull": true
+        },
+        {
+            "columnModelId": "e13f7bfd-02d6-4f31-b438-b009f54b2bba",
+            "columnShareModelId": "53dc224c-753a-4f24-b017-b8092df1bd83",
+            "notNull": true
+        },
+        {
+            "columnModelId": "e9b41f35-9e8a-4ffb-82b1-025c42ead1b1",
+            "columnShareModelId": "c995ca0d-74b3-4bf9-8228-edd5224ba039",
+            "notNull": true
+        },
+        {
+            "columnModelId": "ea3c084c-a5bb-4460-9d0d-02a88a5d12b5",
+            "columnShareModelId": "43553fcd-c544-4f9a-a477-09f549088e29",
+            "primaryKey": true,
+            "notNull": true
+        },
+        {
+            "columnModelId": "eba22f54-f7ab-44db-b110-fa9d9793db92",
+            "columnShareModelId": "5072470c-0a11-4cae-83c1-0224a975f2f2"
+        },
+        {
+            "columnModelId": "ed7e3365-58ab-45cb-8382-a3f1fbc52bc2",
+            "columnShareModelId": "ebd479c8-d451-4bea-93e5-1e1c360ede96",
+            "primaryKey": true,
+            "notNull": true
+        },
+        {
+            "columnModelId": "f426569b-89a4-4514-bf9a-b244e7b7ad08",
+            "columnShareModelId": "adc57e77-363f-4c78-902f-374d87144e29",
+            "primaryKey": true,
+            "notNull": true
+        },
+        {
+            "columnModelId": "f876fbaf-5236-48db-b27a-ace1ac2c7166",
+            "columnShareModelId": "b0191fdc-d0dd-41a3-b334-9ba4dce4a34e",
+            "primaryKey": true,
+            "notNull": true
+        },
+        {
+            "columnModelId": "fa1d67f1-4321-41b0-aab3-4ace22d707d2",
+            "columnShareModelId": "76bf60f5-5eb3-4069-b455-c0e75f9f61f8",
+            "notNull": true
+        },
+        {
+            "columnModelId": "fb9ce62d-ef6a-4c4a-9b9a-1fe26d74eb4a",
+            "columnShareModelId": "a5e33230-d3f1-44a9-8bd2-fe66348be7d7",
+            "primaryKey": true,
+            "notNull": true
+        },
+        {
+            "columnModelId": "fc44a1b4-87db-4c61-9399-f6735bf776e2",
+            "columnShareModelId": "075774d0-40eb-4db4-9585-a1b03c6de489",
+            "primaryKey": true,
+            "notNull": true
+        },
+        {
+            "columnModelId": "fda9771a-e9cf-492d-b097-d44550047c20",
+            "columnShareModelId": "c3eb80c5-3106-4bff-a706-54a2ec188e45",
+            "primaryKey": true,
+            "notNull": true,
+            "autoIncrement": true
+        },
+        {
+            "columnModelId": "fff1719a-0dbd-4389-8898-c508c9e58e57",
+            "columnShareModelId": "2d46c183-e4fb-4b46-8ec1-2881ea0748e4",
+            "primaryKey": true,
+            "notNull": true,
+            "autoIncrement": true,
+            "defaultValue": "0"
+        }
+    ],
+    "columnShareModels": [
+        {
+            "columnShareModelId": "3c141503-cd2b-48f8-87b6-225dee7234c7",
+            "physicalName": "activo",
+            "logicalName": "activo",
+            "columnTypeId": 20,
+            "precision": "1",
+            "createdAt": "2026-03-18T22:38:28.683Z"
+        },
+        {
+            "columnShareModelId": "4bcfc58b-ff19-456f-9859-19e5e4e8eaeb",
+            "physicalName": "activo",
+            "logicalName": "activo",
+            "columnTypeId": 20,
+            "precision": "1",
+            "createdAt": "2026-03-19T23:36:28.392Z"
+        },
+        {
+            "columnShareModelId": "c344c139-cca6-41f5-8e75-8d2cc563d9c4",
+            "physicalName": "activo",
+            "logicalName": "activo",
+            "columnTypeId": 20,
+            "precision": "1",
+            "createdAt": "2026-03-19T23:03:41.897Z"
+        },
+        {
+            "columnShareModelId": "aed2e1e0-cee2-4e3e-a656-81a1e22cd677",
+            "physicalName": "admin",
+            "logicalName": "admin",
+            "columnTypeId": 20,
+            "precision": "1",
+            "createdAt": "2026-03-18T22:11:42.788Z"
+        },
+        {
+            "columnShareModelId": "b80e20d4-b876-45f8-a157-16a59f4bf6b1",
+            "physicalName": "artistas",
+            "logicalName": "artistas",
+            "columnTypeId": 17,
+            "unsigned": true,
+            "createdAt": "2026-03-22T21:44:34.004Z"
+        },
+        {
+            "columnShareModelId": "32232a32-8980-4532-815b-901c3bedff0c",
+            "physicalName": "audio_url",
+            "logicalName": "audio_url",
+            "columnTypeId": 312,
+            "precision": "300",
+            "createdAt": "2026-03-22T21:45:02.622Z"
+        },
+        {
+            "columnShareModelId": "1704c02a-5adf-468d-8ebd-cfb0337498c6",
+            "physicalName": "color_primario",
+            "logicalName": "color_primario",
+            "columnTypeId": 312,
+            "precision": "7",
+            "createdAt": "2026-03-18T22:57:03.052Z"
+        },
+        {
+            "columnShareModelId": "f81c39a9-a1d5-4387-ba17-cd00b3c96834",
+            "physicalName": "color_secundario",
+            "logicalName": "color_secundario",
+            "columnTypeId": 312,
+            "precision": "7",
+            "createdAt": "2026-03-18T22:56:51.116Z"
+        },
+        {
+            "columnShareModelId": "6dd7c095-5a6a-463d-b393-1f8b3b63784b",
+            "physicalName": "correo",
+            "logicalName": "correo",
+            "columnTypeId": 312,
+            "precision": "300",
+            "createdAt": "2026-03-18T22:07:53.923Z"
+        },
+        {
+            "columnShareModelId": "5eac6f42-1d5d-44a8-ac75-c37902ca1aaf",
+            "physicalName": "Descripcion",
+            "logicalName": "Descripcion",
+            "columnTypeId": 312,
+            "precision": "1000",
+            "createdAt": "2026-03-19T22:35:09.156Z"
+        },
+        {
+            "columnShareModelId": "c12d224f-39c1-4fde-8b65-787b3c0c0492",
+            "physicalName": "destinatario_id",
+            "logicalName": "destinatario_id",
+            "columnTypeId": 17,
+            "unsigned": true,
+            "createdAt": "2026-03-22T21:07:01.076Z"
+        },
+        {
+            "columnShareModelId": "190e9b82-5b0a-4d09-83b2-fdeae9da45fd",
+            "physicalName": "Estado",
+            "logicalName": "Estado",
+            "columnTypeId": 312,
+            "precision": "150",
+            "createdAt": "2026-03-22T21:08:57.540Z"
+        },
+        {
+            "columnShareModelId": "89bf673a-2cea-43b0-aebd-41b227d63fae",
+            "physicalName": "fecha",
+            "logicalName": "fecha",
+            "columnTypeId": 101,
+            "createdAt": "2026-03-19T23:03:20.391Z"
+        },
+        {
+            "columnShareModelId": "49eed04e-cfd2-4074-8a4b-18eaa6ec4b25",
+            "physicalName": "fecha",
+            "logicalName": "fecha",
+            "columnTypeId": 112,
+            "createdAt": "2026-03-22T22:59:01.142Z"
+        },
+        {
+            "columnShareModelId": "4ab04065-8d7d-4fab-ad54-d11181a0f0bf",
+            "physicalName": "fecha",
+            "logicalName": "fecha",
+            "columnTypeId": 112,
+            "createdAt": "2026-03-22T21:20:55.396Z"
+        },
+        {
+            "columnShareModelId": "56533957-a908-4104-a0cd-cb1761aca65a",
+            "physicalName": "fecha",
+            "logicalName": "fecha",
+            "columnTypeId": 112,
+            "createdAt": "2026-03-22T21:21:13.440Z"
+        },
+        {
+            "columnShareModelId": "64505f6c-6734-43ab-90ea-ecb51b9e2b10",
+            "physicalName": "fecha",
+            "logicalName": "fecha",
+            "columnTypeId": 112,
+            "createdAt": "2026-03-22T21:07:52.984Z"
+        },
+        {
+            "columnShareModelId": "7db05d22-ed43-4841-9061-f7247b240b00",
+            "physicalName": "fecha",
+            "logicalName": "fecha",
+            "columnTypeId": 112,
+            "createdAt": "2026-03-22T22:39:49.670Z"
+        },
+        {
+            "columnShareModelId": "adc57e77-363f-4c78-902f-374d87144e29",
+            "physicalName": "fecha",
+            "logicalName": "fecha",
+            "columnTypeId": 112,
+            "createdAt": "2026-03-22T21:27:49.838Z"
+        },
+        {
+            "columnShareModelId": "c995ca0d-74b3-4bf9-8228-edd5224ba039",
+            "physicalName": "fecha",
+            "logicalName": "fecha",
+            "columnTypeId": 112,
+            "createdAt": "2026-03-22T22:00:12.067Z"
+        },
+        {
+            "columnShareModelId": "d818303f-da17-4a4f-bf65-ea3eca75f389",
+            "physicalName": "fecha",
+            "logicalName": "fecha",
+            "columnTypeId": 112,
+            "createdAt": "2026-03-22T22:45:51.616Z"
+        },
+        {
+            "columnShareModelId": "ed9881ac-0e72-4078-844a-2d7054da1e90",
+            "physicalName": "fecha_compra",
+            "logicalName": "fecha_compra",
+            "columnTypeId": 101,
+            "createdAt": "2026-03-19T23:37:11.363Z"
+        },
+        {
+            "columnShareModelId": "6d52b448-bd72-42fb-be19-339a82445d81",
+            "physicalName": "fecha_lanzamiento",
+            "logicalName": "fecha_lanzamiento",
+            "columnTypeId": 112,
+            "description": "Esto nos puede a ayudar a poner albums antes de que salgan y que cuando salgan se activen solos",
+            "createdAt": "2026-03-22T21:39:56.854Z"
+        },
+        {
+            "columnShareModelId": "44881205-8984-42da-accc-a4dacb040fc3",
+            "physicalName": "fecha_registro",
+            "logicalName": "fecha_registro",
+            "columnTypeId": 101,
+            "createdAt": "2026-03-18T22:27:52.131Z"
+        },
+        {
+            "columnShareModelId": "4324824a-1bf4-4864-a18a-290bf93269c6",
+            "physicalName": "foto_url",
+            "logicalName": "foto_url",
+            "columnTypeId": 312,
+            "precision": "300",
+            "createdAt": "2026-03-22T21:33:05.511Z"
+        },
+        {
+            "columnShareModelId": "eec6d9e3-d618-49c3-b595-c39f5ed6a38a",
+            "physicalName": "genero",
+            "logicalName": "genero",
+            "columnTypeId": 312,
+            "precision": "150",
+            "createdAt": "2026-03-22T21:40:55.701Z"
+        },
+        {
+            "columnShareModelId": "5bacdc41-24a9-4f38-bcc9-7c8d3f937b71",
+            "physicalName": "generos",
+            "logicalName": "generos",
+            "columnTypeId": 17,
+            "unsigned": true,
+            "createdAt": "2026-03-22T21:43:52.963Z"
+        },
+        {
+            "columnShareModelId": "cc6c713d-cd56-4dba-81f0-414cbd42315a",
+            "physicalName": "hora",
+            "logicalName": "hora",
+            "columnTypeId": 131,
+            "createdAt": "2026-03-18T22:37:55.564Z"
+        },
+        {
+            "columnShareModelId": "1d4239f9-030b-4419-911f-cdf9d7d9e1b8",
+            "physicalName": "id",
+            "logicalName": "id",
+            "columnTypeId": 17,
+            "unsigned": true,
+            "createdAt": "2026-03-22T21:35:57.459Z"
+        },
+        {
+            "columnShareModelId": "22c1cf09-09a1-44c5-a763-9363869ac6d0",
+            "physicalName": "id",
+            "logicalName": "id",
+            "columnTypeId": 17,
+            "unsigned": true,
+            "createdAt": "2026-03-22T22:37:03.120Z"
+        },
+        {
+            "columnShareModelId": "2d46c183-e4fb-4b46-8ec1-2881ea0748e4",
+            "physicalName": "id",
+            "logicalName": "id",
+            "columnTypeId": 17,
+            "unsigned": true,
+            "createdAt": "2026-03-17T23:16:53.041Z"
+        },
+        {
+            "columnShareModelId": "32b5c986-ea6e-4d0f-8a14-1dddddb0933c",
+            "physicalName": "id",
+            "logicalName": "id",
+            "columnTypeId": 17,
+            "unsigned": true,
+            "createdAt": "2026-03-22T21:04:44.984Z"
+        },
+        {
+            "columnShareModelId": "a4fe168e-50a5-446a-83a7-71db75220b5c",
+            "physicalName": "id",
+            "logicalName": "id",
+            "columnTypeId": 17,
+            "unsigned": true,
+            "createdAt": "2026-03-22T21:42:26.310Z"
+        },
+        {
+            "columnShareModelId": "d748b6a8-648d-439a-a9b6-bbf513dde008",
+            "physicalName": "id",
+            "logicalName": "id",
+            "columnTypeId": 17,
+            "unsigned": true,
+            "createdAt": "2026-03-18T22:33:13.331Z"
+        },
+        {
+            "columnShareModelId": "436cff07-7756-4d53-be75-087599cdc3ad",
+            "physicalName": "id",
+            "logicalName": "id",
+            "columnTypeId": 15,
+            "unsigned": true,
+            "createdAt": "2026-03-22T21:31:50.475Z"
+        },
+        {
+            "columnShareModelId": "46083530-6e94-4103-bcde-afc07c42d782",
+            "physicalName": "id",
+            "logicalName": "id",
+            "columnTypeId": 15,
+            "unsigned": true,
+            "createdAt": "2026-03-18T23:00:12.988Z"
+        },
+        {
+            "columnShareModelId": "6b39979b-911d-4b40-9dfc-e04eb34338f5",
+            "physicalName": "id",
+            "logicalName": "id",
+            "columnTypeId": 15,
+            "unsigned": true,
+            "createdAt": "2026-03-19T23:18:08.671Z"
+        },
+        {
+            "columnShareModelId": "7d03f63e-0f64-4f02-b7a1-40640f3abb1a",
+            "physicalName": "id",
+            "logicalName": "id",
+            "columnTypeId": 15,
+            "unsigned": true,
+            "createdAt": "2026-03-22T21:08:35.666Z"
+        },
+        {
+            "columnShareModelId": "acab6e83-6738-4e0a-b8c7-eb07d115ec12",
+            "physicalName": "id",
+            "logicalName": "id",
+            "columnTypeId": 15,
+            "unsigned": true,
+            "createdAt": "2026-03-18T23:03:02.755Z"
+        },
+        {
+            "columnShareModelId": "bffbaa80-0ad4-4e61-b2c1-2e2ab13c037a",
+            "physicalName": "id",
+            "logicalName": "id",
+            "columnTypeId": 15,
+            "unsigned": true,
+            "createdAt": "2026-03-19T23:17:29.599Z"
+        },
+        {
+            "columnShareModelId": "c3eb80c5-3106-4bff-a706-54a2ec188e45",
+            "physicalName": "id",
+            "logicalName": "id",
+            "columnTypeId": 15,
+            "unsigned": true,
+            "createdAt": "2026-03-22T21:40:38.286Z"
+        },
+        {
+            "columnShareModelId": "08cc3fe7-483b-421d-846f-774f5c362cae",
+            "physicalName": "id_album",
+            "logicalName": "id_album",
+            "columnTypeId": 17,
+            "unsigned": true,
+            "createdAt": "2026-03-22T21:48:53.116Z"
+        },
+        {
+            "columnShareModelId": "58c21453-7984-40f0-a050-a553bd071bc2",
+            "physicalName": "id_album",
+            "logicalName": "id_album",
+            "columnTypeId": 17,
+            "unsigned": true,
+            "createdAt": "2026-03-22T23:16:12.333Z"
+        },
+        {
+            "columnShareModelId": "c844ee74-b4e1-4204-a233-6eb3b1c6f254",
+            "physicalName": "id_amigo",
+            "logicalName": "id_amigo",
+            "columnTypeId": 17,
+            "unsigned": true,
+            "createdAt": "2026-03-22T21:18:02.069Z"
+        },
+        {
+            "columnShareModelId": "28ee617b-8777-43b9-96ae-89d45125a782",
+            "physicalName": "id_artista",
+            "logicalName": "id_artista",
+            "columnTypeId": 15,
+            "unsigned": true,
+            "createdAt": "2026-03-22T23:16:37.409Z"
+        },
+        {
+            "columnShareModelId": "2c7ca4a3-ac2b-438e-9ace-ec29cffb252d",
+            "physicalName": "id_artista",
+            "logicalName": "id_artista",
+            "columnTypeId": 15,
+            "unsigned": true,
+            "createdAt": "2026-03-22T21:59:58.834Z"
+        },
+        {
+            "columnShareModelId": "6f682b04-4a44-42c6-b062-9612ab958857",
+            "physicalName": "id_artista",
+            "logicalName": "id_artista",
+            "columnTypeId": 15,
+            "unsigned": true,
+            "createdAt": "2026-03-22T21:50:41.227Z"
+        },
+        {
+            "columnShareModelId": "075774d0-40eb-4db4-9585-a1b03c6de489",
+            "physicalName": "id_cancion",
+            "logicalName": "id_cancion",
+            "columnTypeId": 17,
+            "unsigned": true,
+            "createdAt": "2026-03-22T21:46:35.369Z"
+        },
+        {
+            "columnShareModelId": "07826c61-3e0b-404f-83a7-de3b599f13dc",
+            "physicalName": "id_cancion",
+            "logicalName": "id_cancion",
+            "columnTypeId": 17,
+            "unsigned": true,
+            "createdAt": "2026-03-22T21:27:37.111Z"
+        },
+        {
+            "columnShareModelId": "43553fcd-c544-4f9a-a477-09f549088e29",
+            "physicalName": "id_cancion",
+            "logicalName": "id_cancion",
+            "columnTypeId": 17,
+            "unsigned": true,
+            "createdAt": "2026-03-22T21:20:31.999Z"
+        },
+        {
+            "columnShareModelId": "5be2b0d7-158f-42b7-8c36-52230fae4db2",
+            "physicalName": "id_cancion",
+            "logicalName": "id_cancion",
+            "columnTypeId": 17,
+            "unsigned": true,
+            "createdAt": "2026-03-22T22:41:58.624Z"
+        },
+        {
+            "columnShareModelId": "6227c635-2872-4385-a38b-f3f18e5f024a",
+            "physicalName": "id_cancion",
+            "logicalName": "id_cancion",
+            "columnTypeId": 17,
+            "unsigned": true,
+            "createdAt": "2026-03-18T22:36:56.557Z"
+        },
+        {
+            "columnShareModelId": "884ee30d-5bd9-486e-93db-dfdf41d97ffa",
+            "physicalName": "id_cancion",
+            "logicalName": "id_cancion",
+            "columnTypeId": 17,
+            "unsigned": true,
+            "createdAt": "2026-03-22T21:49:09.656Z"
+        },
+        {
+            "columnShareModelId": "e1df5065-4f62-44ef-bc49-60f136abd271",
+            "physicalName": "id_cancion",
+            "logicalName": "id_cancion",
+            "columnTypeId": 17,
+            "unsigned": true,
+            "createdAt": "2026-03-22T21:51:00.714Z"
+        },
+        {
+            "columnShareModelId": "957eb2c0-68a0-421f-bd92-9106aee05ccd",
+            "physicalName": "id_colaborador",
+            "logicalName": "id_colaborador",
+            "columnTypeId": 17,
+            "unsigned": true,
+            "createdAt": "2026-03-22T23:04:53.566Z"
+        },
+        {
+            "columnShareModelId": "88619ac0-619c-4486-bc7e-ac9cbe0837ca",
+            "physicalName": "id_empresa",
+            "logicalName": "id_empresa",
+            "columnTypeId": 15,
+            "unsigned": true,
+            "createdAt": "2026-03-19T22:33:45.099Z"
+        },
+        {
+            "columnShareModelId": "53dc224c-753a-4f24-b017-b8092df1bd83",
+            "physicalName": "id_estado",
+            "logicalName": "id_estado",
+            "columnTypeId": 15,
+            "unsigned": true,
+            "createdAt": "2026-03-22T21:07:30.738Z"
+        },
+        {
+            "columnShareModelId": "7776ed90-863c-4b6f-8273-bc55fffc0c03",
+            "physicalName": "id_estado",
+            "logicalName": "id_estado",
+            "columnTypeId": 15,
+            "unsigned": true,
+            "createdAt": "2026-03-22T22:58:36.894Z"
+        },
+        {
+            "columnShareModelId": "31573ab9-39bb-4cb0-9283-b411e29954ca",
+            "physicalName": "id_genero",
+            "logicalName": "id_genero",
+            "columnTypeId": 15,
+            "unsigned": true,
+            "createdAt": "2026-03-22T21:46:06.361Z"
+        },
+        {
+            "columnShareModelId": "7e357806-d55e-4b86-98bd-0d607e92daa3",
+            "physicalName": "id_invitado",
+            "logicalName": "id_invitado",
+            "columnTypeId": 17,
+            "unsigned": true,
+            "createdAt": "2026-03-22T22:55:52.747Z"
+        },
+        {
+            "columnShareModelId": "b0191fdc-d0dd-41a3-b334-9ba4dce4a34e",
+            "physicalName": "id_mascota",
+            "logicalName": "id_mascota",
+            "columnTypeId": 15,
+            "unsigned": true,
+            "createdAt": "2026-03-22T20:49:40.631Z"
+        },
+        {
+            "columnShareModelId": "5b353c20-ff96-4ded-a8c1-351bf97a0dfd",
+            "physicalName": "id_playlist",
+            "logicalName": "id_playlist",
+            "columnTypeId": 17,
+            "unsigned": true,
+            "createdAt": "2026-03-22T23:11:28.271Z"
+        },
+        {
+            "columnShareModelId": "a1800387-d57f-4c69-a8cc-4d11d397b793",
+            "physicalName": "id_playlist",
+            "logicalName": "id_playlist",
+            "columnTypeId": 17,
+            "unsigned": true,
+            "createdAt": "2026-03-22T22:41:25.855Z"
+        },
+        {
+            "columnShareModelId": "cacf4ee2-cb4c-4d81-af17-aa237818f855",
+            "physicalName": "id_playlist",
+            "logicalName": "id_playlist",
+            "columnTypeId": 17,
+            "unsigned": true,
+            "createdAt": "2026-03-22T22:53:51.800Z"
+        },
+        {
+            "columnShareModelId": "397a9881-815f-4a41-89e6-ff0f120ed351",
+            "physicalName": "id_rol",
+            "logicalName": "id_rol",
+            "columnTypeId": 15,
+            "unsigned": true,
+            "createdAt": "2026-03-22T23:09:38.348Z"
+        },
+        {
+            "columnShareModelId": "b556d31b-e638-4a13-a43a-8670300d0e6e",
+            "physicalName": "id_rol",
+            "logicalName": "id_rol",
+            "columnTypeId": 15,
+            "unsigned": true,
+            "createdAt": "2026-03-22T23:12:40.539Z"
+        },
+        {
+            "columnShareModelId": "22b4419c-3ab1-4d4a-a397-dd885d0cbc7a",
+            "physicalName": "id_tipo_animal",
+            "logicalName": "id_tipo_animal",
+            "columnTypeId": 15,
+            "unsigned": true,
+            "createdAt": "2026-03-19T23:21:17.931Z"
+        },
+        {
+            "columnShareModelId": "210ed41f-d62b-4ccf-96d4-c9fb7e16f8cf",
+            "physicalName": "id_usuario",
+            "logicalName": "id_usuario",
+            "columnTypeId": 17,
+            "unsigned": true,
+            "createdAt": "2026-03-22T21:17:56.996Z"
+        },
+        {
+            "columnShareModelId": "33de5fda-4027-4d45-a32d-4b26ce6367e7",
+            "physicalName": "id_usuario",
+            "logicalName": "id_usuario",
+            "columnTypeId": 17,
+            "unsigned": true,
+            "createdAt": "2026-03-18T22:43:09.220Z"
+        },
+        {
+            "columnShareModelId": "3e78c47f-0dd6-41ca-99c1-6846a6e52320",
+            "physicalName": "id_usuario",
+            "logicalName": "id_usuario",
+            "columnTypeId": 17,
+            "unsigned": true,
+            "createdAt": "2026-03-22T21:59:39.129Z"
+        },
+        {
+            "columnShareModelId": "42577b88-6bc0-4285-93a8-830db649adc6",
+            "physicalName": "id_usuario",
+            "logicalName": "id_usuario",
+            "columnTypeId": 17,
+            "unsigned": true,
+            "createdAt": "2026-03-18T22:51:31.684Z"
+        },
+        {
+            "columnShareModelId": "541e2945-67c6-4d4d-8ace-e047cac2cbdb",
+            "physicalName": "id_usuario",
+            "logicalName": "id_usuario",
+            "columnTypeId": 17,
+            "unsigned": true,
+            "createdAt": "2026-03-19T23:34:15.072Z"
+        },
+        {
+            "columnShareModelId": "6a70a727-c09c-4040-b5bc-d2d70b076d4e",
+            "physicalName": "id_usuario",
+            "logicalName": "id_usuario",
+            "columnTypeId": 17,
+            "unsigned": true,
+            "createdAt": "2026-03-22T22:37:41.364Z"
+        },
+        {
+            "columnShareModelId": "a5e33230-d3f1-44a9-8bd2-fe66348be7d7",
+            "physicalName": "id_usuario",
+            "logicalName": "id_usuario",
+            "columnTypeId": 17,
+            "unsigned": true,
+            "createdAt": "2026-03-22T21:27:19.150Z"
+        },
+        {
+            "columnShareModelId": "bc2b2acc-da80-42c5-a356-478b26c864a4",
+            "physicalName": "id_usuario",
+            "logicalName": "id_usuario",
+            "columnTypeId": 17,
+            "unsigned": true,
+            "createdAt": "2026-03-22T22:55:38.584Z"
+        },
+        {
+            "columnShareModelId": "e8119680-a508-46d9-97bc-74f50cd46055",
+            "physicalName": "id_usuario",
+            "logicalName": "id_usuario",
+            "columnTypeId": 17,
+            "unsigned": true,
+            "createdAt": "2026-03-18T22:33:48.475Z"
+        },
+        {
+            "columnShareModelId": "ebd479c8-d451-4bea-93e5-1e1c360ede96",
+            "physicalName": "id_usuario",
+            "logicalName": "id_usuario",
+            "columnTypeId": 17,
+            "unsigned": true,
+            "createdAt": "2026-03-22T21:20:17.433Z"
+        },
+        {
+            "columnShareModelId": "2f009e33-8e0c-4f32-8e2c-d656e302cd4f",
+            "physicalName": "nombre",
+            "logicalName": "nombre",
+            "columnTypeId": 312,
+            "precision": "300",
+            "createdAt": "2026-03-22T21:32:44.881Z"
+        },
+        {
+            "columnShareModelId": "3e48971c-97c3-4153-bd37-93a5c933a227",
+            "physicalName": "nombre",
+            "logicalName": "nombre",
+            "columnTypeId": 312,
+            "precision": "300",
+            "createdAt": "2026-03-22T22:37:21.917Z"
+        },
+        {
+            "columnShareModelId": "4184e6e4-78b1-4a51-9785-0265e8d5d23b",
+            "physicalName": "nombre",
+            "logicalName": "nombre",
+            "columnTypeId": 312,
+            "precision": "250",
+            "createdAt": "2026-03-22T21:43:11.857Z"
+        },
+        {
+            "columnShareModelId": "99535c13-c32f-41d9-8e42-e527d7a38668",
+            "physicalName": "nombre",
+            "logicalName": "nombre",
+            "columnTypeId": 312,
+            "precision": "250",
+            "createdAt": "2026-03-22T21:37:03.109Z"
+        },
+        {
+            "columnShareModelId": "d4c77ea5-9ccf-4a85-9b43-6d3d962c6e85",
+            "physicalName": "nombre",
+            "logicalName": "nombre",
+            "columnTypeId": 312,
+            "precision": "100",
+            "createdAt": "2026-03-18T23:00:36.147Z"
+        },
+        {
+            "columnShareModelId": "d613a2b1-d36a-467c-ae06-6b18457c0217",
+            "physicalName": "nombre",
+            "logicalName": "nombre",
+            "columnTypeId": 312,
+            "precision": "200",
+            "createdAt": "2026-03-19T23:19:57.082Z"
+        },
+        {
+            "columnShareModelId": "59a6ce1f-d6fe-4e2b-bc5f-e34fed3755f0",
+            "physicalName": "nombre_alalrma",
+            "logicalName": "nombre_alalrma",
+            "columnTypeId": 312,
+            "precision": "300",
+            "createdAt": "2026-03-18T22:34:32.675Z"
+        },
+        {
+            "columnShareModelId": "4d41dfaa-387a-410b-bb01-9dd8ebd8f67a",
+            "physicalName": "pass",
+            "logicalName": "pass",
+            "columnTypeId": 312,
+            "precision": "60",
+            "createdAt": "2026-03-18T22:08:55.531Z"
+        },
+        {
+            "columnShareModelId": "ebb592bf-3b4a-45aa-8df9-001347746172",
+            "physicalName": "portada_url",
+            "logicalName": "portada_url",
+            "columnTypeId": 312,
+            "precision": "300",
+            "createdAt": "2026-03-22T21:37:23.523Z"
+        },
+        {
+            "columnShareModelId": "7201a9b1-3911-42ac-b88b-db99d11fb6b9",
+            "physicalName": "precio",
+            "logicalName": "precio",
+            "columnTypeId": 33,
+            "createdAt": "2026-03-19T23:31:34.546Z"
+        },
+        {
+            "columnShareModelId": "235f7a0a-4c90-4c8c-9506-04c429997f4c",
+            "physicalName": "premium",
+            "logicalName": "premium",
+            "columnTypeId": 20,
+            "precision": "1",
+            "createdAt": "2026-03-18T22:12:13.715Z"
+        },
+        {
+            "columnShareModelId": "a79d9161-7540-4214-8735-d327abd3865d",
+            "physicalName": "premiumdefault",
+            "logicalName": "premiumdefault",
+            "columnTypeId": 20,
+            "precision": "1",
+            "createdAt": "2026-03-19T23:33:24.100Z"
+        },
+        {
+            "columnShareModelId": "d66d005d-6f93-4063-804b-78386db8ba8e",
+            "physicalName": "publica",
+            "logicalName": "publica",
+            "columnTypeId": 20,
+            "precision": "1",
+            "createdAt": "2026-03-22T22:38:58.467Z"
+        },
+        {
+            "columnShareModelId": "f34025c5-cabd-4d65-9160-acd5d70f6d6f",
+            "physicalName": "remitente_id",
+            "logicalName": "remitente_id",
+            "columnTypeId": 17,
+            "unsigned": true,
+            "createdAt": "2026-03-22T21:05:18.990Z"
+        },
+        {
+            "columnShareModelId": "a28eb1a9-e096-41c5-8248-3679daa437b5",
+            "physicalName": "Rol",
+            "logicalName": "Rol",
+            "columnTypeId": 312,
+            "precision": "150",
+            "createdAt": "2026-03-22T23:02:36.114Z"
+        },
+        {
+            "columnShareModelId": "eb3c057c-9ff8-40fc-97a9-c1e756c5c54b",
+            "physicalName": "segundos_escuchados",
+            "logicalName": "segundos_escuchados",
+            "columnTypeId": 15,
+            "unsigned": true,
+            "createdAt": "2026-03-22T21:28:27.824Z"
+        },
+        {
+            "columnShareModelId": "76bf60f5-5eb3-4069-b455-c0e75f9f61f8",
+            "physicalName": "tipo",
+            "logicalName": "tipo",
+            "columnTypeId": 312,
+            "precision": "200",
+            "createdAt": "2026-03-19T23:18:29.925Z"
+        },
+        {
+            "columnShareModelId": "860c22d2-1492-44b5-a7d8-c11e75723438",
+            "physicalName": "titulo",
+            "logicalName": "titulo",
+            "columnTypeId": 312,
+            "precision": "300",
+            "createdAt": "2026-03-19T22:33:25.266Z"
+        },
+        {
+            "columnShareModelId": "1d4521f1-b876-4193-92da-3c23c5ba3b91",
+            "physicalName": "token",
+            "logicalName": "token",
+            "columnTypeId": 312,
+            "precision": "512",
+            "createdAt": "2026-03-18T22:25:01.483Z"
+        },
+        {
+            "columnShareModelId": "69004206-e900-41c2-bfaf-0ecf58f9f81c",
+            "physicalName": "url_audio",
+            "logicalName": "url_audio",
+            "columnTypeId": 312,
+            "precision": "300",
+            "createdAt": "2026-03-19T23:02:32.693Z"
+        },
+        {
+            "columnShareModelId": "1b854fbc-094d-4351-818a-186d08c2a0fe",
+            "physicalName": "url_banner",
+            "logicalName": "url_banner",
+            "columnTypeId": 312,
+            "precision": "300",
+            "createdAt": "2026-03-19T22:51:39.183Z"
+        },
+        {
+            "columnShareModelId": "5072470c-0a11-4cae-83c1-0224a975f2f2",
+            "physicalName": "url_poster",
+            "logicalName": "url_poster",
+            "columnTypeId": 312,
+            "precision": "300",
+            "createdAt": "2026-03-19T22:47:36.780Z"
+        },
+        {
+            "columnShareModelId": "537ead6b-0e3b-4ccb-85aa-d51ba181524c",
+            "physicalName": "url_sprite",
+            "logicalName": "url_sprite",
+            "columnTypeId": 312,
+            "precision": "300",
+            "createdAt": "2026-03-19T23:31:09.888Z"
+        },
+        {
+            "columnShareModelId": "3b431f8a-35a9-407d-ba5c-4c6bfc2523f6",
+            "physicalName": "urlImagen",
+            "logicalName": "urlImagen",
+            "columnTypeId": 312,
+            "precision": "255",
+            "createdAt": "2026-03-18T22:27:00.022Z"
+        },
+        {
+            "columnShareModelId": "9885b282-25ab-49b3-999f-6734d0a75ccc",
+            "physicalName": "urllogo",
+            "logicalName": "urllogo",
+            "columnTypeId": 312,
+            "precision": "300",
+            "createdAt": "2026-03-18T23:04:45.292Z"
+        },
+        {
+            "columnShareModelId": "e4f341cc-0fb4-4b6b-ad1d-bacaae8cd889",
+            "physicalName": "username",
+            "logicalName": "username",
+            "columnTypeId": 312,
+            "precision": "200",
+            "createdAt": "2026-03-17T23:17:48.122Z"
+        }
+    ],
+    "relationViewModels": [
+        {
+            "relationModel": {
+                "relationModelId": "05670b22-e1a4-481c-86a9-827ddf1473fb",
+                "parentTableModelId": "03148f9f-0b40-43dd-acab-5f2471a01741",
+                "parentCardinality": "1",
+                "childTableModelId": "5049a020-6beb-4d92-8f8b-897d1bca41d4",
+                "childCardinality": "1..N",
+                "relationPairs": [
+                    {
+                        "parentColumnModelId": "fff1719a-0dbd-4389-8898-c508c9e58e57",
+                        "childColumnModelId": "19723c01-a741-4eab-a4b9-ebe4ecfe9e0d"
+                    }
+                ],
+                "onUpdateAction": "RESTRICT",
+                "onDeleteAction": "CASCADE"
+            },
+            "lineViewModel": {
+                "strokeWidth": 1,
+                "edges": [],
+                "orthogonalLines": [],
+                "color": {
+                    "red": 0,
+                    "green": 0,
+                    "blue": 0
+                }
+            },
+            "createdAt": "2026-03-22T22:59:21.946Z"
+        },
+        {
+            "relationModel": {
+                "relationModelId": "09c65048-b857-434d-9fdb-6a8dfe308b79",
+                "parentTableModelId": "03148f9f-0b40-43dd-acab-5f2471a01741",
+                "parentCardinality": "1",
+                "childTableModelId": "e0e6ca10-115e-42f7-99fa-ea57e4dc767c",
+                "childCardinality": "1..N",
+                "relationPairs": [
+                    {
+                        "parentColumnModelId": "fff1719a-0dbd-4389-8898-c508c9e58e57",
+                        "childColumnModelId": "d51dfedf-25a7-414b-ae3e-2d43e5cc35fe"
+                    }
+                ],
+                "onUpdateAction": "RESTRICT",
+                "onDeleteAction": "CASCADE"
+            },
+            "lineViewModel": {
+                "strokeWidth": 1,
+                "edges": [],
+                "orthogonalLines": [],
+                "color": {
+                    "red": 0,
+                    "green": 0,
+                    "blue": 0
+                }
+            },
+            "createdAt": "2026-03-22T23:13:58.069Z"
+        },
+        {
+            "relationModel": {
+                "relationModelId": "0e73c54d-679b-4b99-ade7-d7a3034fc247",
+                "parentTableModelId": "03148f9f-0b40-43dd-acab-5f2471a01741",
+                "parentCardinality": "1",
+                "childTableModelId": "3f7cb0d3-79d1-4d87-a9b1-9caed6274371",
+                "childCardinality": "1..N",
+                "relationPairs": [
+                    {
+                        "parentColumnModelId": "fff1719a-0dbd-4389-8898-c508c9e58e57",
+                        "childColumnModelId": "e0b4de73-801b-4b94-a4b7-1e50abe66b47"
+                    }
+                ],
+                "onUpdateAction": "RESTRICT",
+                "onDeleteAction": "RESTRICT"
+            },
+            "lineViewModel": {
+                "strokeWidth": 1,
+                "edges": [],
+                "orthogonalLines": [],
+                "color": {
+                    "red": 0,
+                    "green": 0,
+                    "blue": 0
+                }
+            },
+            "createdAt": "2026-03-22T21:14:57.880Z"
+        },
+        {
+            "relationModel": {
+                "relationModelId": "12c91de9-39ad-4571-9019-ec4b32c93260",
+                "parentTableModelId": "ca27bf1c-24cd-4214-b068-2a38fbbd7fac",
+                "parentCardinality": "1",
+                "childTableModelId": "92eae2c2-3b54-4d7a-aa6e-a4e209174761",
+                "childCardinality": "1..N",
+                "relationPairs": [
+                    {
+                        "parentColumnModelId": "038a62b1-d072-4569-b1b3-ad7a70705dfb",
+                        "childColumnModelId": "05e1e045-f717-4103-bda3-6b1819344aa2"
+                    }
+                ],
+                "onUpdateAction": "RESTRICT",
+                "onDeleteAction": "CASCADE"
+            },
+            "lineViewModel": {
+                "strokeWidth": 1,
+                "edges": [],
+                "orthogonalLines": [],
+                "color": {
+                    "red": 0,
+                    "green": 0,
+                    "blue": 0
+                }
+            },
+            "createdAt": "2026-03-22T22:46:31.165Z"
+        },
+        {
+            "relationModel": {
+                "relationModelId": "178a5462-a483-4564-975b-4374f04cd3e6",
+                "parentTableModelId": "03148f9f-0b40-43dd-acab-5f2471a01741",
+                "parentCardinality": "1",
+                "childTableModelId": "e311c3eb-8304-4412-b721-38a2fefa584f",
+                "childCardinality": "1",
+                "relationPairs": [
+                    {
+                        "parentColumnModelId": "fff1719a-0dbd-4389-8898-c508c9e58e57",
+                        "childColumnModelId": "4d04ddd9-7c6b-4f81-9ffe-a50f57037d96"
+                    }
+                ],
+                "onUpdateAction": "RESTRICT",
+                "onDeleteAction": "RESTRICT"
+            },
+            "lineViewModel": {
+                "strokeWidth": 1,
+                "edges": [],
+                "orthogonalLines": [],
+                "color": {
+                    "red": 0,
+                    "green": 0,
+                    "blue": 0
+                }
+            },
+            "createdAt": "2026-03-18T22:57:12.675Z"
+        },
+        {
+            "relationModel": {
+                "relationModelId": "1dedef7e-4aa0-4556-86dd-6712db86fca5",
+                "parentTableModelId": "abb5e52f-ae81-446d-aecd-70fcba55f714",
+                "parentCardinality": "1",
+                "childTableModelId": "e6d93fdd-facc-4f8e-9bf9-0eadcb1b49c1",
+                "childCardinality": "1..N",
+                "relationPairs": [
+                    {
+                        "parentColumnModelId": "cc2a1d03-ba77-4f86-aaea-4ad41465ba7a",
+                        "childColumnModelId": "7227ccdc-43b3-4f8b-9bf5-573f91cc39ac"
+                    }
+                ],
+                "onUpdateAction": "RESTRICT",
+                "onDeleteAction": "CASCADE"
+            },
+            "lineViewModel": {
+                "strokeWidth": 1,
+                "edges": [],
+                "orthogonalLines": [],
+                "color": {
+                    "red": 0,
+                    "green": 0,
+                    "blue": 0
+                }
+            },
+            "createdAt": "2026-03-22T22:00:53.554Z"
+        },
+        {
+            "relationModel": {
+                "relationModelId": "331bfd9e-afdf-4d59-8f84-0b883b5d0701",
+                "parentTableModelId": "03148f9f-0b40-43dd-acab-5f2471a01741",
+                "parentCardinality": "1",
+                "childTableModelId": "e6d93fdd-facc-4f8e-9bf9-0eadcb1b49c1",
+                "childCardinality": "1..N",
+                "relationPairs": [
+                    {
+                        "parentColumnModelId": "fff1719a-0dbd-4389-8898-c508c9e58e57",
+                        "childColumnModelId": "0ea89b6f-37cd-4ac4-a8bc-45153b82a63c"
+                    }
+                ],
+                "onUpdateAction": "RESTRICT",
+                "onDeleteAction": "CASCADE"
+            },
+            "lineViewModel": {
+                "strokeWidth": 1,
+                "edges": [],
+                "orthogonalLines": [],
+                "color": {
+                    "red": 0,
+                    "green": 0,
+                    "blue": 0
+                }
+            },
+            "createdAt": "2026-03-22T22:00:24.575Z"
+        },
+        {
+            "relationModel": {
+                "relationModelId": "3da19b52-1557-4908-9871-3ca833635e50",
+                "parentTableModelId": "bd430c27-efbc-47ea-87a4-5d655c757750",
+                "parentCardinality": "1",
+                "childTableModelId": "a9c89fe2-c11e-412a-9cc2-b850918643fe",
+                "childCardinality": "1..N",
+                "relationPairs": [
+                    {
+                        "parentColumnModelId": "a54bee7c-3529-4c78-92ba-8d5a32805a2d",
+                        "childColumnModelId": "5985489d-8ace-47ab-887b-7a1411c5964c"
+                    }
+                ],
+                "onUpdateAction": "RESTRICT",
+                "onDeleteAction": "CASCADE"
+            },
+            "lineViewModel": {
+                "strokeWidth": 1,
+                "edges": [],
+                "orthogonalLines": [],
+                "color": {
+                    "red": 0,
+                    "green": 0,
+                    "blue": 0
+                }
+            },
+            "createdAt": "2026-03-22T21:55:49.559Z"
+        },
+        {
+            "relationModel": {
+                "relationModelId": "43a83a49-eced-4d19-950e-b4c07ae34a05",
+                "parentTableModelId": "bbe29558-d359-4527-b3d7-62d3f20499b5",
+                "parentCardinality": "1",
+                "childTableModelId": "ae442d33-ebcd-4fbc-913b-14c135b59db8",
+                "childCardinality": "1..N",
+                "relationPairs": [
+                    {
+                        "parentColumnModelId": "fda9771a-e9cf-492d-b097-d44550047c20",
+                        "childColumnModelId": "3c6b7924-485d-4548-9370-f5cff9498ee7"
+                    }
+                ],
+                "onUpdateAction": "CASCADE",
+                "onDeleteAction": "CASCADE"
+            },
+            "lineViewModel": {
+                "strokeWidth": 1,
+                "edges": [],
+                "orthogonalLines": [],
+                "color": {
+                    "red": 0,
+                    "green": 0,
+                    "blue": 0
+                }
+            },
+            "createdAt": "2026-03-22T21:53:10.764Z"
+        },
+        {
+            "relationModel": {
+                "relationModelId": "457ec732-e488-4747-b198-c4bf51a91ce1",
+                "parentTableModelId": "03148f9f-0b40-43dd-acab-5f2471a01741",
+                "parentCardinality": "1",
+                "childTableModelId": "f8268c05-ad88-4616-afa8-cd5a31a0f4f5",
+                "childCardinality": "1..N",
+                "relationPairs": [
+                    {
+                        "parentColumnModelId": "fff1719a-0dbd-4389-8898-c508c9e58e57",
+                        "childColumnModelId": "6699fef6-2f97-4084-b2e0-a350a4f79f18"
+                    }
+                ],
+                "onUpdateAction": "RESTRICT",
+                "onDeleteAction": "RESTRICT"
+            },
+            "lineViewModel": {
+                "strokeWidth": 1,
+                "edges": [],
+                "orthogonalLines": [],
+                "color": {
+                    "red": 0,
+                    "green": 0,
+                    "blue": 0
+                }
+            },
+            "createdAt": "2026-03-22T20:50:54.436Z"
+        },
+        {
+            "relationModel": {
+                "relationModelId": "46f25e79-c586-4947-9426-85286014b79b",
+                "parentTableModelId": "03148f9f-0b40-43dd-acab-5f2471a01741",
+                "parentCardinality": "1",
+                "childTableModelId": "f1e6646f-b266-4589-9b47-312561b47c4d",
+                "childCardinality": "1..N",
+                "relationPairs": [
+                    {
+                        "parentColumnModelId": "fff1719a-0dbd-4389-8898-c508c9e58e57",
+                        "childColumnModelId": "ed7e3365-58ab-45cb-8382-a3f1fbc52bc2"
+                    }
+                ],
+                "onUpdateAction": "RESTRICT",
+                "onDeleteAction": "RESTRICT"
+            },
+            "lineViewModel": {
+                "strokeWidth": 1,
+                "edges": [],
+                "orthogonalLines": [],
+                "color": {
+                    "red": 0,
+                    "green": 0,
+                    "blue": 0
+                }
+            },
+            "createdAt": "2026-03-22T21:30:58.522Z"
+        },
+        {
+            "relationModel": {
+                "relationModelId": "48996a1c-ffde-463c-80cf-df6bb8e5b54e",
+                "parentTableModelId": "beb3a4fb-332c-403d-b155-f7b773d5a403",
+                "parentCardinality": "1",
+                "childTableModelId": "50e5d6c4-888a-4010-8d44-0624198fdee5",
+                "childCardinality": "1..N",
+                "relationPairs": [
+                    {
+                        "parentColumnModelId": "cf15a069-d6ac-483f-a0c8-d9e729237910",
+                        "childColumnModelId": "7ba5fca1-a62f-4c0b-9b96-5a7d8f85e8a1"
+                    }
+                ],
+                "onUpdateAction": "RESTRICT",
+                "onDeleteAction": "CASCADE"
+            },
+            "lineViewModel": {
+                "strokeWidth": 1,
+                "edges": [],
+                "orthogonalLines": [],
+                "color": {
+                    "red": 0,
+                    "green": 0,
+                    "blue": 0
+                }
+            },
+            "createdAt": "2026-03-22T21:55:01.531Z"
+        },
+        {
+            "relationModel": {
+                "relationModelId": "4d6ac251-0766-4895-aadf-72160d793b60",
+                "parentTableModelId": "db260910-aab4-4390-b118-306e1813c28f",
+                "parentCardinality": "1",
+                "childTableModelId": "3cabe681-bc1f-4e93-9797-cca324508b05",
+                "childCardinality": "1..N",
+                "relationPairs": [
+                    {
+                        "parentColumnModelId": "65e91386-29b8-4f03-b9a1-c8b7795f303e",
+                        "childColumnModelId": "e13f7bfd-02d6-4f31-b438-b009f54b2bba"
+                    }
+                ],
+                "onUpdateAction": "RESTRICT",
+                "onDeleteAction": "RESTRICT"
+            },
+            "lineViewModel": {
+                "strokeWidth": 1,
+                "edges": [],
+                "orthogonalLines": [],
+                "color": {
+                    "red": 0,
+                    "green": 0,
+                    "blue": 0
+                }
+            },
+            "createdAt": "2026-03-22T21:09:17.446Z"
+        },
+        {
+            "relationModel": {
+                "relationModelId": "65ab39cd-2599-4ca9-ab73-2bf5549ed1f2",
+                "parentTableModelId": "bc9b0ba9-7d6a-4a3c-92b5-88fb9f657d50",
+                "parentCardinality": "1",
+                "childTableModelId": "e0e6ca10-115e-42f7-99fa-ea57e4dc767c",
+                "childCardinality": "1..N",
+                "relationPairs": [
+                    {
+                        "parentColumnModelId": "07033efc-edfe-4b54-8d2e-9fe8afda9eaf",
+                        "childColumnModelId": "22007ce3-2ee9-46be-892b-63536d9252c3"
+                    }
+                ],
+                "onUpdateAction": "RESTRICT",
+                "onDeleteAction": "CASCADE"
+            },
+            "lineViewModel": {
+                "strokeWidth": 1,
+                "edges": [],
+                "orthogonalLines": [],
+                "color": {
+                    "red": 0,
+                    "green": 0,
+                    "blue": 0
+                }
+            },
+            "createdAt": "2026-03-22T23:14:09.157Z"
+        },
+        {
+            "relationModel": {
+                "relationModelId": "6c0aec71-9641-4af2-8709-fc429db84ae1",
+                "parentTableModelId": "bd430c27-efbc-47ea-87a4-5d655c757750",
+                "parentCardinality": "1",
+                "childTableModelId": "92eae2c2-3b54-4d7a-aa6e-a4e209174761",
+                "childCardinality": "1..N",
+                "relationPairs": [
+                    {
+                        "parentColumnModelId": "a54bee7c-3529-4c78-92ba-8d5a32805a2d",
+                        "childColumnModelId": "bfd39bba-5dc2-4ed7-9a72-21ab97a24a42"
+                    }
+                ],
+                "onUpdateAction": "RESTRICT",
+                "onDeleteAction": "CASCADE"
+            },
+            "lineViewModel": {
+                "strokeWidth": 1,
+                "edges": [],
+                "orthogonalLines": [],
+                "color": {
+                    "red": 0,
+                    "green": 0,
+                    "blue": 0
+                }
+            },
+            "createdAt": "2026-03-22T22:46:46.445Z"
+        },
+        {
+            "relationModel": {
+                "relationModelId": "74aec005-b8aa-4194-8b59-dffc7ebf887f",
+                "parentTableModelId": "03148f9f-0b40-43dd-acab-5f2471a01741",
+                "parentCardinality": "1",
+                "childTableModelId": "5049a020-6beb-4d92-8f8b-897d1bca41d4",
+                "childCardinality": "1..N",
+                "relationPairs": [
+                    {
+                        "parentColumnModelId": "fff1719a-0dbd-4389-8898-c508c9e58e57",
+                        "childColumnModelId": "40cbaa5c-b4ec-4e9b-9ca7-2c9f9c5f08e5"
+                    }
+                ],
+                "onUpdateAction": "RESTRICT",
+                "onDeleteAction": "CASCADE"
+            },
+            "lineViewModel": {
+                "strokeWidth": 1,
+                "edges": [],
+                "orthogonalLines": [],
+                "color": {
+                    "red": 0,
+                    "green": 0,
+                    "blue": 0
+                }
+            },
+            "createdAt": "2026-03-22T22:59:54.016Z"
+        },
+        {
+            "relationModel": {
+                "relationModelId": "783ffc76-76df-41ad-bcee-dd43e95ecc6a",
+                "parentTableModelId": "bd430c27-efbc-47ea-87a4-5d655c757750",
+                "parentCardinality": "1",
+                "childTableModelId": "ae442d33-ebcd-4fbc-913b-14c135b59db8",
+                "childCardinality": "1..N",
+                "relationPairs": [
+                    {
+                        "parentColumnModelId": "a54bee7c-3529-4c78-92ba-8d5a32805a2d",
+                        "childColumnModelId": "fc44a1b4-87db-4c61-9399-f6735bf776e2"
+                    }
+                ],
+                "onUpdateAction": "RESTRICT",
+                "onDeleteAction": "CASCADE"
+            },
+            "lineViewModel": {
+                "strokeWidth": 1,
+                "edges": [],
+                "orthogonalLines": [],
+                "color": {
+                    "red": 0,
+                    "green": 0,
+                    "blue": 0
+                }
+            },
+            "createdAt": "2026-03-22T21:53:28.602Z"
+        },
+        {
+            "relationModel": {
+                "relationModelId": "7aaca84f-16a7-4335-83d5-1ae5f4b2ec20",
+                "parentTableModelId": "bd430c27-efbc-47ea-87a4-5d655c757750",
+                "parentCardinality": "1",
+                "childTableModelId": "50e5d6c4-888a-4010-8d44-0624198fdee5",
+                "childCardinality": "1..N",
+                "relationPairs": [
+                    {
+                        "parentColumnModelId": "a54bee7c-3529-4c78-92ba-8d5a32805a2d",
+                        "childColumnModelId": "d571b642-ac4f-45f8-b7f2-e54c9f056c72"
+                    }
+                ],
+                "onUpdateAction": "RESTRICT",
+                "onDeleteAction": "CASCADE"
+            },
+            "lineViewModel": {
+                "strokeWidth": 1,
+                "edges": [],
+                "orthogonalLines": [],
+                "color": {
+                    "red": 0,
+                    "green": 0,
+                    "blue": 0
+                }
+            },
+            "createdAt": "2026-03-22T21:54:32.795Z"
+        },
+        {
+            "relationModel": {
+                "relationModelId": "7f0df2c8-15a3-4dc2-8a25-90a0d31fcf8c",
+                "parentTableModelId": "f0232f0c-85e9-4973-90a9-05bebee4cf7a",
+                "parentCardinality": "1",
+                "childTableModelId": "ae9c1785-1775-4481-bfe3-d3b43f0cfedd",
+                "childCardinality": "1..N",
+                "relationPairs": [
+                    {
+                        "parentColumnModelId": "28f648cd-94a9-471f-b439-4e2d84931f0b",
+                        "childColumnModelId": "cc2d5407-4a7a-4915-8635-2885ae65f697"
+                    }
+                ],
+                "onUpdateAction": "RESTRICT",
+                "onDeleteAction": "RESTRICT"
+            },
+            "lineViewModel": {
+                "strokeWidth": 1,
+                "edges": [],
+                "orthogonalLines": [],
+                "color": {
+                    "red": 0,
+                    "green": 0,
+                    "blue": 0
+                }
+            },
+            "createdAt": "2026-03-19T23:38:39.327Z"
+        },
+        {
+            "relationModel": {
+                "relationModelId": "80efc8e5-a86a-448b-b46e-45a5377412c0",
+                "parentTableModelId": "beb3a4fb-332c-403d-b155-f7b773d5a403",
+                "parentCardinality": "1",
+                "childTableModelId": "93aca7bd-3bc6-45d9-a20b-a51e869ba09f",
+                "childCardinality": "1..N",
+                "relationPairs": [
+                    {
+                        "parentColumnModelId": "cf15a069-d6ac-483f-a0c8-d9e729237910",
+                        "childColumnModelId": "125aef4e-a4bb-44a1-b60a-8208f988c967"
+                    }
+                ],
+                "onUpdateAction": "RESTRICT",
+                "onDeleteAction": "CASCADE"
+            },
+            "lineViewModel": {
+                "strokeWidth": 1,
+                "edges": [],
+                "orthogonalLines": [],
+                "color": {
+                    "red": 0,
+                    "green": 0,
+                    "blue": 0
+                }
+            },
+            "createdAt": "2026-03-22T23:17:54.000Z"
+        },
+        {
+            "relationModel": {
+                "relationModelId": "8626c3d5-ae47-43ae-8ce8-88de4590499f",
+                "parentTableModelId": "03148f9f-0b40-43dd-acab-5f2471a01741",
+                "parentCardinality": "1",
+                "childTableModelId": "3f7cb0d3-79d1-4d87-a9b1-9caed6274371",
+                "childCardinality": "1..N",
+                "relationPairs": [
+                    {
+                        "parentColumnModelId": "fff1719a-0dbd-4389-8898-c508c9e58e57",
+                        "childColumnModelId": "c62207d9-6400-4088-bc82-ccb5d7bb442d"
+                    }
+                ],
+                "onUpdateAction": "RESTRICT",
+                "onDeleteAction": "RESTRICT"
+            },
+            "lineViewModel": {
+                "strokeWidth": 1,
+                "edges": [],
+                "orthogonalLines": [],
+                "color": {
+                    "red": 0,
+                    "green": 0,
+                    "blue": 0
+                }
+            },
+            "createdAt": "2026-03-22T21:14:35.918Z"
+        },
+        {
+            "relationModel": {
+                "relationModelId": "89850221-1fbc-4a81-9b91-25791a2cffec",
+                "parentTableModelId": "03148f9f-0b40-43dd-acab-5f2471a01741",
+                "parentCardinality": "1",
+                "childTableModelId": "3cabe681-bc1f-4e93-9797-cca324508b05",
+                "childCardinality": "1..N",
+                "relationPairs": [
+                    {
+                        "parentColumnModelId": "fff1719a-0dbd-4389-8898-c508c9e58e57",
+                        "childColumnModelId": "1a4e0f6d-67b2-4692-b9cd-3dee61622b92"
+                    }
+                ],
+                "onUpdateAction": "RESTRICT",
+                "onDeleteAction": "RESTRICT"
+            },
+            "lineViewModel": {
+                "strokeWidth": 1,
+                "edges": [],
+                "orthogonalLines": [],
+                "color": {
+                    "red": 0,
+                    "green": 0,
+                    "blue": 0
+                }
+            },
+            "createdAt": "2026-03-22T21:10:46.447Z"
+        },
+        {
+            "relationModel": {
+                "relationModelId": "9c40474e-1a57-41b0-8833-f66e9caeafdf",
+                "parentTableModelId": "ca27bf1c-24cd-4214-b068-2a38fbbd7fac",
+                "parentCardinality": "1",
+                "childTableModelId": "e0e6ca10-115e-42f7-99fa-ea57e4dc767c",
+                "childCardinality": "1..N",
+                "relationPairs": [
+                    {
+                        "parentColumnModelId": "038a62b1-d072-4569-b1b3-ad7a70705dfb",
+                        "childColumnModelId": "ae2e7dab-ccdc-407f-87b4-e080872bcb16"
+                    }
+                ],
+                "onUpdateAction": "RESTRICT",
+                "onDeleteAction": "CASCADE"
+            },
+            "lineViewModel": {
+                "strokeWidth": 1,
+                "edges": [],
+                "orthogonalLines": [],
+                "color": {
+                    "red": 0,
+                    "green": 0,
+                    "blue": 0
+                }
+            },
+            "createdAt": "2026-03-22T23:14:20.542Z"
+        },
+        {
+            "relationModel": {
+                "relationModelId": "a15d6925-709f-4f62-857b-db8e5631c5a2",
+                "parentTableModelId": "abb5e52f-ae81-446d-aecd-70fcba55f714",
+                "parentCardinality": "1",
+                "childTableModelId": "39a50c2a-70a0-4fdb-bb79-74fdb559db2c",
+                "childCardinality": "1..N",
+                "relationPairs": [
+                    {
+                        "parentColumnModelId": "cc2a1d03-ba77-4f86-aaea-4ad41465ba7a",
+                        "childColumnModelId": "d51db0de-307d-4945-8741-8feaa94d2cce"
+                    }
+                ],
+                "onUpdateAction": "CASCADE",
+                "onDeleteAction": "CASCADE"
+            },
+            "lineViewModel": {
+                "strokeWidth": 1,
+                "edges": [],
+                "orthogonalLines": [],
+                "color": {
+                    "red": 0,
+                    "green": 0,
+                    "blue": 0
+                }
+            },
+            "createdAt": "2026-03-22T21:53:44.304Z"
+        },
+        {
+            "relationModel": {
+                "relationModelId": "ab58057b-9821-4232-bb04-2fb8b2f87fd4",
+                "parentTableModelId": "ae9c1785-1775-4481-bfe3-d3b43f0cfedd",
+                "parentCardinality": "1",
+                "childTableModelId": "f8268c05-ad88-4616-afa8-cd5a31a0f4f5",
+                "childCardinality": "1..N",
+                "relationPairs": [
+                    {
+                        "parentColumnModelId": "40680caa-e62a-4d7b-b458-9683a6610aba",
+                        "childColumnModelId": "f876fbaf-5236-48db-b27a-ace1ac2c7166"
+                    }
+                ],
+                "onUpdateAction": "RESTRICT",
+                "onDeleteAction": "RESTRICT"
+            },
+            "lineViewModel": {
+                "strokeWidth": 1,
+                "edges": [],
+                "orthogonalLines": [],
+                "color": {
+                    "red": 0,
+                    "green": 0,
+                    "blue": 0
+                }
+            },
+            "createdAt": "2026-03-22T20:49:54.797Z"
+        },
+        {
+            "relationModel": {
+                "relationModelId": "bcbf03a0-cee3-4a7c-b90c-ea261a8e6304",
+                "parentTableModelId": "03148f9f-0b40-43dd-acab-5f2471a01741",
+                "parentCardinality": "1",
+                "childTableModelId": "16150aa8-b04c-454a-99c8-c3206e497c73",
+                "childCardinality": "1..N",
+                "relationPairs": [
+                    {
+                        "parentColumnModelId": "fff1719a-0dbd-4389-8898-c508c9e58e57",
+                        "childColumnModelId": "c347cd34-5333-4cf3-b5b9-61b277ddc314"
+                    }
+                ],
+                "onUpdateAction": "RESTRICT",
+                "onDeleteAction": "RESTRICT"
+            },
+            "lineViewModel": {
+                "strokeWidth": 1,
+                "edges": [],
+                "orthogonalLines": [],
+                "color": {
+                    "red": 0,
+                    "green": 0,
+                    "blue": 0
+                }
+            },
+            "createdAt": "2026-03-18T22:49:03.579Z"
+        },
+        {
+            "relationModel": {
+                "relationModelId": "c62c27d9-fdf4-407b-8140-16f8f5095f92",
+                "parentTableModelId": "b63509c4-2f3c-4e46-9a12-fc4f14ff6711",
+                "parentCardinality": "1",
+                "childTableModelId": "12286066-eb78-44bb-9701-e704d3271d5f",
+                "childCardinality": "1..N",
+                "relationPairs": [
+                    {
+                        "parentColumnModelId": "9b1e2710-0bfb-4f8d-9ab3-bba492825c13",
+                        "childColumnModelId": "366ccc3a-4247-4f3a-9dbc-9a1cc4507911"
+                    }
+                ],
+                "onUpdateAction": "RESTRICT",
+                "onDeleteAction": "RESTRICT"
+            },
+            "lineViewModel": {
+                "strokeWidth": 1,
+                "edges": [],
+                "orthogonalLines": [],
+                "color": {
+                    "red": 0,
+                    "green": 0,
+                    "blue": 0
+                }
+            },
+            "createdAt": "2026-03-19T23:04:45.173Z"
+        },
+        {
+            "relationModel": {
+                "relationModelId": "ca15a490-ccce-4a4d-b010-3a1086ef3dbc",
+                "parentTableModelId": "abb5e52f-ae81-446d-aecd-70fcba55f714",
+                "parentCardinality": "1",
+                "childTableModelId": "93aca7bd-3bc6-45d9-a20b-a51e869ba09f",
+                "childCardinality": "1..N",
+                "relationPairs": [
+                    {
+                        "parentColumnModelId": "cc2a1d03-ba77-4f86-aaea-4ad41465ba7a",
+                        "childColumnModelId": "45957887-c0f6-44ec-a954-41d42b9bc40c"
+                    }
+                ],
+                "onUpdateAction": "RESTRICT",
+                "onDeleteAction": "CASCADE"
+            },
+            "lineViewModel": {
+                "strokeWidth": 1,
+                "edges": [],
+                "orthogonalLines": [],
+                "color": {
+                    "red": 0,
+                    "green": 0,
+                    "blue": 0
+                }
+            },
+            "createdAt": "2026-03-22T23:17:43.972Z"
+        },
+        {
+            "relationModel": {
+                "relationModelId": "ce9b66a9-5e4e-4fd1-9906-1447df43fb8d",
+                "parentTableModelId": "bd430c27-efbc-47ea-87a4-5d655c757750",
+                "parentCardinality": "1",
+                "childTableModelId": "f1e6646f-b266-4589-9b47-312561b47c4d",
+                "childCardinality": "1..N",
+                "relationPairs": [
+                    {
+                        "parentColumnModelId": "a54bee7c-3529-4c78-92ba-8d5a32805a2d",
+                        "childColumnModelId": "ea3c084c-a5bb-4460-9d0d-02a88a5d12b5"
+                    }
+                ],
+                "onUpdateAction": "RESTRICT",
+                "onDeleteAction": "CASCADE"
+            },
+            "lineViewModel": {
+                "strokeWidth": 1,
+                "edges": [],
+                "orthogonalLines": [],
+                "color": {
+                    "red": 0,
+                    "green": 0,
+                    "blue": 0
+                }
+            },
+            "createdAt": "2026-03-22T21:55:35.526Z"
+        },
+        {
+            "relationModel": {
+                "relationModelId": "d07a6c49-37b3-4483-afd5-ecac46c0b24e",
+                "parentTableModelId": "03148f9f-0b40-43dd-acab-5f2471a01741",
+                "parentCardinality": "1",
+                "childTableModelId": "ca27bf1c-24cd-4214-b068-2a38fbbd7fac",
+                "childCardinality": "1..N",
+                "relationPairs": [
+                    {
+                        "parentColumnModelId": "fff1719a-0dbd-4389-8898-c508c9e58e57",
+                        "childColumnModelId": "1a49b5a1-9b51-435c-81dd-7b5dafb2409a"
+                    }
+                ],
+                "onUpdateAction": "RESTRICT",
+                "onDeleteAction": "CASCADE"
+            },
+            "lineViewModel": {
+                "strokeWidth": 1,
+                "edges": [],
+                "orthogonalLines": [],
+                "color": {
+                    "red": 0,
+                    "green": 0,
+                    "blue": 0
+                }
+            },
+            "createdAt": "2026-03-22T22:46:04.233Z"
+        },
+        {
+            "relationModel": {
+                "relationModelId": "d23886d7-ee87-4414-8f7a-d6a97bde79fa",
+                "parentTableModelId": "03148f9f-0b40-43dd-acab-5f2471a01741",
+                "parentCardinality": "1",
+                "childTableModelId": "a9c89fe2-c11e-412a-9cc2-b850918643fe",
+                "childCardinality": "1..N",
+                "relationPairs": [
+                    {
+                        "parentColumnModelId": "fff1719a-0dbd-4389-8898-c508c9e58e57",
+                        "childColumnModelId": "fb9ce62d-ef6a-4c4a-9b9a-1fe26d74eb4a"
+                    }
+                ],
+                "onUpdateAction": "RESTRICT",
+                "onDeleteAction": "RESTRICT"
+            },
+            "lineViewModel": {
+                "strokeWidth": 1,
+                "edges": [],
+                "orthogonalLines": [],
+                "color": {
+                    "red": 0,
+                    "green": 0,
+                    "blue": 0
+                }
+            },
+            "createdAt": "2026-03-22T21:30:44.977Z"
+        },
+        {
+            "relationModel": {
+                "relationModelId": "d9fec024-d0f5-48e7-b9d7-d8d21dc07ba1",
+                "parentTableModelId": "03148f9f-0b40-43dd-acab-5f2471a01741",
+                "parentCardinality": "1",
+                "childTableModelId": "3cabe681-bc1f-4e93-9797-cca324508b05",
+                "childCardinality": "1..N",
+                "relationPairs": [
+                    {
+                        "parentColumnModelId": "fff1719a-0dbd-4389-8898-c508c9e58e57",
+                        "childColumnModelId": "7b0e1a82-5ced-49f3-8cab-ef0bf9f94b18"
+                    }
+                ],
+                "onUpdateAction": "RESTRICT",
+                "onDeleteAction": "RESTRICT"
+            },
+            "lineViewModel": {
+                "strokeWidth": 1,
+                "edges": [],
+                "orthogonalLines": [],
+                "color": {
+                    "red": 0,
+                    "green": 0,
+                    "blue": 0
+                }
+            },
+            "createdAt": "2026-03-22T21:10:12.894Z"
+        },
+        {
+            "relationModel": {
+                "relationModelId": "e9355e9f-f566-4bf8-9bff-acd7f87fc7d9",
+                "parentTableModelId": "db260910-aab4-4390-b118-306e1813c28f",
+                "parentCardinality": "1",
+                "childTableModelId": "5049a020-6beb-4d92-8f8b-897d1bca41d4",
+                "childCardinality": "1..N",
+                "relationPairs": [
+                    {
+                        "parentColumnModelId": "65e91386-29b8-4f03-b9a1-c8b7795f303e",
+                        "childColumnModelId": "84684c1b-f2eb-40e9-9541-5b62d70a745e"
+                    }
+                ],
+                "onUpdateAction": "RESTRICT",
+                "onDeleteAction": "CASCADE"
+            },
+            "lineViewModel": {
+                "strokeWidth": 1,
+                "edges": [],
+                "orthogonalLines": [],
+                "color": {
+                    "red": 0,
+                    "green": 0,
+                    "blue": 0
+                }
+            },
+            "createdAt": "2026-03-22T23:00:39.457Z"
+        },
+        {
+            "relationModel": {
+                "relationModelId": "ed3b8947-0963-4986-8852-f45e1043b708",
+                "parentTableModelId": "bd430c27-efbc-47ea-87a4-5d655c757750",
+                "parentCardinality": "1",
+                "childTableModelId": "39a50c2a-70a0-4fdb-bb79-74fdb559db2c",
+                "childCardinality": "1..N",
+                "relationPairs": [
+                    {
+                        "parentColumnModelId": "a54bee7c-3529-4c78-92ba-8d5a32805a2d",
+                        "childColumnModelId": "37316b96-4c71-4db0-91bc-c229e2b3e599"
+                    }
+                ],
+                "onUpdateAction": "RESTRICT",
+                "onDeleteAction": "CASCADE"
+            },
+            "lineViewModel": {
+                "strokeWidth": 1,
+                "edges": [],
+                "orthogonalLines": [],
+                "color": {
+                    "red": 0,
+                    "green": 0,
+                    "blue": 0
+                }
+            },
+            "createdAt": "2026-03-22T21:53:57.919Z"
+        }
+    ],
+    "foregroundMemos": [],
+    "backgroundMemos": [],
+    "erdSettingModel": {
+        "displayStyle": {
+            "styleName": "Both"
+        },
+        "exportDdlSetting": {
+            "fileName": "Spotifake",
+            "withTable": true,
+            "withIndex": true,
+            "withForeignKey": true,
+            "withComment": true,
+            "withSchema": true
+        },
+        "perspectiveModels": [
+            {
+                "perspectiveId": "04d0da6f-35fa-4eff-aaf3-4d82748bc016",
+                "perspectiveName": "Usuario",
+                "containIds": []
+            }
+        ]
+    },
+    "databaseSetting": {
+        "databaseType": "mysql",
+        "columnTypes": [
+            {
+                "id": 1,
+                "name": "bit",
+                "description": "ビット値型",
+                "baseQuery": "BIT",
+                "withPrecision": false,
+                "withScale": false,
+                "withUnsigned": false,
+                "withAutoIncrement": false,
+                "defaultValueCandidates": []
+            },
+            {
+                "id": 2,
+                "name": "bit (m)",
+                "description": "ビット値型",
+                "baseQuery": "BIT[[PARAM]]",
+                "withPrecision": true,
+                "withScale": false,
+                "withUnsigned": false,
+                "withAutoIncrement": false,
+                "defaultValueCandidates": []
+            },
+            {
+                "id": 6,
+                "name": "boolean",
+                "description": "TINYINT(1) のシノニム",
+                "baseQuery": "BOOLEAN",
+                "withPrecision": false,
+                "withScale": false,
+                "withUnsigned": false,
+                "withAutoIncrement": false,
+                "defaultValueCandidates": []
+            },
+            {
+                "id": 10,
+                "name": "tinyint",
+                "description": "非常に小さい整数。 符号付きの範囲は -128 から 127 です。 符号なしの範囲は 0 から 255 です。",
+                "baseQuery": "TINYINT",
+                "withPrecision": false,
+                "withScale": false,
+                "withUnsigned": true,
+                "withAutoIncrement": true,
+                "defaultValueCandidates": []
+            },
+            {
+                "id": 11,
+                "name": "smallint",
+                "description": "小さい整数。 符号付きの範囲は -32768 から 32767 です。 符号なしの範囲は 0 から 65535 です。",
+                "baseQuery": "SMALLINT",
+                "withPrecision": false,
+                "withScale": false,
+                "withUnsigned": true,
+                "withAutoIncrement": true,
+                "defaultValueCandidates": []
+            },
+            {
+                "id": 13,
+                "name": "mediumint",
+                "description": "中間サイズの整数。 符号付きの範囲は -8388608 から 8388607 です。 符号なしの範囲は 0 から 16777215 です。",
+                "baseQuery": "MEDIUMINT",
+                "withPrecision": false,
+                "withScale": false,
+                "withUnsigned": true,
+                "withAutoIncrement": true,
+                "defaultValueCandidates": []
+            },
+            {
+                "id": 15,
+                "name": "int",
+                "description": "普通サイズの整数。 符号付きの範囲は -2147483648 から 2147483647 です。 符号なしの範囲は 0 から 4294967295 です。",
+                "baseQuery": "INT",
+                "withPrecision": false,
+                "withScale": false,
+                "withUnsigned": true,
+                "withAutoIncrement": true,
+                "defaultValueCandidates": []
+            },
+            {
+                "id": 17,
+                "name": "bigint",
+                "description": "大きい整数。 符号付きの範囲は -9223372036854775808 から 9223372036854775807 です。 符号なしの範囲は 0 から 18446744073709551615 です。",
+                "baseQuery": "BIGINT",
+                "withPrecision": false,
+                "withScale": false,
+                "withUnsigned": true,
+                "withAutoIncrement": true,
+                "defaultValueCandidates": []
+            },
+            {
+                "id": 20,
+                "name": "tinyint (m)",
+                "description": "非常に小さい整数。 符号付きの範囲は -128 から 127 です。 符号なしの範囲は 0 から 255 です。",
+                "baseQuery": "TINYINT[[PARAM]]",
+                "withPrecision": true,
+                "withScale": false,
+                "withUnsigned": true,
+                "withAutoIncrement": false,
+                "defaultValueCandidates": []
+            },
+            {
+                "id": 21,
+                "name": "smallint (m)",
+                "description": "小さい整数。 符号付きの範囲は -32768 から 32767 です。 符号なしの範囲は 0 から 65535 です。",
+                "baseQuery": "SMALLINT[[PARAM]]",
+                "withPrecision": true,
+                "withScale": false,
+                "withUnsigned": true,
+                "withAutoIncrement": true,
+                "defaultValueCandidates": []
+            },
+            {
+                "id": 23,
+                "name": "mediumint (m)",
+                "description": "中間サイズの整数。 符号付きの範囲は -8388608 から 8388607 です。 符号なしの範囲は 0 から 16777215 です。",
+                "baseQuery": "MEDIUMINT[[PARAM]]",
+                "withPrecision": true,
+                "withScale": false,
+                "withUnsigned": true,
+                "withAutoIncrement": true,
+                "defaultValueCandidates": []
+            },
+            {
+                "id": 25,
+                "name": "int (m)",
+                "description": "普通サイズの整数。 符号付きの範囲は -2147483648 から 2147483647 です。 符号なしの範囲は 0 から 4294967295 です。",
+                "baseQuery": "INT[[PARAM]]",
+                "withPrecision": true,
+                "withScale": false,
+                "withUnsigned": true,
+                "withAutoIncrement": true,
+                "defaultValueCandidates": []
+            },
+            {
+                "id": 27,
+                "name": "bigint (m)",
+                "description": "大きい整数。 符号付きの範囲は -9223372036854775808 から 9223372036854775807 です。 符号なしの範囲は 0 から 18446744073709551615 です。",
+                "baseQuery": "BIGINT[[PARAM]]",
+                "withPrecision": true,
+                "withScale": false,
+                "withUnsigned": true,
+                "withAutoIncrement": true,
+                "defaultValueCandidates": []
+            },
+            {
+                "id": 31,
+                "name": "float",
+                "description": "小さい (単精度) 浮動小数点数。 許可される値は、-3.402823466E+38 から -1.175494351E-38、0、および 1.175494351E-38 から 3.402823466E+38 です。",
+                "baseQuery": "FLOAT",
+                "withPrecision": false,
+                "withScale": false,
+                "withUnsigned": false,
+                "withAutoIncrement": true,
+                "defaultValueCandidates": []
+            },
+            {
+                "id": 33,
+                "name": "double",
+                "description": "普通サイズ (倍精度) の浮動小数点数。 許可されている値は、-1.7976931348623157E+308 から -2.2250738585072014E-308、0、および 2.2250738585072014E-308 から 1.7976931348623157E+308 です。",
+                "baseQuery": "DOUBLE",
+                "withPrecision": false,
+                "withScale": false,
+                "withUnsigned": false,
+                "withAutoIncrement": true,
+                "defaultValueCandidates": []
+            },
+            {
+                "id": 35,
+                "name": "decimal",
+                "description": "固定小数点数。 桁数10 (精度) で、小数点以下の桁数0です。",
+                "baseQuery": "DECIMAL",
+                "withPrecision": false,
+                "withScale": false,
+                "withUnsigned": false,
+                "withAutoIncrement": true,
+                "defaultValueCandidates": []
+            },
+            {
+                "id": 36,
+                "name": "numeric",
+                "description": "DECIMAL のシノニムです。固定小数点数。 桁数10 (精度) で、小数点以下の桁数0です。",
+                "baseQuery": "NUMERIC",
+                "withPrecision": false,
+                "withScale": false,
+                "withUnsigned": false,
+                "withAutoIncrement": true,
+                "defaultValueCandidates": []
+            },
+            {
+                "id": 41,
+                "name": "float (m, d)",
+                "description": "小さい (単精度) 浮動小数点数。 許可される値は、-3.402823466E+38 から -1.175494351E-38、0、および 1.175494351E-38 から 3.402823466E+38 です。",
+                "baseQuery": "FLOAT[[PARAM]]",
+                "withPrecision": true,
+                "withScale": true,
+                "withUnsigned": false,
+                "withAutoIncrement": false,
+                "defaultValueCandidates": []
+            },
+            {
+                "id": 42,
+                "name": "float (p)",
+                "description": "浮動小数点数です。p は精度をビットで表現します。",
+                "baseQuery": "FLOAT[[PARAM]]",
+                "withPrecision": true,
+                "withScale": false,
+                "withUnsigned": false,
+                "withAutoIncrement": false,
+                "defaultValueCandidates": []
+            },
+            {
+                "id": 43,
+                "name": "double (m, d)",
+                "description": "普通サイズ (倍精度) の浮動小数点数。 許可されている値は、-1.7976931348623157E+308 から -2.2250738585072014E-308、0、および 2.2250738585072014E-308 から 1.7976931348623157E+308 です。",
+                "baseQuery": "DOUBLE[[PARAM]]",
+                "withPrecision": true,
+                "withScale": true,
+                "withUnsigned": false,
+                "withAutoIncrement": false,
+                "defaultValueCandidates": []
+            },
+            {
+                "id": 45,
+                "name": "decimal (m, d)",
+                "description": "固定小数点数。 M は桁数の合計 (精度) で、D は小数点以下の桁数 (スケール) です。",
+                "baseQuery": "DECIMAL[[PARAM]]",
+                "withPrecision": true,
+                "withScale": true,
+                "withUnsigned": false,
+                "withAutoIncrement": false,
+                "defaultValueCandidates": []
+            },
+            {
+                "id": 46,
+                "name": "numeric (m, d)",
+                "description": "DECIMAL のシノニムです。固定小数点数。 M は桁数の合計 (精度) で、D は小数点以下の桁数 (スケール) です。",
+                "baseQuery": "NUMERIC[[PARAM]]",
+                "withPrecision": true,
+                "withScale": true,
+                "withUnsigned": false,
+                "withAutoIncrement": false,
+                "defaultValueCandidates": []
+            },
+            {
+                "id": 101,
+                "name": "date",
+                "description": "日付です。 サポートしている範囲は \"1000-01-01\" から \"9999-12-31\" です。",
+                "baseQuery": "DATE",
+                "withPrecision": false,
+                "withScale": false,
+                "withUnsigned": false,
+                "withAutoIncrement": false,
+                "defaultValueCandidates": [
+                    "CURRENT_DATE",
+                    "CURRENT_DATE ON UPDATE CURRENT_DATE"
+                ]
+            },
+            {
+                "id": 131,
+                "name": "time",
+                "description": "時間です。 範囲は、\"-838:59:59.000000\" から \"838:59:59.000000\" です。",
+                "baseQuery": "TIME",
+                "withPrecision": false,
+                "withScale": false,
+                "withUnsigned": false,
+                "withAutoIncrement": false,
+                "defaultValueCandidates": [
+                    "CURRENT_TIME",
+                    "CURRENT_TIME ON UPDATE CURRENT_TIME"
+                ]
+            },
+            {
+                "id": 141,
+                "name": "time (p)",
+                "description": "時間です。 範囲は、\"-838:59:59.000000\" から \"838:59:59.000000\" です。",
+                "baseQuery": "TIME[[PARAM]]",
+                "withPrecision": true,
+                "withScale": false,
+                "withUnsigned": false,
+                "withAutoIncrement": false,
+                "defaultValueCandidates": [
+                    "CURRENT_TIME",
+                    "CURRENT_TIME ON UPDATE CURRENT_TIME"
+                ]
+            },
+            {
+                "id": 112,
+                "name": "datetime",
+                "description": "日付と時間の組み合わせです。 サポートしている範囲は \"1000-01-01 00:00:00.000000\" から \"9999-12-31 23:59:59.999999\" です。",
+                "baseQuery": "DATETIME",
+                "withPrecision": false,
+                "withScale": false,
+                "withUnsigned": false,
+                "withAutoIncrement": false,
+                "defaultValueCandidates": [
+                    "CURRENT_TIMESTAMP",
+                    "CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
+                ]
+            },
+            {
+                "id": 115,
+                "name": "timestamp",
+                "description": "タイムスタンプです。 範囲は \"1970-01-01 00:00:01.000000\" UTC から \"2038-01-19 03:14:07.999999\" UTC です。",
+                "baseQuery": "TIMESTAMP",
+                "withPrecision": false,
+                "withScale": false,
+                "withUnsigned": false,
+                "withAutoIncrement": false,
+                "defaultValueCandidates": [
+                    "CURRENT_TIMESTAMP",
+                    "CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
+                ]
+            },
+            {
+                "id": 122,
+                "name": "datetime (p)",
+                "description": "日付と時間の組み合わせです。 サポートしている範囲は \"1000-01-01 00:00:00.000000\" から \"9999-12-31 23:59:59.999999\" です。",
+                "baseQuery": "DATETIME[[PARAM]]",
+                "withPrecision": true,
+                "withScale": false,
+                "withUnsigned": false,
+                "withAutoIncrement": false,
+                "defaultValueCandidates": [
+                    "CURRENT_TIMESTAMP",
+                    "CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
+                ]
+            },
+            {
+                "id": 125,
+                "name": "timestamp (p)",
+                "description": "タイムスタンプです。 範囲は \"1970-01-01 00:00:01.000000\" UTC から \"2038-01-19 03:14:07.999999\" UTC です。",
+                "baseQuery": "TIMESTAMP[[PARAM]]",
+                "withPrecision": true,
+                "withScale": false,
+                "withUnsigned": false,
+                "withAutoIncrement": false,
+                "defaultValueCandidates": [
+                    "CURRENT_TIMESTAMP",
+                    "CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
+                ]
+            },
+            {
+                "id": 151,
+                "name": "year",
+                "description": "4 桁形式の年。",
+                "baseQuery": "YEAR",
+                "withPrecision": false,
+                "withScale": false,
+                "withUnsigned": false,
+                "withAutoIncrement": false,
+                "defaultValueCandidates": []
+            },
+            {
+                "id": 301,
+                "name": "char",
+                "description": "格納時に必ず、指定された長さになるように右側がスペースで埋められる固定長文字列です。",
+                "baseQuery": "CHAR",
+                "withPrecision": false,
+                "withScale": false,
+                "withUnsigned": false,
+                "withAutoIncrement": false,
+                "defaultValueCandidates": []
+            },
+            {
+                "id": 311,
+                "name": "char (m)",
+                "description": "格納時に必ず、指定された長さになるように右側がスペースで埋められる固定長文字列です。",
+                "baseQuery": "CHAR[[PARAM]]",
+                "withPrecision": true,
+                "withScale": false,
+                "withUnsigned": false,
+                "withAutoIncrement": false,
+                "defaultValueCandidates": []
+            },
+            {
+                "id": 312,
+                "name": "varchar (m)",
+                "description": "可変長文字列です。",
+                "baseQuery": "VARCHAR[[PARAM]]",
+                "withPrecision": true,
+                "withScale": false,
+                "withUnsigned": false,
+                "withAutoIncrement": false,
+                "defaultValueCandidates": []
+            },
+            {
+                "id": 321,
+                "name": "tinytext",
+                "description": "最大長が 255 文字の TEXT カラム。",
+                "baseQuery": "TINYTEXT",
+                "withPrecision": false,
+                "withScale": false,
+                "withUnsigned": false,
+                "withAutoIncrement": false,
+                "defaultValueCandidates": []
+            },
+            {
+                "id": 322,
+                "name": "text",
+                "description": "最大長が 65,535 文字の TEXT カラム。",
+                "baseQuery": "TEXT",
+                "withPrecision": false,
+                "withScale": false,
+                "withUnsigned": false,
+                "withAutoIncrement": false,
+                "defaultValueCandidates": []
+            },
+            {
+                "id": 323,
+                "name": "text (m)",
+                "description": "最大長が 65,535 文字の TEXT カラム。",
+                "baseQuery": "TEXT[[PARAM]]",
+                "withPrecision": true,
+                "withScale": false,
+                "withUnsigned": false,
+                "withAutoIncrement": false,
+                "defaultValueCandidates": []
+            },
+            {
+                "id": 324,
+                "name": "mediumtext",
+                "description": "最大長が 16,777,215 文字の TEXT カラム。",
+                "baseQuery": "MEDIUMTEXT",
+                "withPrecision": false,
+                "withScale": false,
+                "withUnsigned": false,
+                "withAutoIncrement": false,
+                "defaultValueCandidates": []
+            },
+            {
+                "id": 325,
+                "name": "longtext",
+                "description": "最大長が 4G 文字の TEXT カラム。",
+                "baseQuery": "LONGTEXT",
+                "withPrecision": false,
+                "withScale": false,
+                "withUnsigned": false,
+                "withAutoIncrement": false,
+                "defaultValueCandidates": []
+            },
+            {
+                "id": 3,
+                "name": "binary (m)",
+                "description": "バイナリバイト文字列を格納します。",
+                "baseQuery": "BINARY[[PARAM]]",
+                "withPrecision": true,
+                "withScale": false,
+                "withUnsigned": false,
+                "withAutoIncrement": false,
+                "defaultValueCandidates": []
+            },
+            {
+                "id": 5,
+                "name": "varbinary (m)",
+                "description": "バイナリバイト文字列を格納します。",
+                "baseQuery": "VARBINARY[[PARAM]]",
+                "withPrecision": true,
+                "withScale": false,
+                "withUnsigned": false,
+                "withAutoIncrement": false,
+                "defaultValueCandidates": []
+            },
+            {
+                "id": 361,
+                "name": "tinyblob",
+                "description": "最大長が 255 バイトの BLOB カラム。",
+                "baseQuery": "TINYBLOB",
+                "withPrecision": false,
+                "withScale": false,
+                "withUnsigned": false,
+                "withAutoIncrement": false,
+                "defaultValueCandidates": []
+            },
+            {
+                "id": 363,
+                "name": "blob",
+                "description": "最大長が 65,535 バイトの BLOB カラム。",
+                "baseQuery": "BLOB",
+                "withPrecision": false,
+                "withScale": false,
+                "withUnsigned": false,
+                "withAutoIncrement": false,
+                "defaultValueCandidates": []
+            },
+            {
+                "id": 364,
+                "name": "blob (m)",
+                "description": "最大長が 65,535 バイトの BLOB カラム。",
+                "baseQuery": "BLOB[[PARAM]]",
+                "withPrecision": true,
+                "withScale": false,
+                "withUnsigned": false,
+                "withAutoIncrement": false,
+                "defaultValueCandidates": []
+            },
+            {
+                "id": 365,
+                "name": "mediumblob",
+                "description": "最大長が 16,777,215 バイトの BLOB カラム。",
+                "baseQuery": "MEDIUMBLOB",
+                "withPrecision": false,
+                "withScale": false,
+                "withUnsigned": false,
+                "withAutoIncrement": false,
+                "defaultValueCandidates": []
+            },
+            {
+                "id": 367,
+                "name": "longblob",
+                "description": "最大長が 4G バイトの BLOB カラム。",
+                "baseQuery": "LONGBLOB",
+                "withPrecision": false,
+                "withScale": false,
+                "withUnsigned": false,
+                "withAutoIncrement": false,
+                "defaultValueCandidates": []
+            },
+            {
+                "id": 422,
+                "name": "json",
+                "description": "文書の型式であるJSONデータを格納するために使用されるデータ型。",
+                "baseQuery": "JSON",
+                "withPrecision": false,
+                "withScale": false,
+                "withUnsigned": false,
+                "withAutoIncrement": false,
+                "defaultValueCandidates": []
+            },
+            {
+                "id": 2001,
+                "name": "geometry",
+                "description": "空間データを格納するために使用されるデータ型。点、線、多角形、およびその他の形状を含めることができます。",
+                "baseQuery": "GEOMETRY",
+                "withPrecision": false,
+                "withScale": false,
+                "withUnsigned": false,
+                "withAutoIncrement": false,
+                "defaultValueCandidates": []
+            },
+            {
+                "id": 2011,
+                "name": "point",
+                "description": "GEOMETRYデータ型の1つであり、2次元空間上の単一の点を表します。",
+                "baseQuery": "POINT",
+                "withPrecision": false,
+                "withScale": false,
+                "withUnsigned": false,
+                "withAutoIncrement": false,
+                "defaultValueCandidates": []
+            },
+            {
+                "id": 2012,
+                "name": "linestring",
+                "description": "GEOMETRYデータ型の1つであり、2次元空間上の複数の点を結ぶ直線セグメントの連続したセットを表します。",
+                "baseQuery": "LINESTRING",
+                "withPrecision": false,
+                "withScale": false,
+                "withUnsigned": false,
+                "withAutoIncrement": false,
+                "defaultValueCandidates": []
+            },
+            {
+                "id": 2013,
+                "name": "polygon",
+                "description": "GEOMETRYデータ型の1つであり、2次元平面上の単一の領域を表す閉じたループの集合です。",
+                "baseQuery": "POLYGON",
+                "withPrecision": false,
+                "withScale": false,
+                "withUnsigned": false,
+                "withAutoIncrement": false,
+                "defaultValueCandidates": []
+            },
+            {
+                "id": 2021,
+                "name": "multipoint",
+                "description": "GEOMETRYデータ型の1つであり、複数の点を表す複数のPOINTオブジェクトの集合です。",
+                "baseQuery": "MULTIPOINT",
+                "withPrecision": false,
+                "withScale": false,
+                "withUnsigned": false,
+                "withAutoIncrement": false,
+                "defaultValueCandidates": []
+            },
+            {
+                "id": 2022,
+                "name": "multilinestring",
+                "description": "GEOMETRYデータ型の1つであり、複数の線分を表す複数のLINESTRINGオブジェクトの集合です。",
+                "baseQuery": "MULTILINESTRING",
+                "withPrecision": false,
+                "withScale": false,
+                "withUnsigned": false,
+                "withAutoIncrement": false,
+                "defaultValueCandidates": []
+            },
+            {
+                "id": 2023,
+                "name": "multipolygon",
+                "description": "GEOMETRYデータ型の1つであり、複数のポリゴンを表す複数のPOLYGONオブジェクトの集合です。",
+                "baseQuery": "MULTIPOLYGON",
+                "withPrecision": false,
+                "withScale": false,
+                "withUnsigned": false,
+                "withAutoIncrement": false,
+                "defaultValueCandidates": []
+            },
+            {
+                "id": 2031,
+                "name": "geometrycollection",
+                "description": "GEOMETRYデータ型の1つであり、複数のGEOMETRYオブジェクトの集合を表します。",
+                "baseQuery": "GEOMETRYCOLLECTION",
+                "withPrecision": false,
+                "withScale": false,
+                "withUnsigned": false,
+                "withAutoIncrement": false,
+                "defaultValueCandidates": []
+            },
+            {
+                "id": 2101,
+                "name": "enum",
+                "description": "文字列のリストの中から1つを選択するために使用されるデータ型。",
+                "baseQuery": "ENUM",
+                "withPrecision": false,
+                "withScale": false,
+                "withUnsigned": false,
+                "withAutoIncrement": false,
+                "defaultValueCandidates": []
+            },
+            {
+                "id": 2102,
+                "name": "set",
+                "description": "ENUMの拡張版であり、文字列のリストから複数の選択肢を選択するために使用されるデータ型。",
+                "baseQuery": "SET",
+                "withPrecision": false,
+                "withScale": false,
+                "withUnsigned": false,
+                "withAutoIncrement": false,
+                "defaultValueCandidates": []
+            },
+            {
+                "id": 0,
+                "name": "",
+                "description": "",
+                "baseQuery": "",
+                "withPrecision": false,
+                "withScale": false,
+                "withUnsigned": false,
+                "withAutoIncrement": false,
+                "defaultValueCandidates": []
+            }
+        ],
+        "version": 20251130
+    }
+}
