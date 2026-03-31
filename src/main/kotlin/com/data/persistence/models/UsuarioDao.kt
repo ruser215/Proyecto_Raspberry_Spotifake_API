@@ -1,0 +1,29 @@
+package com.data.persistence.models
+
+import com.domain.models.Usuario
+import org.jetbrains.exposed.dao.LongEntity
+import org.jetbrains.exposed.dao.LongEntityClass
+import org.jetbrains.exposed.dao.id.EntityID
+
+class UsuarioDao(id: EntityID<Long>) : LongEntity(id) {
+    companion object : LongEntityClass<UsuarioDao>(UsuarioTable)
+
+    var username by UsuarioTable.username
+    var correo by UsuarioTable.correo
+    var admin by UsuarioTable.admin
+    var premium by UsuarioTable.premium
+    var pass by UsuarioTable.pass
+    var token by UsuarioTable.token
+    var urlImagen by UsuarioTable.urlImagen
+
+    fun toUsuario() = Usuario(
+        id = id.value,
+        username = username,
+        correo = correo,
+        admin = admin,
+        premium = premium,
+        pass = pass,
+        token = token,
+        urlImagen = urlImagen
+    )
+}
