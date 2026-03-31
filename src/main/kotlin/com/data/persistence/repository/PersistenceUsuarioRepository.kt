@@ -63,15 +63,21 @@ class PersistenceUsuarioRepository : UsuarioInterface {
 
     
     override suspend fun register(usuario: UpdateUsuario): Usuario? = suspendTransaction {
-        UsuarioDao.new {
+        val usuarioDao = UsuarioDao.new {
             this.username = usuario.username ?: "Sin nombre"
             this.correo = usuario.correo ?: throw IllegalArgumentException("El correo es obligatorio")
-            this.admin = (usuario.admin == 1)
-            this.premium = (usuario.premium == 1)
+            this.admin = usuario.admin ?: false
+            this.premium = usuario.premium ?: false
             this.pass = PasswordHash.hash(usuario.pass ?: throw IllegalArgumentException("La contraseña es obligatoria"))
             this.token = usuario.token
             this.urlImagen = usuario.urlImagen
-        }.toUsuario()
+        }
+        // Crear tema por defecto para el usuario
+        TemaDao.new {
+            colorPrimario = "#FFFFFF"
+            colorSecundario = "#000000"
+        }
+        usuarioDao.toUsuario()
     }
 
     

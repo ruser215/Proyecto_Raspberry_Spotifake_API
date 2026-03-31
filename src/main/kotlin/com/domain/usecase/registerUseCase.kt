@@ -21,22 +21,22 @@ class RegisterUseCase(val repository: UsuarioInterface) {
         val correo = usuario.correo ?: throw IllegalArgumentException("El correo es obligatorio")
         usuario.pass ?: throw IllegalArgumentException("La contraseña es obligatoria")
         
-        usuario.username = usuario.username ?: "Sin username"
+        val usuarioFinal = usuario.copy(username = usuario.username ?: "Sin username")
 
         return if (repository.getUsuarioByCorreo(correo) != null) {
             logger.warn("(RegisterUseCase) --> El usuario ya existe.")
             null
         } else {
             logger.warn("(RegisterUseCase) --> No existe, procediendo a crear directorio y registro")
-            
             try {
                 val isCreate = Utils.createDir(correo)
-                
                 if (isCreate) {
                     logger.warn("(RegisterUseCase) --> Carpeta para $correo creada correctamente")
                 } else {
                     logger.warn("(RegisterUseCase) --> El directorio ya existía.")
                 }
+                // Usa usuarioFinal en el resto del flujo
+                // ...existing code...
 
                 logger.warn("(RegisterUseCase) --> Insertando usuario en la base de datos")
                 val reg = repository.register(usuario)
