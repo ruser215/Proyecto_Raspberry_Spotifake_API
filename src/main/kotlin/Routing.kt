@@ -56,7 +56,7 @@ fun Application.configureRouting() {
     val jwtAudience = dotenv["JWT_AUDIENCE"] ?: "jwt-audience"
 
     fun generateToken(usuario: Usuario): String {
-        val adminInt = if (usuario.admin == 1) 1 else 0
+        val adminInt = if (usuario.admin) 1 else 0
         return JWT.create()
             .withAudience(jwtAudience)
             .withIssuer(jwtDomain)
@@ -264,13 +264,13 @@ fun Application.configureRouting() {
                     repository.updateUsuario(UpdateUsuario(token = token), usuario.id!!)
                     val usuarioConToken = Usuario(
                         id = usuario.id,
-                        username = usuario.username,
-                        correo = usuario.correo,
+                        username = usuario.username ?: "",
+                        correo = usuario.correo ?: "",
                         admin = usuario.admin,
                         premium = usuario.premium,
                         pass = "",
                         token = token,
-                        urlImagen = usuario.urlImagen
+                        urlImagen = usuario.urlImagen ?: ""
                     )
                     call.respond(HttpStatusCode.Created, usuarioConToken)
                 } else {
@@ -325,37 +325,37 @@ fun Application.configureRouting() {
         }
 
         authenticate("auth-jwt") {
-            get("/usuarios") {
-                val principal = call.principal<JWTPrincipal>()
-                val isAdmin = principal?.getClaim("admin", Int::class) == 1
-                if (!isAdmin) {
-                    call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden listar usuarios"))
-                    return@get
-                }
+            post("/login") {
                 try {
-                    val usuarios = repository.getAllUsuarios().map {
-                        Usuario(
-                            id = it.id,
-                            username = it.username,
-                            correo = it.correo,
-                            admin = it.admin,
-                            premium = it.premium,
+                    val credentials = call.receive<UpdateUsuario>()
+                    val usuario = loginUseCase(credentials.correo!!, credentials.pass!!)
+                    if (usuario != null) {
+                        val token = generateToken(usuario)
+                        repository.updateUsuario(UpdateUsuario(token = token), usuario.id!!)
+                        val usuarioConToken = Usuario(
+                            id = usuario.id,
+                            username = usuario.username ?: "",
+                            correo = usuario.correo ?: "",
+                            admin = usuario.admin,
+                            premium = usuario.premium,
                             pass = "",
-                            token = it.token,
-                            urlImagen = it.urlImagen
+                            token = token,
+                            urlImagen = usuario.urlImagen ?: ""
+                        )
+                        call.respond(HttpStatusCode.OK, usuarioConToken)
+                    } else {
+                        call.respond(
+                            HttpStatusCode.Unauthorized,
+                            mapOf("error" to "Credenciales inválidas")
                         )
                     }
-                    call.respond(HttpStatusCode.OK, usuarios)
                 } catch (e: Exception) {
                     call.respond(
                         HttpStatusCode.InternalServerError,
-                        mapOf("error" to "Error al obtener usuarios: ${e.message}")
+                        mapOf("error" to "Error interno del servidor: ${e.message}")
                     )
                 }
             }
-            
-            get("/usuarios/{id}") {
-                val principal = call.principal<JWTPrincipal>()
                 val isAdmin = principal?.getClaim("admin", Int::class) == 1
                 if (!isAdmin) {
                     call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden ver detalles de otros usuarios"))

@@ -11,7 +11,7 @@ import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
 import com.data.persistence.models.*
-import com.data.persistence.models.ArtistTable
+// import com.data.persistence.models.ArtistTable (no existe, usar ArtistaTable)
 import com.data.persistence.models.AlbumTable
 
 
@@ -38,7 +38,7 @@ object DatabaseFactory {
                     AlbumArtistsTable,
                     CancionTable,
                     AlbumTable,
-                    ArtistTable,
+                    ArtistaTable,
                     GeneroTable,
                     UsuarioTable
                 )
@@ -53,7 +53,7 @@ object DatabaseFactory {
             SchemaUtils.create(
                 UsuarioTable,
                 GeneroTable,
-                ArtistTable,
+                ArtistaTable,
                 AlbumTable,
                 CancionTable,
                 ListaCancionesTable,

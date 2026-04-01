@@ -9,6 +9,7 @@ import com.domain.models.UpdateUsuario
 import com.domain.repository.UsuarioInterface
 import com.domain.security.PasswordHash
 import com.data.persistence.models.*
+import com.data.persistence.suspendTransaction
 import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.update
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq

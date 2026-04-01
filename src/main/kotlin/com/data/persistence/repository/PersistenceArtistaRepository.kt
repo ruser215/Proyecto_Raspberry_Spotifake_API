@@ -7,6 +7,7 @@ import org.jetbrains.exposed.sql.update
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.like
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import com.data.persistence.models.*
+import com.data.persistence.suspendTransaction
 
 import org.jetbrains.exposed.sql.SqlExpressionBuilder
 
@@ -28,7 +29,7 @@ class PersistenceArtistaRepository : ArtistaInterface {
 
     override suspend fun searchArtistas(nombre: String?): List<Artista> = suspendTransaction {
         if (nombre.isNullOrBlank()) return@suspendTransaction ArtistDao.all().map { it.toArtista() }
-        ArtistDao.find { ArtistTable.nombre like "%$nombre%" }.map { it.toArtista() }
+        ArtistDao.find { ArtistaTable.nombre like "%$nombre%" }.map { it.toArtista() }
     }
 
     override suspend fun updateArtista(
@@ -39,29 +40,29 @@ class PersistenceArtistaRepository : ArtistaInterface {
         likesTotales: Int?
     ): Artista? {
         suspendTransaction {
-            ArtistTable.update({ ArtistTable.id eq id }) { stm ->
-                nombre?.let { stm[ArtistTable.nombre] = it }
-                fotoUrl?.let { stm[ArtistTable.fotoUrl] = it }
-                seguidores?.let { stm[ArtistTable.seguidores] = it }
-                likesTotales?.let { stm[ArtistTable.likesTotales] = it }
+            ArtistaTable.update({ ArtistaTable.id eq id }) { stm ->
+                nombre?.let { stm[ArtistaTable.nombre] = it }
+                fotoUrl?.let { stm[ArtistaTable.fotoUrl] = it }
+                seguidores?.let { stm[ArtistaTable.seguidores] = it }
+                likesTotales?.let { stm[ArtistaTable.likesTotales] = it }
             }
         }
         return getArtistaById(id)
     }
 
     override suspend fun followArtista(id: Int): Boolean = suspendTransaction {
-        val rows = ArtistTable.update({ ArtistTable.id eq id }) {
+        val rows = ArtistaTable.update({ ArtistaTable.id eq id }) {
             with(SqlExpressionBuilder) {
-                it.update(ArtistTable.seguidores, ArtistTable.seguidores + 1)
+                it.update(ArtistaTable.seguidores, ArtistaTable.seguidores + 1)
             }
         }
         rows > 0
     }
 
     override suspend fun unfollowArtista(id: Int): Boolean = suspendTransaction {
-        val rows = ArtistTable.update({ ArtistTable.id eq id }) {
+        val rows = ArtistaTable.update({ ArtistaTable.id eq id }) {
             with(SqlExpressionBuilder) {
-                it[ArtistTable.seguidores] = (ArtistTable.seguidores + (-1)).let { expr ->
+                it[ArtistaTable.seguidores] = (ArtistaTable.seguidores + (-1)).let { expr ->
                     // Exposed no soporta coerceAtLeast directamente sobre Expression, así que se debe controlar en la lógica
                     // Aquí se asume que el valor nunca será menor que 0 en la base de datos, o se puede hacer un select previo si se requiere
                     expr
@@ -73,8 +74,9 @@ class PersistenceArtistaRepository : ArtistaInterface {
 
     override suspend fun deleteArtista(id: Int): Boolean {
         val deleted = suspendTransaction {
-            ArtistTable.deleteWhere { ArtistTable.id eq id }
+            ArtistaTable.deleteWhere { ArtistaTable.id eq id }
         }
+        return deleted > 0
         return deleted > 0
     }
 }

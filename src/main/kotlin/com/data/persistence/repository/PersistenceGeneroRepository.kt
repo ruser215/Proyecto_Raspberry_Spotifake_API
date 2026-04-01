@@ -7,6 +7,7 @@ package com.data.persistence.repository
 import com.domain.models.Genero
 import com.domain.repository.GeneroInterface
 import com.data.persistence.models.*
+import com.data.persistence.suspendTransaction
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.deleteWhere
 

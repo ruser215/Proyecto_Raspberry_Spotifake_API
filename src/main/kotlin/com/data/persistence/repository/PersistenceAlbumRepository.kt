@@ -7,6 +7,7 @@ import org.jetbrains.exposed.sql.update
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.like
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import com.data.persistence.models.*
+import com.data.persistence.suspendTransaction
 
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.insertIgnore
@@ -36,7 +37,7 @@ class PersistenceAlbumRepository : AlbumInterface {
             if (album.artistaIds?.contains(primaryId) != true) {
                 AlbumArtistsTable.insertIgnore {
                     it[AlbumArtistsTable.albumId] = albumDao.id
-                    it[AlbumArtistsTable.artistId] = EntityID(primaryId, ArtistTable)
+                    it[AlbumArtistsTable.artistId] = EntityID(primaryId, ArtistaTable)
                 }
             }
         }
