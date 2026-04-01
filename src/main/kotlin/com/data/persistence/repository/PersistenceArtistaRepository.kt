@@ -6,7 +6,7 @@ import com.domain.repository.ArtistaInterface
 import com.data.persistence.models.*
 import com.data.persistence.suspendTransaction
 import org.jetbrains.exposed.sql.*
-import org.jetbrains.exposed.sql.SqlExpressionBuilder
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 
 class PersistenceArtistaRepository : ArtistaInterface {
     override suspend fun createArtista(artista: Artista): Artista = suspendTransaction {
@@ -73,7 +73,6 @@ class PersistenceArtistaRepository : ArtistaInterface {
         val deleted = suspendTransaction {
             ArtistaTable.deleteWhere { ArtistaTable.id eq id }
         }
-        return deleted > 0
         return deleted > 0
     }
 }

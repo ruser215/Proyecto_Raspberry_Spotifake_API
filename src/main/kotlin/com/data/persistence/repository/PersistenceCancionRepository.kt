@@ -11,7 +11,7 @@ import com.data.persistence.models.*
 import com.data.persistence.suspendTransaction
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.sql.*
-import org.jetbrains.exposed.sql.SqlExpressionBuilder
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 
 class PersistenceCancionRepository : CancionInterface {
     private fun findOrCreateArtist(name: String): ArtistDao = ArtistDao.find {
@@ -28,13 +28,12 @@ class PersistenceCancionRepository : CancionInterface {
     }
 
     override suspend fun createCancion(cancion: Cancion): Cancion = suspendTransaction {
-        // Priorizar IDs si vienen el el modelo de dominio
-        val artistDao = if (cancion.artistaId != null) ArtistDao.findById(cancion.artistaId!!) 
+        val artistDao = if (cancion.artistaId != null) ArtistDao.findById(cancion.artistaId!!)
                 else cancion.artista?.let { findOrCreateArtist(it) }
         val albumDao = if (cancion.albumId != null) AlbumDao.findById(cancion.albumId!!)
                        else if (cancion.album != null && artistDao != null) findOrCreateAlbum(cancion.album!!, artistDao)
                        else null
-        
+
         val song = CancionDao.new {
             nombre = cancion.nombre
             artista = artistDao
@@ -45,36 +44,7 @@ class PersistenceCancionRepository : CancionInterface {
             urlAudio = cancion.urlAudio
             urlPortada = cancion.urlPortada ?: albumDao?.portadaUrl
         }
-        
-        // Sincronizar muchos-a-muchos
-        cancion.artistasIds?.forEach { id ->
-            ArtistDao.findById(id)?.let { artist ->
-                SongArtistsTable.insert {
-                    it[SongArtistsTable.songId] = song.id
-                    it[SongArtistsTable.artistId] = artist.id
-                }
-            }
-        }
-        
-        cancion.albumIds?.forEach { id ->
-            AlbumDao.findById(id)?.let { album ->
-                SongAlbumsTable.insert {
-                    it[SongAlbumsTable.songId] = song.id
-                    it[SongAlbumsTable.albumId] = album.id
-                }
-            }
-        }
-        
-        // Also ensure the primary artist is in the list
-        artistDao?.let { primary ->
-            if (cancion.artistasIds?.contains(primary.id.value) != true) {
-                SongArtistsTable.insertIgnore {
-                    it[SongArtistsTable.songId] = song.id
-                    it[SongArtistsTable.artistId] = primary.id
-                }
-            }
-        }
-        
+
         song.toCancion()
     }
 
@@ -87,11 +57,9 @@ class PersistenceCancionRepository : CancionInterface {
     }
 
     override suspend fun searchCanciones(nombre: String?, artista: String?, album: String?, generoId: Int?): List<Cancion> = suspendTransaction {
-        // filtrado en memoria usando relaciones para mantener simples las consultas
         CancionDao.all().filter { song ->
             val matchName = nombre.isNullOrBlank() || song.nombre.contains(nombre, ignoreCase = true)
             val matchAlbum = album.isNullOrBlank() || song.album?.nombre?.contains(album, ignoreCase = true) == true
-            // buscamos tanto en el artista directo como en el del álbum
             val artistName = song.artista?.nombre ?: song.album?.artista?.nombre ?: ""
             val matchArtist = artista.isNullOrBlank() || artistName.contains(artista, ignoreCase = true)
             val matchGenero = generoId == null || song.genero.value == generoId
@@ -119,22 +87,19 @@ class PersistenceCancionRepository : CancionInterface {
                 likes?.let { song.likes = it }
                 urlAudio?.let { song.urlAudio = it }
                 urlPortada?.let { song.urlPortada = it }
-                
-                // Prioridad a IDs
+
                 val artistDao = if (artistaId != null) ArtistDao.findById(artistaId)
                                 else if (artista != null) findOrCreateArtist(artista)
-                                else song.artista ?: song.album?.artista
-                
-                if (artistDao != null) song.artista = artistDao
-                
-                val albumDao = if (albumId != null) AlbumDao.findById(albumId)
-                               else if (album != null && artistDao != null) findOrCreateAlbum(album, artistDao)
-                               else song.album
-                
-                if (albumDao != null) song.album = albumDao
+                                else null
 
-                // Note: Full many-to-many sync for artistIds/albumIds could be added here if needed
-                // For now, we update the primary ones which are used for backward compatibility.
+                if (artistDao != null) song.artista = artistDao
+
+                val albumDao = if (albumId != null) AlbumDao.findById(albumId)
+                               else if (album != null && (artistDao ?: song.artista) != null)
+                                   findOrCreateAlbum(album, artistDao ?: song.artista!!)
+                               else null
+
+                if (albumDao != null) song.album = albumDao
             }
         }
         return getCancionById(id)

@@ -12,7 +12,7 @@ import com.domain.security.PasswordHash
 import com.data.persistence.models.*
 import com.data.persistence.suspendTransaction
 import org.jetbrains.exposed.sql.*
-import org.jetbrains.exposed.sql.SqlExpressionBuilder
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 
 class PersistenceUsuarioRepository : UsuarioInterface {
 
@@ -53,8 +53,8 @@ class PersistenceUsuarioRepository : UsuarioInterface {
         UsuarioDao.new {
             this.username = usuario.username
             this.correo = usuario.correo
-            this.admin = (usuario.admin == 1)
-            this.premium = (usuario.premium == 1)
+            this.admin = usuario.admin
+            this.premium = usuario.premium
             this.pass = PasswordHash.hash(usuario.pass)
             this.token = usuario.token
             this.urlImagen = usuario.urlImagen
@@ -87,8 +87,8 @@ class PersistenceUsuarioRepository : UsuarioInterface {
                 UsuarioTable.update({ UsuarioTable.id eq id }) { stm ->
                     usuario.username?.let { stm[username] = it }
                     usuario.correo?.let { stm[correo] = it }
-                    usuario.admin?.let { stm[admin] = (it == 1) }
-                    usuario.premium?.let { stm[premium] = (it == 1) }
+                    usuario.admin?.let { stm[admin] = it }
+                    usuario.premium?.let { stm[premium] = it }
                     usuario.pass?.let { stm[pass] = PasswordHash.hash(it) }
                     usuario.token?.let { stm[token] = it }
                     usuario.urlImagen?.let { stm[urlImagen] = it }

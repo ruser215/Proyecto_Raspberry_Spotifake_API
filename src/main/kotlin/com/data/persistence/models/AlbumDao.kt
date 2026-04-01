@@ -1,5 +1,6 @@
 
 package com.data.persistence.models
+
 import com.domain.models.Album
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
@@ -10,12 +11,13 @@ class AlbumDao(id: EntityID<Int>) : IntEntity(id) {
 
     var nombre by AlbumTable.nombre
     var portadaUrl by AlbumTable.portadaUrl
-    var fechaLanzamiento by AlbumTable.fechaLanzamiento
+    var artista by ArtistDao optionalReferencedOn AlbumTable.artista
 
     fun toAlbum() = Album(
         id = id.value,
         nombre = nombre,
-        portadaUrl = portadaUrl,
-        fechaLanzamiento = fechaLanzamiento?.toString()
+        artistaId = artista?.id?.value,
+        artista = artista?.nombre,
+        portadaUrl = portadaUrl
     )
 }

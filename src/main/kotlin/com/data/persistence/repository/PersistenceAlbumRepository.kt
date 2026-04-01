@@ -5,38 +5,18 @@ import com.domain.models.Album
 import com.domain.repository.AlbumInterface
 import com.data.persistence.models.*
 import com.data.persistence.suspendTransaction
-import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.sql.*
-import org.jetbrains.exposed.sql.SqlExpressionBuilder
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 
 class PersistenceAlbumRepository : AlbumInterface {
     override suspend fun createAlbum(album: Album): Album = suspendTransaction {
+        val artistDao = album.artistaId?.let { ArtistDao.findById(it) }
+            ?: throw IllegalArgumentException("artistaId requerido")
         val albumDao = AlbumDao.new {
             nombre = album.nombre
             portadaUrl = album.portadaUrl
-            artista = album.artistaId?.let { ArtistDao.findById(it) } ?: throw IllegalArgumentException("artistaId requerido")
+            artista = artistDao
         }
-        
-        // Sincronizar muchos-a-muchos
-        album.artistaIds?.forEach { id ->
-            ArtistDao.findById(id)?.let { artist ->
-                AlbumArtistsTable.insert {
-                    it[AlbumArtistsTable.albumId] = albumDao.id
-                    it[AlbumArtistsTable.artistId] = artist.id
-                }
-            }
-        }
-        
-        // Ensure primary artist is included
-        album.artistaId?.let { primaryId ->
-            if (album.artistaIds?.contains(primaryId) != true) {
-                AlbumArtistsTable.insertIgnore {
-                    it[AlbumArtistsTable.albumId] = albumDao.id
-                    it[AlbumArtistsTable.artistId] = EntityID(primaryId, ArtistaTable)
-                }
-            }
-        }
-        
         albumDao.toAlbum()
     }
 

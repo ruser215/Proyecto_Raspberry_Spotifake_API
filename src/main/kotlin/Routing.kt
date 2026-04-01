@@ -706,23 +706,23 @@ fun Application.configureRouting() {
                             }
                         }
                         else -> Unit
+                    }
+                    part.dispose()
                 }
-                part.dispose()
-            }
 
-            // --- Validaciones de Integridad para Actualización ---
-            if (artistaId != null && artistaRepository.getArtistaById(artistaId!!) == null) {
-                call.respond(HttpStatusCode.NotFound, mapOf("error" to "El artista con ID $artistaId no existe"))
-                return@patch
-            }
-            if (albumId != null && albumRepository.getAlbumById(albumId!!) == null) {
-                call.respond(HttpStatusCode.NotFound, mapOf("error" to "El álbum con ID $albumId no existe"))
-                return@patch
-            }
-            if (genero != null && generoRepository.getGeneroById(genero!!) == null) {
-                call.respond(HttpStatusCode.NotFound, mapOf("error" to "El género con ID $genero no existe"))
-                return@patch
-            }
+                // --- Validaciones de Integridad para Actualización ---
+                if (artistaId != null && artistaRepository.getArtistaById(artistaId!!) == null) {
+                    call.respond(HttpStatusCode.NotFound, mapOf("error" to "El artista con ID $artistaId no existe"))
+                    return@patch
+                }
+                if (albumId != null && albumRepository.getAlbumById(albumId!!) == null) {
+                    call.respond(HttpStatusCode.NotFound, mapOf("error" to "El álbum con ID $albumId no existe"))
+                    return@patch
+                }
+                if (genero != null && generoRepository.getGeneroById(genero!!) == null) {
+                    call.respond(HttpStatusCode.NotFound, mapOf("error" to "El género con ID $genero no existe"))
+                    return@patch
+                }
 
                 val updated = cancionRepository.updateCancion(
                     id,
