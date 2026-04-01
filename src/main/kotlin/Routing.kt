@@ -5,36 +5,6 @@
  */
 package com.example
 
-import io.ktor.serialization.kotlinx.json.*
-import io.ktor.server.application.*
-import io.ktor.server.http.content.*
-import io.ktor.server.plugins.contentnegotiation.*
-import io.ktor.server.response.*
-import io.ktor.server.routing.*
-import io.ktor.server.request.*
-import kotlinx.serialization.json.*
-import io.ktor.http.*
-import io.ktor.http.content.*
-import io.ktor.server.auth.*
-import io.ktor.server.auth.jwt.*
-import com.auth0.jwt.JWT
-import com.auth0.jwt.algorithms.Algorithm
-import io.github.cdimascio.dotenv.dotenv
-import com.data.persistence.repository.*
-import com.data.persistence.models.*
-import com.domain.usecase.ProviderUseCase
-import com.domain.models.Usuario
-import com.domain.models.UpdateUsuario
-import com.domain.models.Cancion
-import com.domain.models.Genero
-import com.domain.models.ListaCanciones
-import com.domain.models.ListaCancionesCancionRequest
-import com.domain.models.Artista
-import com.domain.models.Album
-import java.io.File
-import java.util.UUID
-import java.util.Date
-import java.net.URLDecoder
 /*
 fun Application.configureRouting() {
     val repository = PersistenceUsuarioRepository()

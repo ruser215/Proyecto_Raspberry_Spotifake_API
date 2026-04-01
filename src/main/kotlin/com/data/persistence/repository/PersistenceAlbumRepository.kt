@@ -1,12 +1,7 @@
 
 package com.data.persistence.repository
 
-import com.domain.models.Album
-import com.domain.repository.AlbumInterface
-import com.data.persistence.models.*
-import com.data.persistence.suspendTransaction
-import org.jetbrains.exposed.sql.*
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
+
 /*
 class PersistenceAlbumRepository : AlbumInterface {
     override suspend fun createAlbum(album: Album): Album = suspendTransaction {

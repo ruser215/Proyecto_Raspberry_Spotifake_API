@@ -1,12 +1,7 @@
 
 package com.data.persistence.repository
 
-import com.domain.models.Artista
-import com.domain.repository.ArtistaInterface
-import com.data.persistence.models.*
-import com.data.persistence.suspendTransaction
-import org.jetbrains.exposed.sql.*
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
+
 /*
 class PersistenceArtistaRepository : ArtistaInterface {
     override suspend fun createArtista(artista: Artista): Artista = suspendTransaction {

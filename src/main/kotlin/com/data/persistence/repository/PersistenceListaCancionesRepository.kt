@@ -5,14 +5,7 @@
 
 package com.data.persistence.repository
 
-import com.data.persistence.models.*
-import com.data.persistence.suspendTransaction
-import com.domain.models.Cancion
-import com.domain.models.ListaCanciones
-import com.domain.repository.ListaCancionesInterface
-import org.jetbrains.exposed.dao.id.EntityID
-import org.jetbrains.exposed.sql.*
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
+
 /*
 class PersistenceListaCancionesRepository : ListaCancionesInterface {
     override suspend fun createLista(lista: ListaCanciones): ListaCanciones? = suspendTransaction {
