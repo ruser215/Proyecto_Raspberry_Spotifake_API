@@ -38,7 +38,13 @@ import java.net.URLDecoder
 
 fun Application.configureRouting() {
     val repository = PersistenceUsuarioRepository()
+    val artistaRepository = PersistenceArtistaRepository()
+    val albumRepository = PersistenceAlbumRepository()
+    val cancionRepository = PersistenceCancionRepository()
+    val generoRepository = PersistenceGeneroRepository()
+    val listaCancionesRepository = PersistenceListaCancionesRepository()
     val registerUseCase = ProviderUseCase.provideRegisterUseCase(repository)
+    val loginUseCase = ProviderUseCase.provideLoginUseCase(repository)
                 val usuarioConToken = Usuario(
                     id = usuario.id,
                     username = usuario.username ?: "",
