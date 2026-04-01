@@ -2,6 +2,7 @@
  * Implementación de repositorio de listas.
  * Incluye validación para evitar canciones duplicadas dentro de la misma lista.
  */
+
 package com.data.persistence.repository
 
 import com.data.persistence.models.*
@@ -10,12 +11,8 @@ import com.domain.models.Cancion
 import com.domain.models.ListaCanciones
 import com.domain.repository.ListaCancionesInterface
 import org.jetbrains.exposed.dao.id.EntityID
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import org.jetbrains.exposed.sql.and
-import org.jetbrains.exposed.sql.deleteWhere
-import org.jetbrains.exposed.sql.insert
-import org.jetbrains.exposed.sql.selectAll
-// suspendTransaction is already imported via com.data.persistence.models.*
+import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.SqlExpressionBuilder
 
 class PersistenceListaCancionesRepository : ListaCancionesInterface {
     override suspend fun createLista(lista: ListaCanciones): ListaCanciones? = suspendTransaction {

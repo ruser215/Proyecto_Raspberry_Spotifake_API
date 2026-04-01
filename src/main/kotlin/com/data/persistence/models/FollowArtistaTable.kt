@@ -1,6 +1,6 @@
-
 package com.data.persistence.models
 
+package com.data.persistence.models
 import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.javatime.date
 

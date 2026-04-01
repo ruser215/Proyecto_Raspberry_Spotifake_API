@@ -1,5 +1,5 @@
-package com.data.persistence.models
 
+package com.data.persistence.models
 import com.domain.models.Cancion
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass

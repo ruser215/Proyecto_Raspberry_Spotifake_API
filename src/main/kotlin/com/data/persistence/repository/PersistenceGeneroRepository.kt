@@ -2,14 +2,15 @@
  * Implementación de repositorio de géneros.
  * Encapsula operaciones de mantenimiento del catálogo de géneros.
  */
+
 package com.data.persistence.repository
 
 import com.domain.models.Genero
 import com.domain.repository.GeneroInterface
 import com.data.persistence.models.*
 import com.data.persistence.suspendTransaction
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import org.jetbrains.exposed.sql.deleteWhere
+import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.SqlExpressionBuilder
 
 class PersistenceGeneroRepository : GeneroInterface {
     override suspend fun createGenero(genero: Genero): Genero = suspendTransaction {

@@ -1,14 +1,11 @@
+
 package com.data.persistence.repository
 
 import com.domain.models.Artista
 import com.domain.repository.ArtistaInterface
-import org.jetbrains.exposed.sql.deleteWhere
-import org.jetbrains.exposed.sql.update
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.like
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import com.data.persistence.models.*
 import com.data.persistence.suspendTransaction
-
+import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder
 
 class PersistenceArtistaRepository : ArtistaInterface {

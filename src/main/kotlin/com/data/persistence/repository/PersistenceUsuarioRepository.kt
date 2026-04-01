@@ -2,6 +2,7 @@
  * Implementación de repositorio de usuarios con Exposed.
  * Traduce operaciones de dominio en consultas SQL transaccionales.
  */
+
 package com.data.persistence.repository
 
 import com.domain.models.Usuario
@@ -10,10 +11,8 @@ import com.domain.repository.UsuarioInterface
 import com.domain.security.PasswordHash
 import com.data.persistence.models.*
 import com.data.persistence.suspendTransaction
-import org.jetbrains.exposed.sql.deleteWhere
-import org.jetbrains.exposed.sql.update
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-
+import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.SqlExpressionBuilder
 
 class PersistenceUsuarioRepository : UsuarioInterface {
 
