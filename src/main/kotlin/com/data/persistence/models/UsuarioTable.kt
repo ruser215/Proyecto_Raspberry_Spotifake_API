@@ -1,6 +1,7 @@
 package com.data.persistence.models
 
 import org.jetbrains.exposed.dao.id.LongIdTable
+import org.jetbrains.exposed.sql.javatime.date
 
 object UsuarioTable : LongIdTable("usuario") {
     val username = varchar("username", 200).uniqueIndex()

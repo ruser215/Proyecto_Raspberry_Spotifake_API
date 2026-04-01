@@ -1,6 +1,7 @@
 package com.data.persistence.models
 
 import org.jetbrains.exposed.dao.id.IntIdTable
+import org.jetbrains.exposed.sql.javatime.date
 
 object AnuncioTable : IntIdTable("anuncio") {
     val titulo = varchar("titulo", 300)

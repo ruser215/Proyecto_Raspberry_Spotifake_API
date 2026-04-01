@@ -1,6 +1,7 @@
 package com.data.persistence.models
 
 import org.jetbrains.exposed.sql.Table
+import org.jetbrains.exposed.sql.javatime.date
 
 object UsuarioMascotaTable : Table("usuario_mascota") {
     val idUsuario = reference("id_usuario", UsuarioTable)

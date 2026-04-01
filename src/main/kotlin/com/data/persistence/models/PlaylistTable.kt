@@ -2,6 +2,7 @@ package com.data.persistence.models
 
 import org.jetbrains.exposed.dao.id.LongIdTable
 import org.jetbrains.exposed.sql.ReferenceOption
+import org.jetbrains.exposed.sql.javatime.date
 
 object PlaylistTable : LongIdTable("playlist") {
     val nombre = varchar("nombre", 100)

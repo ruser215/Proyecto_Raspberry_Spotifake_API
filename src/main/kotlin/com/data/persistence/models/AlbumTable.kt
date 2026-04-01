@@ -2,6 +2,7 @@ package com.data.persistence.models
 
 import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.ReferenceOption
+import org.jetbrains.exposed.sql.javatime.date
 
 object AlbumTable : IntIdTable("album") {
     val nombre = varchar("nombre", 250)
