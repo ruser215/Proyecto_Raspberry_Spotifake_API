@@ -1,3 +1,4 @@
+
 package com.data.persistence.models
 
 import org.jetbrains.exposed.sql.Table

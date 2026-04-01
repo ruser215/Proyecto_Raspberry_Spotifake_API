@@ -39,16 +39,16 @@ import java.net.URLDecoder
 fun Application.configureRouting() {
     val repository = PersistenceUsuarioRepository()
     val registerUseCase = ProviderUseCase.provideRegisterUseCase(repository)
-    val loginUseCase = ProviderUseCase.provideLoginUseCase(repository)
-    val cancionRepository = PersistenceCancionRepository()
-    val generoRepository = PersistenceGeneroRepository()
-    val listaCancionesRepository = PersistenceListaCancionesRepository()
-    // nuevos repositorios normalizados
-    val artistaRepository = PersistenceArtistaRepository()
-    val albumRepository = PersistenceAlbumRepository()
-
-    val dotenv = dotenv {
-        ignoreIfMissing = true
+                val usuarioConToken = Usuario(
+                    id = usuario.id,
+                    username = usuario.username ?: "",
+                    correo = usuario.correo ?: "",
+                    admin = usuario.admin,
+                    premium = usuario.premium,
+                    pass = "",
+                    token = token,
+                    urlImagen = usuario.urlImagen ?: ""
+                )
         directory = "."
     }
     val jwtSecret = dotenv["JWT_SECRET"] ?: "secret"
@@ -76,16 +76,16 @@ fun Application.configureRouting() {
         get("/apk/{nombre}") {
             val nombre = call.parameters["nombre"]
             if (nombre.isNullOrBlank()) {
-                call.respond(HttpStatusCode.BadRequest, mapOf("error" to "Nombre de archivo requerido"))
-                return@get
-            }
-            val file = File("archivos/apk/$nombre")
-            if (!file.exists()) {
-                call.respond(HttpStatusCode.NotFound, mapOf("error" to "Archivo no encontrado"))
-                return@get
-            }
-            call.respondFile(file)
-        }
+                val usuarioConToken = Usuario(
+                    id = usuario.id,
+                    username = usuario.username ?: "",
+                    correo = usuario.correo ?: "",
+                    admin = usuario.admin,
+                    premium = usuario.premium,
+                    pass = "",
+                    token = token,
+                    urlImagen = usuario.urlImagen ?: ""
+                )
 
         // Descargar imagen QR
         get("/qr/{nombre}") {
@@ -109,16 +109,16 @@ fun Application.configureRouting() {
                             val isAdmin = principal?.getClaim("admin", Int::class) == 1
                             if (!isAdmin) {
                                 call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden eliminar usuarios"))
-                                return@delete
-                            }
-                            try {
-                                val id = call.parameters["id"]?.toLongOrNull()
-                                if (id == null) {
-                                    call.respond(HttpStatusCode.BadRequest, mapOf("error" to "ID inválido"))
-                                    return@delete
-                                }
-                                val eliminado = repository.deleteUsuario(id)
-                                if (eliminado) {
+                    val usuarioConToken = Usuario(
+                        id = usuario.id,
+                        username = usuario.username ?: "",
+                        correo = usuario.correo ?: "",
+                        admin = usuario.admin,
+                        premium = usuario.premium,
+                        pass = "",
+                        token = token,
+                        urlImagen = usuario.urlImagen ?: ""
+                    )
                                     call.respond(HttpStatusCode.OK, mapOf("message" to "Usuario eliminado correctamente"))
                                 } else {
                                     call.respond(HttpStatusCode.NotFound, mapOf("error" to "Usuario no encontrado"))
