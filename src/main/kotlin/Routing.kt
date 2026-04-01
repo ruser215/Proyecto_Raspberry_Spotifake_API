@@ -262,7 +262,16 @@ fun Application.configureRouting() {
                 if (usuario != null) {
                     val token = generateToken(usuario)
                     repository.updateUsuario(UpdateUsuario(token = token), usuario.id!!)
-                    val usuarioConToken = usuario.copy(token = token, pass = "")
+                    val usuarioConToken = Usuario(
+                        id = usuario.id,
+                        username = usuario.username,
+                        correo = usuario.correo,
+                        admin = usuario.admin,
+                        premium = usuario.premium,
+                        pass = "",
+                        token = token,
+                        urlImagen = usuario.urlImagen
+                    )
                     call.respond(HttpStatusCode.Created, usuarioConToken)
                 } else {
                     call.respond(
@@ -290,7 +299,16 @@ fun Application.configureRouting() {
                 if (usuario != null) {
                     val token = generateToken(usuario)
                     repository.updateUsuario(UpdateUsuario(token = token), usuario.id!!)
-                    val usuarioConToken = usuario.copy(token = token, pass = "")
+                    val usuarioConToken = Usuario(
+                        id = usuario.id,
+                        username = usuario.username,
+                        correo = usuario.correo,
+                        admin = usuario.admin,
+                        premium = usuario.premium,
+                        pass = "",
+                        token = token,
+                        urlImagen = usuario.urlImagen
+                    )
                     call.respond(HttpStatusCode.OK, usuarioConToken)
                 } else {
                     call.respond(
@@ -315,7 +333,18 @@ fun Application.configureRouting() {
                     return@get
                 }
                 try {
-                    val usuarios = repository.getAllUsuarios().map { it.copy(pass = "") }
+                    val usuarios = repository.getAllUsuarios().map {
+                        Usuario(
+                            id = it.id,
+                            username = it.username,
+                            correo = it.correo,
+                            admin = it.admin,
+                            premium = it.premium,
+                            pass = "",
+                            token = it.token,
+                            urlImagen = it.urlImagen
+                        )
+                    }
                     call.respond(HttpStatusCode.OK, usuarios)
                 } catch (e: Exception) {
                     call.respond(
@@ -344,7 +373,17 @@ fun Application.configureRouting() {
                     
                     val usuario = repository.getUsuarioById(id)
                     if (usuario != null) {
-                        call.respond(HttpStatusCode.OK, usuario.copy(pass = ""))
+                        val usuarioSinPass = Usuario(
+                            id = usuario.id,
+                            username = usuario.username,
+                            correo = usuario.correo,
+                            admin = usuario.admin,
+                            premium = usuario.premium,
+                            pass = "",
+                            token = usuario.token,
+                            urlImagen = usuario.urlImagen
+                        )
+                        call.respond(HttpStatusCode.OK, usuarioSinPass)
                     } else {
                         call.respond(
                             HttpStatusCode.NotFound,
@@ -372,7 +411,17 @@ fun Application.configureRouting() {
                     
                     val usuario = repository.getUsuarioByCorreo(correo)
                     if (usuario != null) {
-                        call.respond(HttpStatusCode.OK, usuario.copy(pass = ""))
+                        val usuarioSinPass = Usuario(
+                            id = usuario.id,
+                            username = usuario.username,
+                            correo = usuario.correo,
+                            admin = usuario.admin,
+                            premium = usuario.premium,
+                            pass = "",
+                            token = usuario.token,
+                            urlImagen = usuario.urlImagen
+                        )
+                        call.respond(HttpStatusCode.OK, usuarioSinPass)
                     } else {
                         call.respond(
                             HttpStatusCode.NotFound,
@@ -415,7 +464,17 @@ fun Application.configureRouting() {
                     
                     val usuario = repository.updateUsuario(updateUsuario, id)
                     if (usuario != null) {
-                        call.respond(HttpStatusCode.OK, usuario.copy(pass = ""))
+                        val usuarioSinPass = Usuario(
+                            id = usuario.id,
+                            username = usuario.username,
+                            correo = usuario.correo,
+                            admin = usuario.admin,
+                            premium = usuario.premium,
+                            pass = "",
+                            token = usuario.token,
+                            urlImagen = usuario.urlImagen
+                        )
+                        call.respond(HttpStatusCode.OK, usuarioSinPass)
                     } else {
                         call.respond(
                             HttpStatusCode.NotFound,
@@ -459,7 +518,17 @@ fun Application.configureRouting() {
                 if (urlImagen != null) {
                     val usuario = repository.updateUsuario(UpdateUsuario(urlImagen = urlImagen), id)
                     if (usuario != null) {
-                        call.respond(HttpStatusCode.OK, usuario.copy(pass = ""))
+                        val usuarioSinPass = Usuario(
+                            id = usuario.id,
+                            username = usuario.username,
+                            correo = usuario.correo,
+                            admin = usuario.admin,
+                            premium = usuario.premium,
+                            pass = "",
+                            token = usuario.token,
+                            urlImagen = usuario.urlImagen
+                        )
+                        call.respond(HttpStatusCode.OK, usuarioSinPass)
                     } else {
                         call.respond(HttpStatusCode.InternalServerError, mapOf("error" to "Error al actualizar perfil"))
                     }
