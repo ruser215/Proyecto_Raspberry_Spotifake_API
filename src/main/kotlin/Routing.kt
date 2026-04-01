@@ -35,7 +35,7 @@ import java.io.File
 import java.util.UUID
 import java.util.Date
 import java.net.URLDecoder
-
+/*
 fun Application.configureRouting() {
     val repository = PersistenceUsuarioRepository()
     val artistaRepository = PersistenceArtistaRepository()
