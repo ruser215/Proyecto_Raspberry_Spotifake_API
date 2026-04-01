@@ -259,13 +259,10 @@ fun Application.configureRouting() {
             try {
                 val updateUsuario = call.receive<UpdateUsuario>()
                 val usuario = registerUseCase(updateUsuario)
-                
                 if (usuario != null) {
                     val token = generateToken(usuario)
                     repository.updateUsuario(UpdateUsuario(token = token), usuario.id!!)
-                    
-                    val usuarioConToken = usuario.copy(token = token)
-                    usuarioConToken.pass = ""
+                    val usuarioConToken = usuario.copy(token = token, pass = "")
                     call.respond(HttpStatusCode.Created, usuarioConToken)
                 } else {
                     call.respond(
@@ -290,13 +287,10 @@ fun Application.configureRouting() {
             try {
                 val credentials = call.receive<UpdateUsuario>()
                 val usuario = loginUseCase(credentials.correo!!, credentials.pass!!)
-                
                 if (usuario != null) {
                     val token = generateToken(usuario)
                     repository.updateUsuario(UpdateUsuario(token = token), usuario.id!!)
-                    
-                    val usuarioConToken = usuario.copy(token = token)
-                    usuarioConToken.pass = ""
+                    val usuarioConToken = usuario.copy(token = token, pass = "")
                     call.respond(HttpStatusCode.OK, usuarioConToken)
                 } else {
                     call.respond(
@@ -321,8 +315,7 @@ fun Application.configureRouting() {
                     return@get
                 }
                 try {
-                    val usuarios = repository.getAllUsuarios()
-                    usuarios.forEach { it.pass = "" }
+                    val usuarios = repository.getAllUsuarios().map { it.copy(pass = "") }
                     call.respond(HttpStatusCode.OK, usuarios)
                 } catch (e: Exception) {
                     call.respond(
@@ -351,8 +344,7 @@ fun Application.configureRouting() {
                     
                     val usuario = repository.getUsuarioById(id)
                     if (usuario != null) {
-                        usuario.pass = ""
-                        call.respond(HttpStatusCode.OK, usuario)
+                        call.respond(HttpStatusCode.OK, usuario.copy(pass = ""))
                     } else {
                         call.respond(
                             HttpStatusCode.NotFound,
@@ -380,8 +372,7 @@ fun Application.configureRouting() {
                     
                     val usuario = repository.getUsuarioByCorreo(correo)
                     if (usuario != null) {
-                        usuario.pass = ""
-                        call.respond(HttpStatusCode.OK, usuario)
+                        call.respond(HttpStatusCode.OK, usuario.copy(pass = ""))
                     } else {
                         call.respond(
                             HttpStatusCode.NotFound,
@@ -423,10 +414,8 @@ fun Application.configureRouting() {
                     }
                     
                     val usuario = repository.updateUsuario(updateUsuario, id)
-                    
                     if (usuario != null) {
-                        usuario.pass = ""
-                        call.respond(HttpStatusCode.OK, usuario)
+                        call.respond(HttpStatusCode.OK, usuario.copy(pass = ""))
                     } else {
                         call.respond(
                             HttpStatusCode.NotFound,
@@ -470,8 +459,7 @@ fun Application.configureRouting() {
                 if (urlImagen != null) {
                     val usuario = repository.updateUsuario(UpdateUsuario(urlImagen = urlImagen), id)
                     if (usuario != null) {
-                        usuario.pass = ""
-                        call.respond(HttpStatusCode.OK, usuario)
+                        call.respond(HttpStatusCode.OK, usuario.copy(pass = ""))
                     } else {
                         call.respond(HttpStatusCode.InternalServerError, mapOf("error" to "Error al actualizar perfil"))
                     }
