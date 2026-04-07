@@ -2,29 +2,18 @@
  *  Definición de rutas HTTP de la API.
  * Este archivo muestra cómo diseñar endpoints REST en Ktor y cómo conectar
  * la capa web con los repositorios de persistencia.
- */
-package com.example
-
-/*
-fun Application.configureRouting() {
+import com.data.persistence.*
+import com.example.appmusica.domain.usecase.ProviderUseCase
+import io.ktor.server.application.*
     val repository = PersistenceUsuarioRepository()
     val artistaRepository = PersistenceArtistaRepository()
     val albumRepository = PersistenceAlbumRepository()
     val cancionRepository = PersistenceCancionRepository()
     val generoRepository = PersistenceGeneroRepository()
     val listaCancionesRepository = PersistenceListaCancionesRepository()
+    val anuncioRepository = PersistenceAnuncioRepository()
     val registerUseCase = ProviderUseCase.provideRegisterUseCase(repository)
     val loginUseCase = ProviderUseCase.provideLoginUseCase(repository)
-                val usuarioConToken = Usuario(
-                    id = usuario.id,
-                    username = usuario.username ?: "",
-                    correo = usuario.correo ?: "",
-                    admin = usuario.admin,
-                    premium = usuario.premium,
-                    pass = "",
-                    token = token,
-                    urlImagen = usuario.urlImagen ?: ""
-                )
         directory = "."
     }
     val jwtSecret = dotenv["JWT_SECRET"] ?: "secret"
@@ -33,12 +22,14 @@ fun Application.configureRouting() {
 
     fun generateToken(usuario: Usuario): String {
         val adminInt = if (usuario.admin) 1 else 0
+        val premiumInt = if (usuario.premium) 1 else 0
         return JWT.create()
             .withAudience(jwtAudience)
             .withIssuer(jwtDomain)
             .withClaim("correo", usuario.correo)
             .withClaim("id", usuario.id)
             .withClaim("admin", adminInt)
+            .withClaim("premium", premiumInt)
             .withExpiresAt(Date(System.currentTimeMillis() + 3600000 * 24)) // 24 horas
             .sign(Algorithm.HMAC256(jwtSecret))
     }
@@ -52,16 +43,9 @@ fun Application.configureRouting() {
         get("/apk/{nombre}") {
             val nombre = call.parameters["nombre"]
             if (nombre.isNullOrBlank()) {
-                val usuarioConToken = Usuario(
-                    id = usuario.id,
-                    username = usuario.username ?: "",
-                    correo = usuario.correo ?: "",
-                    admin = usuario.admin,
-                    premium = usuario.premium,
-                    pass = "",
-                    token = token,
-                    urlImagen = usuario.urlImagen ?: ""
-                )
+                call.respond(HttpStatusCode.BadRequest, mapOf("error" to "Nombre de archivo requerido"))
+                return@get
+            }
 
         // Descargar imagen QR
         get("/qr/{nombre}") {
@@ -85,16 +69,16 @@ fun Application.configureRouting() {
                             val isAdmin = principal?.getClaim("admin", Int::class) == 1
                             if (!isAdmin) {
                                 call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden eliminar usuarios"))
-                    val usuarioConToken = Usuario(
-                        id = usuario.id,
-                        username = usuario.username ?: "",
-                        correo = usuario.correo ?: "",
-                        admin = usuario.admin,
-                        premium = usuario.premium,
-                        pass = "",
-                        token = token,
-                        urlImagen = usuario.urlImagen ?: ""
-                    )
+                                return@delete
+                            }
+                            try {
+                                val id = call.parameters["id"]?.toLongOrNull()
+                                if (id == null) {
+                                    call.respond(HttpStatusCode.BadRequest, mapOf("error" to "Id de usuario inválido"))
+                                    return@delete
+                                }
+                                val eliminado = repository.deleteUsuario(id)
+                                if (eliminado) {
                                     call.respond(HttpStatusCode.OK, mapOf("message" to "Usuario eliminado correctamente"))
                                 } else {
                                     call.respond(HttpStatusCode.NotFound, mapOf("error" to "Usuario no encontrado"))
@@ -162,6 +146,27 @@ fun Application.configureRouting() {
                     call.respond(HttpStatusCode.OK, mapOf("message" to "Archivo eliminado correctamente"))
                 } else {
                     call.respond(HttpStatusCode.InternalServerError, mapOf("error" to "No se pudo eliminar el archivo"))
+                }
+            }
+
+            // Anuncios
+            get("/ads/random") {
+                val principal = call.principal<JWTPrincipal>()
+                val isPremium = principal?.getClaim("premium", Int::class) == 1
+                if (isPremium) {
+                    call.respond(HttpStatusCode.NoContent)
+                    return@get
+                }
+                try {
+                    val ad = anuncioRepository.getRandomAd()
+                    if (ad != null) {
+                        call.respond(HttpStatusCode.OK, ad)
+                    } else {
+                        // Return no content if no ads in DB yet to avoid errors
+                        call.respond(HttpStatusCode.NoContent)
+                    }
+                } catch (e: Exception) {
+                    call.respond(HttpStatusCode.InternalServerError, mapOf("error" to "Error fetching ad: ${e.message}"))
                 }
             }
 
