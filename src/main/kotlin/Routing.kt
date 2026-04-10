@@ -12,6 +12,7 @@ import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import io.ktor.server.request.*
 import io.ktor.http.*
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
@@ -26,6 +27,11 @@ fun Application.configureRouting() {
     val generoRepository = PersistenceGeneroRepository()
     val listaCancionesRepository = PersistenceListaCancionesRepository()
     val anuncioRepository = PersistenceAnuncioRepository()
+    val letraRepository: LetraInterface = PersistenceLetraRepository()
+    val reproduccionRepository: ReproduccionInterface = PersistenceReproduccionRepository()
+    val socialRepository: SocialInterface = PersistenceSocialRepository()
+    val mascotaRepository: MascotaInterface = PersistenceMascotaRepository()
+    val alarmaRepository: AlarmaInterface = PersistenceAlarmaRepository()
     
     val dotenv = dotenv {
         ignoreIfMissing = true
@@ -79,6 +85,163 @@ fun Application.configureRouting() {
 
         // --- ENDPOINTS PROTEGIDOS ---
         authenticate("auth-jwt") {
+            // --- LYRICS ---
+            get("/lyrics/{cancionId}") {
+                val cancionId = call.parameters["cancionId"]?.toIntOrNull()
+                if (cancionId == null) {
+                    call.respond(HttpStatusCode.BadRequest, mapOf("error" to "ID de canción inválido"))
+                    return@get
+                }
+                val letra = letraRepository.getLetraByCancion(cancionId)
+                if (letra != null) {
+                    call.respond(HttpStatusCode.OK, letra)
+                } else {
+                    call.respond(HttpStatusCode.NotFound, mapOf("error" to "Letras no encontradas"))
+                }
+            }
+
+            // --- REPRODUCCIONES ---
+            post("/reproducir") {
+                val principal = call.principal<JWTPrincipal>()
+                val userId = principal?.getClaim("id", Long::class) ?: return@post call.respond(HttpStatusCode.Unauthorized)
+                val repro = call.receive<Reproduccion>()
+                val saved = reproduccionRepository.registerReproduccion(repro.copy(idUsuario = userId))
+                call.respond(HttpStatusCode.Created, saved)
+            }
+
+            get("/history") {
+                val principal = call.principal<JWTPrincipal>()
+                val userId = principal?.getClaim("id", Long::class) ?: return@get call.respond(HttpStatusCode.Unauthorized)
+                val history = reproduccionRepository.getHistoryByUser(userId)
+                call.respond(HttpStatusCode.OK, history)
+            }
+
+            get("/stats/{year?}") {
+                val principal = call.principal<JWTPrincipal>()
+                val userId = principal?.getClaim("id", Long::class) ?: return@get call.respond(HttpStatusCode.Unauthorized)
+                val year = call.parameters["year"]?.toIntOrNull()
+                val stats = reproduccionRepository.getStatsByUser(userId, year)
+                call.respond(HttpStatusCode.OK, stats)
+            }
+
+            // --- SOCIAL ---
+            post("/social/like/{cancionId}") {
+                val principal = call.principal<JWTPrincipal>()
+                val userId = principal?.getClaim("id", Long::class) ?: return@post call.respond(HttpStatusCode.Unauthorized)
+                val cancionId = call.parameters["cancionId"]?.toIntOrNull() ?: return@post call.respond(HttpStatusCode.BadRequest)
+                val liked = socialRepository.likeCancion(userId, cancionId)
+                if (liked) call.respond(HttpStatusCode.OK) else call.respond(HttpStatusCode.Conflict)
+            }
+
+            delete("/social/like/{cancionId}") {
+                val principal = call.principal<JWTPrincipal>()
+                val userId = principal?.getClaim("id", Long::class) ?: return@delete call.respond(HttpStatusCode.Unauthorized)
+                val cancionId = call.parameters["cancionId"]?.toIntOrNull() ?: return@delete call.respond(HttpStatusCode.BadRequest)
+                socialRepository.unlikeCancion(userId, cancionId)
+                call.respond(HttpStatusCode.OK)
+            }
+
+            post("/social/follow/{artistaId}") {
+                val principal = call.principal<JWTPrincipal>()
+                val userId = principal?.getClaim("id", Long::class) ?: return@post call.respond(HttpStatusCode.Unauthorized)
+                val artistaId = call.parameters["artistaId"]?.toIntOrNull() ?: return@post call.respond(HttpStatusCode.BadRequest)
+                val followed = socialRepository.followArtista(userId, artistaId)
+                if (followed) call.respond(HttpStatusCode.OK) else call.respond(HttpStatusCode.Conflict)
+            }
+
+            delete("/social/follow/{artistaId}") {
+                val principal = call.principal<JWTPrincipal>()
+                val userId = principal?.getClaim("id", Long::class) ?: return@delete call.respond(HttpStatusCode.Unauthorized)
+                val artistaId = call.parameters["artistaId"]?.toIntOrNull() ?: return@delete call.respond(HttpStatusCode.BadRequest)
+                socialRepository.unfollowArtista(userId, artistaId)
+                call.respond(HttpStatusCode.OK)
+            }
+
+            post("/social/friend/request/{destinatarioId}") {
+                val principal = call.principal<JWTPrincipal>()
+                val userId = principal?.getClaim("id", Long::class) ?: return@post call.respond(HttpStatusCode.Unauthorized)
+                val destId = call.parameters["destinatarioId"]?.toLongOrNull() ?: return@post call.respond(HttpStatusCode.BadRequest)
+                socialRepository.sendFriendRequest(userId, destId)
+                call.respond(HttpStatusCode.Created)
+            }
+
+            post("/social/friend/accept/{requestId}") {
+                val reqId = call.parameters["requestId"]?.toIntOrNull() ?: return@post call.respond(HttpStatusCode.BadRequest)
+                val accepted = socialRepository.acceptFriendRequest(reqId)
+                if (accepted) call.respond(HttpStatusCode.OK) else call.respond(HttpStatusCode.NotFound)
+            }
+
+            get("/social/friends") {
+                val principal = call.principal<JWTPrincipal>()
+                val userId = principal?.getClaim("id", Long::class) ?: return@get call.respond(HttpStatusCode.Unauthorized)
+                val friends = socialRepository.getFriends(userId)
+                call.respond(HttpStatusCode.OK, friends)
+            }
+
+            // --- MASCOTAS ---
+            get("/mascotas") {
+                val mascotas = mascotaRepository.getAllMascotas()
+                call.respond(HttpStatusCode.OK, mascotas)
+            }
+
+            get("/mascotas/user") {
+                val principal = call.principal<JWTPrincipal>()
+                val userId = principal?.getClaim("id", Long::class) ?: return@get call.respond(HttpStatusCode.Unauthorized)
+                val mascotas = mascotaRepository.getMascotasByUser(userId)
+                call.respond(HttpStatusCode.OK, mascotas)
+            }
+
+            post("/mascotas/buy/{mascotaId}") {
+                val principal = call.principal<JWTPrincipal>()
+                val userId = principal?.getClaim("id", Long::class) ?: return@post call.respond(HttpStatusCode.Unauthorized)
+                val mascotaId = call.parameters["mascotaId"]?.toIntOrNull() ?: return@post call.respond(HttpStatusCode.BadRequest)
+                val bought = mascotaRepository.buyMascota(userId, mascotaId)
+                if (bought) call.respond(HttpStatusCode.OK) else call.respond(HttpStatusCode.Conflict)
+            }
+
+            post("/mascotas/active/{mascotaId?}") {
+                val principal = call.principal<JWTPrincipal>()
+                val userId = principal?.getClaim("id", Long::class) ?: return@post call.respond(HttpStatusCode.Unauthorized)
+                val mascotaId = call.parameters["mascotaId"]?.toIntOrNull()
+                mascotaRepository.setActiveMascota(userId, mascotaId)
+                call.respond(HttpStatusCode.OK)
+            }
+            
+            get("/mascotas/active") {
+                val principal = call.principal<JWTPrincipal>()
+                val userId = principal?.getClaim("id", Long::class) ?: return@get call.respond(HttpStatusCode.Unauthorized)
+                val active = mascotaRepository.getActiveMascota(userId)
+                if (active != null) call.respond(HttpStatusCode.OK, active) else call.respond(HttpStatusCode.NoContent)
+            }
+
+            // --- ALARMAS ---
+            get("/alarms") {
+                val principal = call.principal<JWTPrincipal>()
+                val userId = principal?.getClaim("id", Long::class) ?: return@get call.respond(HttpStatusCode.Unauthorized)
+                val alarms = alarmaRepository.getAlarmsByUser(userId)
+                call.respond(HttpStatusCode.OK, alarms)
+            }
+
+            post("/alarms") {
+                val principal = call.principal<JWTPrincipal>()
+                val userId = principal?.getClaim("id", Long::class) ?: return@post call.respond(HttpStatusCode.Unauthorized)
+                val alarm = call.receive<Alarma>()
+                val created = alarmaRepository.createAlarm(alarm.copy(userId = userId))
+                call.respond(HttpStatusCode.Created, created)
+            }
+
+            put("/alarms/{id}") {
+                val id = call.parameters["id"]?.toIntOrNull() ?: return@put call.respond(HttpStatusCode.BadRequest)
+                val alarm = call.receive<Alarma>()
+                val updated = alarmaRepository.updateAlarm(alarm.copy(id = id))
+                if (updated) call.respond(HttpStatusCode.OK) else call.respond(HttpStatusCode.NotFound)
+            }
+
+            delete("/alarms/{id}") {
+                val id = call.parameters["id"]?.toIntOrNull() ?: return@delete call.respond(HttpStatusCode.BadRequest)
+                val deleted = alarmaRepository.deleteAlarm(id)
+                if (deleted) call.respond(HttpStatusCode.OK) else call.respond(HttpStatusCode.NotFound)
+            }
                         delete("/usuarios/{id}") {
                             val principal = call.principal<JWTPrincipal>()
                             val isAdmin = principal?.getClaim("admin", Int::class) == 1
@@ -432,6 +595,12 @@ fun Application.configureRouting() {
                 }
             }
             
+            get("/usuarios/search") {
+                val query = call.request.queryParameters["q"] ?: ""
+                val users = usuarioRepository.searchUsuarios(query)
+                call.respond(HttpStatusCode.OK, users)
+            }
+
             patch("/usuarios/{id}") {
                 val principal = call.principal<JWTPrincipal>()
                 val isAdmin = principal?.getClaim("admin", Int::class) == 1
@@ -984,12 +1153,14 @@ fun Application.configureRouting() {
 
             get("/artistas/{id}") {
                 try {
+                    val principal = call.principal<JWTPrincipal>()
+                    val userId = principal?.getClaim("id", Long::class)
                     val id = call.parameters["id"]?.toIntOrNull()
                     if (id == null) {
                         call.respond(HttpStatusCode.BadRequest, mapOf("error" to "ID inválido"))
                         return@get
                     }
-                    val artista = artistaRepository.getArtistaById(id)
+                    val artista = artistaRepository.getArtistaById(id, userId)
                     if (artista != null) call.respond(HttpStatusCode.OK, artista)
                     else call.respond(HttpStatusCode.NotFound, mapOf("error" to "Artista no encontrado"))
                 } catch (e: Exception) {
