@@ -26,4 +26,6 @@ interface UsuarioInterface {
     suspend fun login(correo: String, pass: String): Usuario?
 
     suspend fun register(usuario: UpdateUsuario): Usuario?
+
+    suspend fun searchUsuarios(query: String): List<Usuario>
 }
