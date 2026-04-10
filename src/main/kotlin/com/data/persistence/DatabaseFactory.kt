@@ -14,7 +14,6 @@ import com.data.persistence.models.*
 // import com.data.persistence.models.ArtistTable (no existe, usar ArtistaTable)
 import com.data.persistence.models.AlbumTable
 
-/*
 object DatabaseFactory {
     
     private val dotenv = dotenv {

@@ -1,10 +1,24 @@
 /**
- *  Definición de rutas HTTP de la API.
- * Este archivo muestra cómo diseñar endpoints REST en Ktor y cómo conectar
- * la capa web con los repositorios de persistencia.
+ * Definición de rutas HTTP de la API.
+ */
+package com.example
+
 import com.data.persistence.*
-import com.example.appmusica.domain.usecase.ProviderUseCase
+import com.data.persistence.repository.*
+import com.domain.models.*
+import io.github.cdimascio.dotenv.dotenv
 import io.ktor.server.application.*
+import io.ktor.server.auth.*
+import io.ktor.server.auth.jwt.*
+import io.ktor.server.response.*
+import io.ktor.server.routing.*
+import io.ktor.http.*
+import com.auth0.jwt.JWT
+import com.auth0.jwt.algorithms.Algorithm
+import java.io.File
+import java.util.*
+
+fun Application.configureRouting() {
     val repository = PersistenceUsuarioRepository()
     val artistaRepository = PersistenceArtistaRepository()
     val albumRepository = PersistenceAlbumRepository()
@@ -12,8 +26,9 @@ import io.ktor.server.application.*
     val generoRepository = PersistenceGeneroRepository()
     val listaCancionesRepository = PersistenceListaCancionesRepository()
     val anuncioRepository = PersistenceAnuncioRepository()
-    val registerUseCase = ProviderUseCase.provideRegisterUseCase(repository)
-    val loginUseCase = ProviderUseCase.provideLoginUseCase(repository)
+    
+    val dotenv = dotenv {
+        ignoreIfMissing = true
         directory = "."
     }
     val jwtSecret = dotenv["JWT_SECRET"] ?: "secret"
@@ -30,7 +45,7 @@ import io.ktor.server.application.*
             .withClaim("id", usuario.id)
             .withClaim("admin", adminInt)
             .withClaim("premium", premiumInt)
-            .withExpiresAt(Date(System.currentTimeMillis() + 3600000 * 24)) // 24 horas
+            .withExpiresAt(Date(System.currentTimeMillis() + 3600000 * 24))
             .sign(Algorithm.HMAC256(jwtSecret))
     }
     

@@ -5,8 +5,14 @@
 
 package com.data.persistence.repository
 
+import com.data.persistence.models.*
+import com.data.persistence.suspendTransaction
+import com.domain.models.*
+import com.domain.repository.*
+import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 
-/*
+
 class PersistenceGeneroRepository : GeneroInterface {
     override suspend fun createGenero(genero: Genero): Genero = suspendTransaction {
         GeneroDao.new {

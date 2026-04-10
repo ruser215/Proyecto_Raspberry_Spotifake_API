@@ -1,10 +1,11 @@
-/**
- * Implementación de repositorio de canciones.
- * Gestiona altas, filtros y actualizaciones en la tabla de canciones.
- */
-
 package com.data.persistence.repository
 
+import com.data.persistence.models.*
+import com.data.persistence.suspendTransaction
+import com.domain.models.*
+import com.domain.repository.*
+import org.jetbrains.exposed.dao.id.EntityID
+import org.jetbrains.exposed.sql.*
 
 class PersistenceCancionRepository : CancionInterface {
     private fun findOrCreateArtist(name: String): ArtistDao = ArtistDao.find {

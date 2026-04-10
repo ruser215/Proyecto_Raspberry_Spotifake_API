@@ -5,8 +5,15 @@
 
 package com.data.persistence.repository
 
+import com.data.persistence.models.*
+import com.data.persistence.suspendTransaction
+import com.domain.models.*
+import com.domain.repository.*
+import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
+import org.jetbrains.exposed.dao.id.EntityID
 
-/*
+
 class PersistenceListaCancionesRepository : ListaCancionesInterface {
     override suspend fun createLista(lista: ListaCanciones): ListaCanciones? = suspendTransaction {
         val usuarioExists = UsuarioDao.findById(lista.idUsuario) != null
