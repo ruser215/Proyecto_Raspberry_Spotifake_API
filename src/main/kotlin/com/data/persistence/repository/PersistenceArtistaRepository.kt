@@ -16,8 +16,15 @@ class PersistenceArtistaRepository : ArtistaInterface {
         }.toArtista()
     }
 
-    override suspend fun getArtistaById(id: Int): Artista? = suspendTransaction {
-        ArtistDao.findById(id)?.toArtista()
+    override suspend fun getArtistaById(id: Int, userId: Long?): Artista? = suspendTransaction {
+        val dao = ArtistDao.findById(id) ?: return@suspendTransaction null
+        val isFollowing = if (userId != null) {
+            FollowArtistaTable.selectAll().where { 
+                (FollowArtistaTable.idUsuario eq userId) and (FollowArtistaTable.idArtista eq id)
+            }.count() > 0
+        } else false
+        
+        dao.toArtista().copy(siguiendo = isFollowing)
     }
 
     override suspend fun getAllArtistas(): List<Artista> = suspendTransaction {
