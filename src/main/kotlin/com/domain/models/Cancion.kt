@@ -1,7 +1,7 @@
 package com.domain.models
 
 data class Cancion(
-    val id: Int,
+    val id: Int = 0,
     val nombre: String,
     val artistaId: Int? = null,
     val artistaIds: List<Int>? = null,
