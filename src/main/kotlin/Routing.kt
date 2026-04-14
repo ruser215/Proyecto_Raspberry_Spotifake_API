@@ -27,8 +27,6 @@ import io.ktor.server.request.*
 import io.ktor.http.*
 import io.ktor.http.content.*
 import io.ktor.server.http.content.*
-import io.ktor.server.request.receiveMultipart
-import io.ktor.utils.io.streams.copyTo
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import java.io.File
@@ -301,10 +299,11 @@ fun Application.configureRouting() {
                     return@post
                 }
                 val multipart = call.receiveMultipart()
-                val parts = multipart.readAllParts()
                 val qrDir = File("archivos/qr").apply { mkdirs() }
                 var urlQR: String? = null
-                parts.forEach { part ->
+                
+                while (true) {
+                    val part = multipart.readPart() ?: break
                     if (part is PartData.FileItem && part.name == "qr") {
                         urlQR = saveFile(part, qrDir, "/archivos/qr")
                     }
@@ -385,10 +384,11 @@ fun Application.configureRouting() {
                     return@post
                 }
                 val multipart = call.receiveMultipart()
-                val parts = multipart.readAllParts()
                 val apkDir = File("archivos/apk").apply { mkdirs() }
                 var urlAPK: String? = null
-                parts.forEach { part ->
+                
+                while (true) {
+                    val part = multipart.readPart() ?: break
                     if (part is PartData.FileItem && part.name == "apk") {
                         urlAPK = saveFile(part, apkDir, "/archivos/apk")
                     }
@@ -663,11 +663,11 @@ fun Application.configureRouting() {
                 }
 
                 val multipart = call.receiveMultipart()
-                val parts = multipart.readAllParts()
                 var urlImagen: String? = null
                 val perfilDir = File("archivos/perfiles").apply { mkdirs() }
 
-                parts.forEach { part ->
+                while (true) {
+                    val part = multipart.readPart() ?: break
                     if (part is PartData.FileItem && part.name == "imagen") {
                         urlImagen = saveFile(part, perfilDir, "/archivos/perfiles")
                     }
@@ -707,7 +707,6 @@ fun Application.configureRouting() {
                     return@post
                 }
                 val multipart = call.receiveMultipart()
-                val parts = multipart.readAllParts()
                 var nombre: String? = null
                 var artista: String? = null
                 var album: String? = null
@@ -719,7 +718,9 @@ fun Application.configureRouting() {
                 var urlPortada: String? = null
                 val audioDir = File("archivos/audio").apply { mkdirs() }
                 val portadaDir = File("archivos/portadas").apply { mkdirs() }
-                parts.forEach { part ->
+                
+                while (true) {
+                    val part = multipart.readPart() ?: break
                     when (part) {
                         is PartData.FormItem -> {
                             when (part.name) {
@@ -827,7 +828,6 @@ fun Application.configureRouting() {
                 }
 
                 val multipart = call.receiveMultipart()
-                val parts = multipart.readAllParts()
                 var nombre: String? = null
                 var artista: String? = null
                 var album: String? = null
@@ -841,7 +841,8 @@ fun Application.configureRouting() {
                 val audioDir = File("archivos/audio").apply { mkdirs() }
                 val portadaDir = File("archivos/portadas").apply { mkdirs() }
 
-                parts.forEach { part ->
+                while (true) {
+                    val part = multipart.readPart() ?: break
                     when (part) {
                         is PartData.FormItem -> {
                             when (part.name) {
@@ -1108,12 +1109,12 @@ fun Application.configureRouting() {
                 }
                 try {
                     val multipart = call.receiveMultipart()
-                    val parts = multipart.readAllParts()
                     var nombre: String? = null
                     var urlFoto: String? = null
                     val artistaDir = File("archivos/artistas").apply { mkdirs() }
 
-                    parts.forEach { part ->
+                    while (true) {
+                        val part = multipart.readPart() ?: break
                         if (part is PartData.FormItem && part.name == "nombre") {
                             nombre = part.value
                         } else if (part is PartData.FileItem && part.name == "foto") {
@@ -1186,12 +1187,12 @@ fun Application.configureRouting() {
                     }
 
                     val multipart = call.receiveMultipart()
-                    val parts = multipart.readAllParts()
                     var nombre: String? = null
                     var newUrlFoto: String? = null
                     val artistaDir = File("archivos/artistas").apply { mkdirs() }
 
-                    parts.forEach { part ->
+                    while (true) {
+                        val part = multipart.readPart() ?: break
                         if (part is PartData.FormItem && part.name == "nombre") {
                             nombre = part.value
                         } else if (part is PartData.FileItem && part.name == "foto") {
@@ -1279,12 +1280,12 @@ fun Application.configureRouting() {
                     }
 
                     val multipart = call.receiveMultipart()
-                    val parts = multipart.readAllParts()
                     var nombre: String? = null
                     var urlPortada: String? = null
                     val albumDir = File("archivos/albums").apply { mkdirs() }
 
-                    parts.forEach { part ->
+                    while (true) {
+                        val part = multipart.readPart() ?: break
                         when(part) {
                             is PartData.FormItem -> {
                                 if (part.name == "nombre") nombre = part.value
@@ -1405,13 +1406,13 @@ fun Application.configureRouting() {
                     }
 
                     val multipart = call.receiveMultipart()
-                    val parts = multipart.readAllParts()
                     var nombre: String? = null
                     var newUrlPortada: String? = null
                     var artistaId: Int? = null
                     val albumDir = File("archivos/albums").apply { mkdirs() }
 
-                    parts.forEach { part ->
+                    while (true) {
+                        val part = multipart.readPart() ?: break
                         when(part) {
                             is PartData.FormItem -> {
                                 when(part.name) {
