@@ -14,6 +14,10 @@ import com.domain.repository.AlarmaInterface
 import com.domain.usecase.ProviderUseCase
 import io.ktor.http.content.PartData
 import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.jsonPrimitive
+import kotlinx.serialization.json.longOrNull
+import kotlinx.serialization.json.intOrNull
+import kotlinx.serialization.json.content
 import io.github.cdimascio.dotenv.dotenv
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
@@ -78,6 +82,13 @@ fun Application.configureRouting() {
                 call.respond(HttpStatusCode.BadRequest, mapOf("error" to "Nombre de archivo requerido"))
                 return@get
             }
+            val file = File("archivos/apk/$nombre")
+            if (!file.exists()) {
+                call.respond(HttpStatusCode.NotFound, mapOf("error" to "Archivo no encontrado"))
+                return@get
+            }
+            call.respondFile(file)
+        }
 
         // Descargar imagen QR
         get("/qr/{nombre}") {
@@ -431,7 +442,7 @@ fun Application.configureRouting() {
                 val usuario = registerUseCase(updateUsuario)
                 if (usuario != null) {
                     val token = generateToken(usuario)
-                    repository.updateUsuario(UpdateUsuario(token = token), usuario.id!!)
+                    repository.updateUsuario(UpdateUsuario(username = null, correo = null, admin = null, premium = null, pass = null, token = token, urlImagen = null), usuario.id)
                     val usuarioConToken = Usuario(
                         id = usuario.id,
                         username = usuario.username ?: "",
@@ -468,7 +479,7 @@ fun Application.configureRouting() {
                 val usuario = loginUseCase(credentials.correo!!, credentials.pass!!)
                 if (usuario != null) {
                     val token = generateToken(usuario)
-                    repository.updateUsuario(UpdateUsuario(token = token), usuario.id!!)
+                    repository.updateUsuario(UpdateUsuario(username = null, correo = null, admin = null, premium = null, pass = null, token = token, urlImagen = null), usuario.id)
                     val usuarioConToken = Usuario(
                         id = usuario.id,
                         username = usuario.username,
@@ -494,38 +505,10 @@ fun Application.configureRouting() {
             }
         }
 
+
         authenticate("auth-jwt") {
-            post("/login") {
-                try {
-                    val credentials = call.receive<UpdateUsuario>()
-                    val usuario = loginUseCase(credentials.correo!!, credentials.pass!!)
-                    if (usuario != null) {
-                        val token = generateToken(usuario)
-                        repository.updateUsuario(UpdateUsuario(token = token), usuario.id!!)
-                        val usuarioConToken = Usuario(
-                            id = usuario.id,
-                            username = usuario.username ?: "",
-                            correo = usuario.correo ?: "",
-                            admin = usuario.admin,
-                            premium = usuario.premium,
-                            pass = "",
-                            token = token,
-                            urlImagen = usuario.urlImagen ?: ""
-                        )
-                        call.respond(HttpStatusCode.OK, usuarioConToken)
-                    } else {
-                        call.respond(
-                            HttpStatusCode.Unauthorized,
-                            mapOf("error" to "Credenciales inválidas")
-                        )
-                    }
-                } catch (e: Exception) {
-                    call.respond(
-                        HttpStatusCode.InternalServerError,
-                        mapOf("error" to "Error interno del servidor: ${e.message}")
-                    )
-                }
-            }
+            get("/usuarios/{id}") {
+                val principal = call.principal<JWTPrincipal>()
                 val isAdmin = principal?.getClaim("admin", Int::class) == 1
                 if (!isAdmin) {
                     call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden ver detalles de otros usuarios"))
@@ -534,13 +517,9 @@ fun Application.configureRouting() {
                 try {
                     val id = call.parameters["id"]?.toLongOrNull()
                     if (id == null) {
-                        call.respond(
-                            HttpStatusCode.BadRequest,
-                            mapOf("error" to "ID inválido")
-                        )
+                        call.respond(HttpStatusCode.BadRequest, mapOf("error" to "ID inválido"))
                         return@get
                     }
-                    
                     val usuario = repository.getUsuarioById(id)
                     if (usuario != null) {
                         val usuarioSinPass = Usuario(
@@ -555,18 +534,13 @@ fun Application.configureRouting() {
                         )
                         call.respond(HttpStatusCode.OK, usuarioSinPass)
                     } else {
-                        call.respond(
-                            HttpStatusCode.NotFound,
-                            mapOf("error" to "Usuario no encontrado")
-                        )
+                        call.respond(HttpStatusCode.NotFound, mapOf("error" to "Usuario no encontrado"))
                     }
                 } catch (e: Exception) {
-                    call.respond(
-                        HttpStatusCode.InternalServerError,
-                        mapOf("error" to "Error al obtener usuario: ${e.message}")
-                    )
+                    call.respond(HttpStatusCode.InternalServerError, mapOf("error" to "Error al obtener usuario: ${e.message}"))
                 }
             }
+
             
             get("/usuarios/correo/{correo}") {
                 try {
@@ -608,7 +582,7 @@ fun Application.configureRouting() {
             
             get("/usuarios/search") {
                 val query = call.request.queryParameters["q"] ?: ""
-                val users = usuarioRepository.searchUsuarios(query)
+                val users = repository.searchUsuarios(query)
                 call.respond(HttpStatusCode.OK, users)
             }
 
@@ -633,12 +607,13 @@ fun Application.configureRouting() {
                     val updateUsuario = call.receive<UpdateUsuario>()
                     
                     // Non-admins cannot change their own admin/premium status
-                    if (!isAdmin) {
-                        updateUsuario.admin = null
-                        updateUsuario.premium = null
+                    val effectiveUpdate = if (!isAdmin) {
+                        updateUsuario.copy(admin = null, premium = null)
+                    } else {
+                        updateUsuario
                     }
                     
-                    val usuario = repository.updateUsuario(updateUsuario, id)
+                    val usuario = repository.updateUsuario(effectiveUpdate, id)
                     if (usuario != null) {
                         val usuarioSinPass = Usuario(
                             id = usuario.id,
@@ -692,7 +667,7 @@ fun Application.configureRouting() {
                 }
 
                 if (urlImagen != null) {
-                    val usuario = repository.updateUsuario(UpdateUsuario(urlImagen = urlImagen), id)
+                    val usuario = repository.updateUsuario(UpdateUsuario(username = null, correo = null, admin = null, premium = null, pass = null, token = null, urlImagen = urlImagen), id)
                     if (usuario != null) {
                         val usuarioSinPass = Usuario(
                             id = usuario.id,
@@ -1488,7 +1463,7 @@ fun Application.configureRouting() {
                         return@post
                     }
 
-                    val created = listaCancionesRepository.createLista(ListaCanciones(nombre = nombre, idUsuario = idUsuario))
+                    val created = listaCancionesRepository.createLista(ListaCanciones(id = 0L, nombre = nombre, idUsuario = idUsuario))
                     if (created == null) {
                         call.respond(HttpStatusCode.NotFound, mapOf("error" to "Usuario no encontrado"))
                     } else {
@@ -1581,7 +1556,7 @@ fun Application.configureRouting() {
                     }
                     val body = call.receive<JsonObject>()
                     val nombre = body["nombre"]?.jsonPrimitive?.content ?: ""
-                    val updated = listaCancionesRepository.updateLista(id, ListaCanciones(nombre = nombre))
+                    val updated = listaCancionesRepository.updateLista(id, ListaCanciones(id = id, nombre = nombre, idUsuario = 0L))
                     if (updated != null) {
                         call.respond(HttpStatusCode.OK, updated)
                     } else {
@@ -1630,8 +1605,9 @@ fun Application.configureRouting() {
             }
         }
         
-        staticResources("/static", "static")
-        staticFiles("/archivos", File("archivos"))
+        static("/archivos") {
+            files(File("archivos"))
+        }
     }
 }
 
@@ -1640,7 +1616,7 @@ private fun saveFile(part: PartData.FileItem, dir: File, urlPrefix: String): Str
     val safeName = original.replace("\\s+".toRegex(), "_")
     val fileName = "${UUID.randomUUID()}_${safeName}"
     val target = File(dir, fileName)
-    part.streamProvider().use { input ->
+    part.provider().use { input ->
         target.outputStream().use { output ->
             input.copyTo(output)
         }

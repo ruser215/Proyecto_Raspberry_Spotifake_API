@@ -122,6 +122,8 @@ class PersistenceUsuarioRepository : UsuarioInterface {
             println("Error en la autenticación: ${e.localizedMessage}")
             null
         }
+    }
+
     override suspend fun searchUsuarios(query: String): List<Usuario> = suspendTransaction {
         UsuarioDao.find { UsuarioTable.username like "%$query%" }.map { it.toUsuario() }
     }

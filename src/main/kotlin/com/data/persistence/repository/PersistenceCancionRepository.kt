@@ -6,6 +6,7 @@ import com.domain.models.*
 import com.domain.repository.*
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 
 class PersistenceCancionRepository : CancionInterface {
     private fun findOrCreateArtist(name: String): ArtistDao = ArtistDao.find {

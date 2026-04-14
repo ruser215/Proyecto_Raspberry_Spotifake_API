@@ -6,7 +6,6 @@ import com.domain.models.Mascota
 import com.domain.repository.MascotaInterface
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.and
 import java.time.LocalDate
 
 class PersistenceMascotaRepository : MascotaInterface {
