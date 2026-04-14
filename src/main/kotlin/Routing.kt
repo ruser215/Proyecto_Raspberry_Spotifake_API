@@ -6,6 +6,14 @@ package com.example
 import com.data.persistence.*
 import com.data.persistence.repository.*
 import com.domain.models.*
+import com.domain.repository.LetraInterface
+import com.domain.repository.ReproduccionInterface
+import com.domain.repository.SocialInterface
+import com.domain.repository.MascotaInterface
+import com.domain.repository.AlarmaInterface
+import com.domain.usecase.ProviderUseCase
+import io.ktor.http.content.PartData
+import kotlinx.serialization.json.JsonObject
 import io.github.cdimascio.dotenv.dotenv
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
@@ -32,6 +40,9 @@ fun Application.configureRouting() {
     val socialRepository: SocialInterface = PersistenceSocialRepository()
     val mascotaRepository: MascotaInterface = PersistenceMascotaRepository()
     val alarmaRepository: AlarmaInterface = PersistenceAlarmaRepository()
+
+    val registerUseCase = ProviderUseCase.provideRegisterUseCase(repository)
+    val loginUseCase = ProviderUseCase.provideLoginUseCase(repository)
     
     val dotenv = dotenv {
         ignoreIfMissing = true
