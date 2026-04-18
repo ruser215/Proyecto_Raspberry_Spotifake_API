@@ -58,6 +58,7 @@ class PersistenceUsuarioRepository : UsuarioInterface {
             this.pass = PasswordHash.hash(usuario.pass)
             this.token = usuario.token
             this.urlImagen = usuario.urlImagen
+            this.fechaRegistro = java.time.LocalDate.now()
         }.toUsuario()
     }
 
@@ -71,6 +72,7 @@ class PersistenceUsuarioRepository : UsuarioInterface {
             this.pass = PasswordHash.hash(usuario.pass ?: throw IllegalArgumentException("La contraseña es obligatoria"))
             this.token = usuario.token
             this.urlImagen = usuario.urlImagen
+            this.fechaRegistro = java.time.LocalDate.now()
         }
         // Crear tema por defecto para el usuario
         TemaDao.new {
