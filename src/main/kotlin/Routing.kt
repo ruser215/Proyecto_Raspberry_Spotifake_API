@@ -462,8 +462,8 @@ fun Application.configureRouting() {
                     repository.updateUsuario(com.domain.models.UpdateUsuario(username = null, correo = null, admin = null, premium = null, pass = null, token = token, urlImagen = null), usuario.id)
                     val usuarioConToken = com.domain.models.Usuario(
                         id = usuario.id,
-                        username = usuario.username ?: "",
-                        correo = usuario.correo ?: "",
+                        username = usuario.username,
+                        correo = usuario.correo,
                         admin = usuario.admin,
                         premium = usuario.premium,
                         pass = "",
@@ -754,15 +754,15 @@ fun Application.configureRouting() {
                     part.dispose()
                 }
                 // Validaciones de integridad
-                if (artistaId != null && artistaRepository.getArtistaById(artistaId!!) == null) {
+                if (artistaId != null && artistaRepository.getArtistaById(artistaId) == null) {
                     call.respond(HttpStatusCode.NotFound, mapOf("error" to "El artista con ID $artistaId no existe"))
                     return@post
                 }
-                if (albumId != null && albumRepository.getAlbumById(albumId!!) == null) {
+                if (albumId != null && albumRepository.getAlbumById(albumId) == null) {
                     call.respond(HttpStatusCode.NotFound, mapOf("error" to "El álbum con ID $albumId no existe"))
                     return@post
                 }
-                if (genero != null && generoRepository.getGeneroById(genero!!) == null) {
+                if (genero != null && generoRepository.getGeneroById(genero) == null) {
                     call.respond(HttpStatusCode.NotFound, mapOf("error" to "El género con ID $genero no existe"))
                     return@post
                 }
@@ -773,7 +773,7 @@ fun Application.configureRouting() {
                 try {
                     val created = cancionRepository.createCancion(
                         Cancion(
-                            nombre = nombre!!,
+                            nombre = nombre,
                             artista = artista,
                             album = album,
                             artistaId = artistaId,
@@ -1138,7 +1138,7 @@ fun Application.configureRouting() {
                         return@post
                     }
 
-                    val created = artistaRepository.createArtista(Artista(nombre = nombre!!, fotoUrl = urlFoto))
+                    val created = artistaRepository.createArtista(Artista(nombre = nombre, fotoUrl = urlFoto))
                     call.respond(HttpStatusCode.Created, created)
                 } catch (e: Exception) {
                     call.respond(HttpStatusCode.InternalServerError, mapOf("error" to "Error al crear artista: ${e.message}"))
@@ -1317,7 +1317,7 @@ fun Application.configureRouting() {
 
                     val created = albumRepository.createAlbum(
                         com.domain.models.Album(
-                            nombre = nombre!!,
+                            nombre = nombre,
                             portadaUrl = urlPortada,
                             artistaId = id
                         )
@@ -1639,7 +1639,7 @@ private fun saveFile(part: PartData.FileItem, dir: File, urlPrefix: String): Str
     val safeName = original.replace("\\s+".toRegex(), "_")
     val fileName = "${UUID.randomUUID()}_${safeName}"
     val target = File(dir, fileName)
-    part.streamProvider().use { input: InputStream ->
+    part.provider().use { input: InputStream ->
         target.outputStream().use { output: OutputStream ->
             input.copyTo(output)
         }

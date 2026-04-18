@@ -23,11 +23,11 @@ class PersistenceCancionRepository : CancionInterface {
     }
 
     override suspend fun createCancion(cancion: Cancion): Cancion = suspendTransaction {
-        val artistDao = if (cancion.artistaId != null) ArtistDao.findById(cancion.artistaId!!)
-                else cancion.artista?.let { findOrCreateArtist(it) }
-        val albumDao = if (cancion.albumId != null) AlbumDao.findById(cancion.albumId!!)
-                       else if (cancion.album != null && artistDao != null) findOrCreateAlbum(cancion.album!!, artistDao)
-                       else null
+        val artistDao = if (cancion.artistaId != null) ArtistDao.findById(cancion.artistaId)
+            else cancion.artista?.let { findOrCreateArtist(it) }
+        val albumDao = if (cancion.albumId != null) AlbumDao.findById(cancion.albumId)
+                   else if (cancion.album != null && artistDao != null) findOrCreateAlbum(cancion.album, artistDao)
+                   else null
 
         val song = CancionDao.new {
             nombre = cancion.nombre
