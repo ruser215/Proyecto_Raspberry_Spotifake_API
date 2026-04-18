@@ -65,7 +65,28 @@ object DatabaseFactory {
                 ListaCancionesCancionesTable,
                 SongArtistsTable,
                 SongAlbumsTable,
-                AlbumArtistsTable
+                AlbumArtistsTable,
+                AlbumCancionTable,
+                FollowArtistaTable,
+                SolicitudColabPlaylistTable,
+                AnuncioTable,
+                MascotaTable,
+                AmistadTable,
+                ColaboradorPlaylistTable,
+                ArtistaCancionTable,
+                EmpresaTable,
+                UsuarioMascotaTable,
+                PlaylistCancionTable,
+                GeneroCancionTable,
+                AlarmaTable,
+                EstadoNotificacionTable,
+                EstadoSolicitudTable,
+                ArtistaAlbumTable,
+                LikeCancionTable,
+                TipoMascotaTable,
+                TemaTable,
+                RolTable,
+                PlaylistTable
             )
 
             // Asegurar directorios de archivos
