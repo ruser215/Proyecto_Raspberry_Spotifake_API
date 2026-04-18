@@ -15,13 +15,13 @@ interface UsuarioInterface {
 
     suspend fun getUsuarioByCorreo(correo: String): Usuario?
 
-    suspend fun getUsuarioById(id: Long): Usuario?
+    suspend fun getUsuarioById(id: Int): Usuario?
 
     suspend fun postUsuario(usuario: Usuario): Usuario?
 
-    suspend fun updateUsuario(usuario: UpdateUsuario, id: Long): Usuario?
+    suspend fun updateUsuario(usuario: UpdateUsuario, id: Int): Usuario?
 
-    suspend fun deleteUsuario(id: Long): Boolean
+    suspend fun deleteUsuario(id: Int): Boolean
 
     suspend fun login(correo: String, pass: String): Usuario?
 

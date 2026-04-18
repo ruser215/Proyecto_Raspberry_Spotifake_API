@@ -128,7 +128,7 @@ fun Application.configureRouting() {
             // --- REPRODUCCIONES ---
             post("/reproducir") {
                 val principal = call.principal<JWTPrincipal>()
-                val userId = principal?.getClaim("id", Long::class) ?: return@post call.respond(HttpStatusCode.Unauthorized)
+                val userId = principal?.getClaim("id", Int::class) ?: return@post call.respond(HttpStatusCode.Unauthorized)
                 val repro = call.receive<Reproduccion>()
                 val saved = reproduccionRepository.registerReproduccion(repro.copy(idUsuario = userId))
                 call.respond(HttpStatusCode.Created, saved)
@@ -136,14 +136,14 @@ fun Application.configureRouting() {
 
             get("/history") {
                 val principal = call.principal<JWTPrincipal>()
-                val userId = principal?.getClaim("id", Long::class) ?: return@get call.respond(HttpStatusCode.Unauthorized)
+                val userId = principal?.getClaim("id", Int::class) ?: return@get call.respond(HttpStatusCode.Unauthorized)
                 val history = reproduccionRepository.getHistoryByUser(userId)
                 call.respond(HttpStatusCode.OK, history)
             }
 
             get("/stats/{year?}") {
                 val principal = call.principal<JWTPrincipal>()
-                val userId = principal?.getClaim("id", Long::class) ?: return@get call.respond(HttpStatusCode.Unauthorized)
+                val userId = principal?.getClaim("id", Int::class) ?: return@get call.respond(HttpStatusCode.Unauthorized)
                 val year = call.parameters["year"]?.toIntOrNull()
                 val stats = reproduccionRepository.getStatsByUser(userId, year)
                 call.respond(HttpStatusCode.OK, stats)
@@ -152,7 +152,7 @@ fun Application.configureRouting() {
             // --- SOCIAL ---
             post("/social/like/{cancionId}") {
                 val principal = call.principal<JWTPrincipal>()
-                val userId = principal?.getClaim("id", Long::class) ?: return@post call.respond(HttpStatusCode.Unauthorized)
+                val userId = principal?.getClaim("id", Int::class) ?: return@post call.respond(HttpStatusCode.Unauthorized)
                 val cancionId = call.parameters["cancionId"]?.toIntOrNull() ?: return@post call.respond(HttpStatusCode.BadRequest)
                 val liked = socialRepository.likeCancion(userId, cancionId)
                 if (liked) call.respond(HttpStatusCode.OK) else call.respond(HttpStatusCode.Conflict)
@@ -160,7 +160,7 @@ fun Application.configureRouting() {
 
             delete("/social/like/{cancionId}") {
                 val principal = call.principal<JWTPrincipal>()
-                val userId = principal?.getClaim("id", Long::class) ?: return@delete call.respond(HttpStatusCode.Unauthorized)
+                val userId = principal?.getClaim("id", Int::class) ?: return@delete call.respond(HttpStatusCode.Unauthorized)
                 val cancionId = call.parameters["cancionId"]?.toIntOrNull() ?: return@delete call.respond(HttpStatusCode.BadRequest)
                 socialRepository.unlikeCancion(userId, cancionId)
                 call.respond(HttpStatusCode.OK)
@@ -168,7 +168,7 @@ fun Application.configureRouting() {
 
             post("/social/follow/{artistaId}") {
                 val principal = call.principal<JWTPrincipal>()
-                val userId = principal?.getClaim("id", Long::class) ?: return@post call.respond(HttpStatusCode.Unauthorized)
+                val userId = principal?.getClaim("id", Int::class) ?: return@post call.respond(HttpStatusCode.Unauthorized)
                 val artistaId = call.parameters["artistaId"]?.toIntOrNull() ?: return@post call.respond(HttpStatusCode.BadRequest)
                 val followed = socialRepository.followArtista(userId, artistaId)
                 if (followed) call.respond(HttpStatusCode.OK) else call.respond(HttpStatusCode.Conflict)
@@ -176,7 +176,7 @@ fun Application.configureRouting() {
 
             delete("/social/follow/{artistaId}") {
                 val principal = call.principal<JWTPrincipal>()
-                val userId = principal?.getClaim("id", Long::class) ?: return@delete call.respond(HttpStatusCode.Unauthorized)
+                val userId = principal?.getClaim("id", Int::class) ?: return@delete call.respond(HttpStatusCode.Unauthorized)
                 val artistaId = call.parameters["artistaId"]?.toIntOrNull() ?: return@delete call.respond(HttpStatusCode.BadRequest)
                 socialRepository.unfollowArtista(userId, artistaId)
                 call.respond(HttpStatusCode.OK)
@@ -184,8 +184,8 @@ fun Application.configureRouting() {
 
             post("/social/friend/request/{destinatarioId}") {
                 val principal = call.principal<JWTPrincipal>()
-                val userId = principal?.getClaim("id", Long::class) ?: return@post call.respond(HttpStatusCode.Unauthorized)
-                val destId = call.parameters["destinatarioId"]?.toLongOrNull() ?: return@post call.respond(HttpStatusCode.BadRequest)
+                val userId = principal?.getClaim("id", Int::class) ?: return@post call.respond(HttpStatusCode.Unauthorized)
+                val destId = call.parameters["destinatarioId"]?.toIntOrNull() ?: return@post call.respond(HttpStatusCode.BadRequest)
                 socialRepository.sendFriendRequest(userId, destId)
                 call.respond(HttpStatusCode.Created)
             }
@@ -198,7 +198,7 @@ fun Application.configureRouting() {
 
             get("/social/friends") {
                 val principal = call.principal<JWTPrincipal>()
-                val userId = principal?.getClaim("id", Long::class) ?: return@get call.respond(HttpStatusCode.Unauthorized)
+                val userId = principal?.getClaim("id", Int::class) ?: return@get call.respond(HttpStatusCode.Unauthorized)
                 val friends = socialRepository.getFriends(userId)
                 call.respond(HttpStatusCode.OK, friends)
             }
@@ -211,14 +211,14 @@ fun Application.configureRouting() {
 
             get("/mascotas/user") {
                 val principal = call.principal<JWTPrincipal>()
-                val userId = principal?.getClaim("id", Long::class) ?: return@get call.respond(HttpStatusCode.Unauthorized)
+                val userId = principal?.getClaim("id", Int::class) ?: return@get call.respond(HttpStatusCode.Unauthorized)
                 val mascotas = mascotaRepository.getMascotasByUser(userId)
                 call.respond(HttpStatusCode.OK, mascotas)
             }
 
             post("/mascotas/buy/{mascotaId}") {
                 val principal = call.principal<JWTPrincipal>()
-                val userId = principal?.getClaim("id", Long::class) ?: return@post call.respond(HttpStatusCode.Unauthorized)
+                val userId = principal?.getClaim("id", Int::class) ?: return@post call.respond(HttpStatusCode.Unauthorized)
                 val mascotaId = call.parameters["mascotaId"]?.toIntOrNull() ?: return@post call.respond(HttpStatusCode.BadRequest)
                 val bought = mascotaRepository.buyMascota(userId, mascotaId)
                 if (bought) call.respond(HttpStatusCode.OK) else call.respond(HttpStatusCode.Conflict)
@@ -226,7 +226,7 @@ fun Application.configureRouting() {
 
             post("/mascotas/active/{mascotaId?}") {
                 val principal = call.principal<JWTPrincipal>()
-                val userId = principal?.getClaim("id", Long::class) ?: return@post call.respond(HttpStatusCode.Unauthorized)
+                val userId = principal?.getClaim("id", Int::class) ?: return@post call.respond(HttpStatusCode.Unauthorized)
                 val mascotaId = call.parameters["mascotaId"]?.toIntOrNull()
                 mascotaRepository.setActiveMascota(userId, mascotaId)
                 call.respond(HttpStatusCode.OK)
@@ -234,7 +234,7 @@ fun Application.configureRouting() {
             
             get("/mascotas/active") {
                 val principal = call.principal<JWTPrincipal>()
-                val userId = principal?.getClaim("id", Long::class) ?: return@get call.respond(HttpStatusCode.Unauthorized)
+                val userId = principal?.getClaim("id", Int::class) ?: return@get call.respond(HttpStatusCode.Unauthorized)
                 val active = mascotaRepository.getActiveMascota(userId)
                 if (active != null) call.respond(HttpStatusCode.OK, active) else call.respond(HttpStatusCode.NoContent)
             }
@@ -242,14 +242,14 @@ fun Application.configureRouting() {
             // --- ALARMAS ---
             get("/alarms") {
                 val principal = call.principal<JWTPrincipal>()
-                val userId = principal?.getClaim("id", Long::class) ?: return@get call.respond(HttpStatusCode.Unauthorized)
+                val userId = principal?.getClaim("id", Int::class) ?: return@get call.respond(HttpStatusCode.Unauthorized)
                 val alarms = alarmaRepository.getAlarmsByUser(userId)
                 call.respond(HttpStatusCode.OK, alarms)
             }
 
             post("/alarms") {
                 val principal = call.principal<JWTPrincipal>()
-                val userId = principal?.getClaim("id", Long::class) ?: return@post call.respond(HttpStatusCode.Unauthorized)
+                val userId = principal?.getClaim("id", Int::class) ?: return@post call.respond(HttpStatusCode.Unauthorized)
                 val alarm = call.receive<Alarma>()
                 val created = alarmaRepository.createAlarm(alarm.copy(userId = userId))
                 call.respond(HttpStatusCode.Created, created)
@@ -275,7 +275,7 @@ fun Application.configureRouting() {
                                 return@delete
                             }
                             try {
-                                val id = call.parameters["id"]?.toLongOrNull()
+                                val id = call.parameters["id"]?.toIntOrNull()
                                 if (id == null) {
                                     call.respond(HttpStatusCode.BadRequest, mapOf("error" to "Id de usuario inválido"))
                                     return@delete
@@ -532,7 +532,7 @@ fun Application.configureRouting() {
                     return@get
                 }
                 try {
-                    val id = call.parameters["id"]?.toLongOrNull()
+                    val id = call.parameters["id"]?.toIntOrNull()
                     if (id == null) {
                         call.respond(HttpStatusCode.BadRequest, mapOf("error" to "ID inválido"))
                         return@get
@@ -606,10 +606,10 @@ fun Application.configureRouting() {
             patch("/usuarios/{id}") {
                 val principal = call.principal<JWTPrincipal>()
                 val isAdmin = principal?.getClaim("admin", Int::class) == 1
-                val currentUserId = principal?.getClaim("id", Long::class)
+                val currentUserId = principal?.getClaim("id", Int::class)
                 
                 try {
-                    val id = call.parameters["id"]?.toLongOrNull()
+                    val id = call.parameters["id"]?.toIntOrNull()
                     if (id == null) {
                         call.respond(HttpStatusCode.BadRequest, mapOf("error" to "ID inválido"))
                         return@patch
@@ -659,9 +659,9 @@ fun Application.configureRouting() {
 
             patch("/usuarios/{id}/perfil") {
                 val principal = call.principal<JWTPrincipal>()
-                val currentUserId = principal?.getClaim("id", Long::class)
+                val currentUserId = principal?.getClaim("id", Int::class)
                 
-                val id = call.parameters["id"]?.toLongOrNull()
+                val id = call.parameters["id"]?.toIntOrNull()
                 if (id == null) {
                     call.respond(HttpStatusCode.BadRequest, mapOf("error" to "ID inválido"))
                     return@patch
@@ -1162,7 +1162,7 @@ fun Application.configureRouting() {
             get("/artistas/{id}") {
                 try {
                     val principal = call.principal<JWTPrincipal>()
-                    val userId = principal?.getClaim("id", Long::class)
+                    val userId = principal?.getClaim("id", Int::class)
                     val id = call.parameters["id"]?.toIntOrNull()
                     if (id == null) {
                         call.respond(HttpStatusCode.BadRequest, mapOf("error" to "ID inválido"))
@@ -1504,7 +1504,7 @@ fun Application.configureRouting() {
 
             get("/usuarios/{id}/listas") {
                 try {
-                    val idUsuario = call.parameters["id"]?.toLongOrNull()
+                    val idUsuario = call.parameters["id"]?.toIntOrNull()
                     if (idUsuario == null) {
                         call.respond(HttpStatusCode.BadRequest, mapOf("error" to "ID de usuario inválido"))
                         return@get
@@ -1522,7 +1522,7 @@ fun Application.configureRouting() {
 
             get("/listas/{id}/canciones") {
                 try {
-                    val idLista = call.parameters["id"]?.toLongOrNull()
+                    val idLista = call.parameters["id"]?.toIntOrNull()
                     if (idLista == null) {
                         call.respond(HttpStatusCode.BadRequest, mapOf("error" to "ID de lista inválido"))
                         return@get
@@ -1546,7 +1546,7 @@ fun Application.configureRouting() {
 
             post("/listas/{id}/canciones") {
                 try {
-                    val idLista = call.parameters["id"]?.toLongOrNull()
+                    val idLista = call.parameters["id"]?.toIntOrNull()
                     if (idLista == null) {
                         call.respond(HttpStatusCode.BadRequest, mapOf("error" to "ID de lista inválido"))
                         return@post
@@ -1574,7 +1574,7 @@ fun Application.configureRouting() {
 
             patch("/listas/{id}") {
                 try {
-                    val id = call.parameters["id"]?.toLongOrNull()
+                    val id = call.parameters["id"]?.toIntOrNull()
                     if (id == null) {
                         call.respond(HttpStatusCode.BadRequest, mapOf("error" to "ID inválido"))
                         return@patch
@@ -1594,7 +1594,7 @@ fun Application.configureRouting() {
 
             delete("/listas/{id}") {
                 try {
-                    val id = call.parameters["id"]?.toLongOrNull()
+                    val id = call.parameters["id"]?.toIntOrNull()
                     if (id == null) {
                         call.respond(HttpStatusCode.BadRequest, mapOf("error" to "ID inválido"))
                         return@delete
@@ -1612,7 +1612,7 @@ fun Application.configureRouting() {
 
             delete("/listas/{idLista}/canciones/{idCancion}") {
                 try {
-                    val idLista = call.parameters["idLista"]?.toLongOrNull()
+                    val idLista = call.parameters["idLista"]?.toIntOrNull()
                     val idCancion = call.parameters["idCancion"]?.toIntOrNull()
                     if (idLista == null || idCancion == null) {
                         call.respond(HttpStatusCode.BadRequest, mapOf("error" to "ID inválido"))

@@ -1,7 +1,7 @@
 package com.domain.models
 
 data class Usuario(
-    val id: Long,
+    val id: Int,
     val username: String,
     val correo: String,
     val admin: Boolean = false,
