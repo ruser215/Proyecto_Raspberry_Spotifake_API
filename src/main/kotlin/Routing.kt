@@ -1639,7 +1639,7 @@ private fun saveFile(part: PartData.FileItem, dir: File, urlPrefix: String): Str
     val safeName = original.replace("\\s+".toRegex(), "_")
     val fileName = "${UUID.randomUUID()}_${safeName}"
     val target = File(dir, fileName)
-    val inputStream = part.provider()()
+    val inputStream = part.streamProvider()
     inputStream.use { input ->
         val outputStream: java.io.OutputStream = target.outputStream()
         outputStream.use { output ->
