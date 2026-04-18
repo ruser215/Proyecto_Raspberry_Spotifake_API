@@ -445,12 +445,22 @@ fun Application.configureRouting() {
 
         post("/register") {
             try {
-                val updateUsuario = call.receive<UpdateUsuario>()
+                val registerUsuario = call.receive<com.domain.models.RegisterUsuario>()
+                // Convertir RegisterUsuario a UpdateUsuario para el use case
+                val updateUsuario = com.domain.models.UpdateUsuario(
+                    username = registerUsuario.username,
+                    correo = registerUsuario.correo,
+                    pass = registerUsuario.pass,
+                    admin = null,
+                    premium = null,
+                    token = null,
+                    urlImagen = null
+                )
                 val usuario = registerUseCase(updateUsuario)
                 if (usuario != null) {
                     val token = generateToken(usuario)
-                    repository.updateUsuario(UpdateUsuario(username = null, correo = null, admin = null, premium = null, pass = null, token = token, urlImagen = null), usuario.id)
-                    val usuarioConToken = Usuario(
+                    repository.updateUsuario(com.domain.models.UpdateUsuario(username = null, correo = null, admin = null, premium = null, pass = null, token = token, urlImagen = null), usuario.id)
+                    val usuarioConToken = com.domain.models.Usuario(
                         id = usuario.id,
                         username = usuario.username ?: "",
                         correo = usuario.correo ?: "",

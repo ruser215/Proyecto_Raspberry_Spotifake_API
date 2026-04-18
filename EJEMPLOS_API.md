@@ -1,23 +1,7 @@
-# SPOTIFAKE API - MANUAL TÉCNICO COMPLETO (v3.0)
-
-Este documento contiene la especificación completa de todos los endpoints de la API, detallando el formato de envío y ejemplos de respuesta.
-
----
-
-## 1. CONFIGURACIÓN BASE
-
-- **Base URL:** `http://localhost:8001/api`
-- **Puerto Nginx (Raspberry):** `90`
-- **Header obligatorio para rutas protegidas:** 
-  `Authorization: Bearer <TU_TOKEN>`
-
----
-
-## 2. USUARIOS Y AUTENTICACIÓN
-
+s
 ### Registro de Usuario
 - **Endpoint:** `POST /register`
-- **Body (JSON):** 
+- **Formato de envío:** JSON
 ```json
 {
   "username": "tomas",
@@ -25,44 +9,312 @@ Este documento contiene la especificación completa de todos los endpoints de la
   "pass": "1234"
 }
 ```
-- **Response (201 Created):** Objeto usuario con token.
+- **Respuesta:**
+```json
+{
+  "id": 1,
+  "username": "tomas",
+  "correo": "tomas@red.com",
+  "token": "<TOKEN>"
+}
+```
 
-
-# SPOTIFAKE API - EJEMPLOS DE USO APK Y QR
-
----
-
-## ENDPOINTS APK
+### Login
+- **Endpoint:** `POST /login`
+- **Formato de envío:** JSON
+```json
+{
+  "correo": "tomas@red.com",
+  "pass": "1234"
+}
+```
+- **Respuesta:**
+```json
+{
+  "id": 1,
+  "username": "tomas",
+  "correo": "tomas@red.com",
+  "token": "<TOKEN>"
+}
+```
 
 ### Subir APK
 - **Endpoint:** `POST /apk`
 - **Formato de envío:** Form-Data
+  - `apk`: [Archivo .apk]
+- **Respuesta:**
+```json
+{
+  "url": "/archivos/apk/app.apk"
+}
+```
 
-  # SPOTIFAKE API - EJEMPLOS DE USO COMPLETO
+### Listar APK
+- **Endpoint:** `GET /apk`
+- **Formato de envío:** Ninguno
+- **Respuesta:**
+```json
+{
+  "archivos": ["app.apk", "demo.apk"]
+}
+```
 
-  ---
+### Descargar APK
+- **Endpoint:** `GET /apk/{nombre}`
+- **Formato de envío:** Ninguno
+- **Respuesta:** Descarga el archivo APK.
 
-  ## USUARIOS Y AUTENTICACIÓN
+### Eliminar APK
+- **Endpoint:** `DELETE /apk/{nombre}`
+- **Formato de envío:** Ninguno
+- **Respuesta:**
+```json
+{
+  "message": "Archivo APK eliminado correctamente"
+}
+```
 
-  ### Registro de Usuario
-  - **Endpoint:** `POST /register`
-  - **Body (JSON):**
-  ```json
-  {
-    "username": "tomas",
-    "correo": "tomas@red.com",
-    "pass": "1234"
-  }
-  ```
-  - **Respuesta:**
-  ```json
+### Subir QR
+- **Endpoint:** `POST /qr`
+- **Formato de envío:** Form-Data
+  - `qr`: [Archivo Imagen]
+- **Respuesta:**
+```json
+{
+  "url": "/archivos/qr/qr.png"
+}
+```
+
+### Listar QR
+- **Endpoint:** `GET /qr`
+- **Formato de envío:** Ninguno
+- **Respuesta:**
+```json
+{
+  "archivos": ["qr.png", "demo.png"]
+}
+```
+
+### Descargar QR
+- **Endpoint:** `GET /qr/{nombre}`
+- **Formato de envío:** Ninguno
+- **Respuesta:** Descarga el archivo imagen QR.
+
+### Eliminar QR
+- **Endpoint:** `DELETE /qr/{nombre}`
+- **Formato de envío:** Ninguno
+- **Respuesta:**
+```json
+{
+  "message": "Archivo eliminado correctamente"
+}
+```
+
+### Listar usuarios
+- **Endpoint:** `GET /usuarios`
+- **Formato de envío:** Ninguno
+- **Respuesta:**
+```json
+[
   {
     "id": 1,
     "username": "tomas",
-    "correo": "tomas@red.com",
-    "token": "<TOKEN>"
+    "correo": "tomas@red.com"
   }
-  ```
+]
+```
+
+### Ver usuario por ID
+- **Endpoint:** `GET /usuarios/{id}`
+- **Formato de envío:** Ninguno
+- **Respuesta:**
+```json
+{
+  "id": 1,
+  "username": "tomas",
+  "correo": "tomas@red.com"
+}
+```
+
+### Eliminar usuario
+- **Endpoint:** `DELETE /usuarios/{id}`
+- **Formato de envío:** Ninguno
+- **Respuesta:**
+```json
+{
+  "message": "Usuario eliminado correctamente"
+}
+```
+
+### Crear canción
+- **Endpoint:** `POST /canciones`
+- **Formato de envío:** Form-Data
+  - `nombre`, `artistaId`, `albumId`, `genero`, `audio`, `portada`
+- **Respuesta:**
+```json
+{
+  "id": 5,
+  "nombre": "Highway to Hell",
+  "urlAudio": "/archivos/audio/xxx.mp3",
+  "urlPortada": "/archivos/portadas/xxx.png"
+}
+```
+
+### Buscar canciones
+- **Endpoint:** `GET /canciones?nombre=Highway&artista=AC`
+- **Formato de envío:** Ninguno
+- **Respuesta:** Array de canciones que coincidan.
+
+### Eliminar canción
+- **Endpoint:** `DELETE /canciones/{id}`
+- **Formato de envío:** Ninguno
+- **Respuesta:**
+```json
+{
+  "message": "Canción eliminada correctamente"
+}
+```
+
+### Crear género
+- **Endpoint:** `POST /generos`
+- **Formato de envío:** JSON
+```json
+{
+  "nombre": "Rock"
+}
+```
+- **Respuesta:**
+```json
+{
+  "id": 1,
+  "nombre": "Rock"
+}
+```
+
+### Listar géneros
+- **Endpoint:** `GET /generos`
+- **Formato de envío:** Ninguno
+- **Respuesta:**
+```json
+[
+  { "id": 1, "nombre": "Rock" }
+]
+```
+
+### Eliminar género
+- **Endpoint:** `DELETE /generos/{id}`
+- **Formato de envío:** Ninguno
+- **Respuesta:**
+```json
+{
+  "message": "Género eliminado"
+}
+```
+
+### Crear artista
+- **Endpoint:** `POST /artistas`
+- **Formato de envío:** Form-Data
+  - `nombre`, `foto`
+- **Respuesta:**
+```json
+{
+  "id": 2,
+  "nombre": "AC/DC",
+  "fotoUrl": "/archivos/artistas/xxx.png"
+}
+```
+
+### Listar artistas
+- **Endpoint:** `GET /artistas`
+- **Formato de envío:** Ninguno
+- **Respuesta:** Array de artistas.
+
+### Eliminar artista
+- **Endpoint:** `DELETE /artistas/{id}`
+- **Formato de envío:** Ninguno
+- **Respuesta:**
+```json
+{
+  "message": "Artista eliminado"
+}
+```
+
+### Crear álbum
+- **Endpoint:** `POST /artistas/{id}/albums`
+- **Formato de envío:** Form-Data
+  - `nombre`, `portada`
+- **Respuesta:**
+```json
+{
+  "id": 1,
+  "nombre": "Back in Black",
+  "portadaUrl": "/archivos/albums/xxx.png",
+  "artistaId": 2
+}
+```
+
+### Listar álbumes
+- **Endpoint:** `GET /albums`
+- **Formato de envío:** Ninguno
+- **Respuesta:** Array de álbumes.
+
+### Eliminar álbum
+- **Endpoint:** `DELETE /albums/{id}`
+- **Formato de envío:** Ninguno
+- **Respuesta:**
+```json
+{
+  "message": "Álbum eliminado"
+}
+```
+
+### Crear playlist
+- **Endpoint:** `POST /listas`
+- **Formato de envío:** JSON
+```json
+{
+  "nombre": "Road Trip",
+  "idUsuario": 1
+}
+```
+- **Respuesta:**
+```json
+{
+  "id": 10,
+  "nombre": "Road Trip",
+  "idUsuario": 1
+}
+```
+
+### Añadir canción a playlist
+- **Endpoint:** `POST /listas/{id}/canciones`
+- **Formato de envío:** JSON
+```json
+{
+  "idCancion": 5
+}
+```
+- **Respuesta:**
+```json
+{
+  "message": "Canción agregada a la lista"
+}
+```
+
+### Ver canciones de playlist
+- **Endpoint:** `GET /listas/{id}/canciones`
+- **Formato de envío:** Ninguno
+- **Respuesta:** Array de canciones.
+
+### Eliminar playlist
+- **Endpoint:** `DELETE /listas/{id}`
+- **Formato de envío:** Ninguno
+- **Respuesta:**
+```json
+{
+  "message": "Lista eliminada"
+}
+```
 
   ### Login
   - **Endpoint:** `POST /login`
