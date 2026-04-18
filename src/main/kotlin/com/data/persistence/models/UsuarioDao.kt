@@ -15,6 +15,7 @@ class UsuarioDao(id: EntityID<Long>) : LongEntity(id) {
     var pass by UsuarioTable.pass
     var token by UsuarioTable.token
     var urlImagen by UsuarioTable.urlImagen
+    var fechaRegistro by UsuarioTable.fechaRegistro
 
     fun toUsuario() = Usuario(
         id = id.value,
