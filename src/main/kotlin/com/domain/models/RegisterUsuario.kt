@@ -1,4 +1,3 @@
-data class RegisterUsuario(
 package com.domain.models
 
 import kotlinx.serialization.Serializable

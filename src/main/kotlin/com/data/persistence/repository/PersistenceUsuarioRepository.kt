@@ -42,7 +42,7 @@ class PersistenceUsuarioRepository : UsuarioInterface {
     }
 
     
-    override suspend fun getUsuarioById(id: Int): Usuario? {
+    override suspend fun getUsuarioById(id: Long): Usuario? {
         return suspendTransaction {
             UsuarioDao.findById(id)?.toUsuario()
         }
@@ -81,7 +81,7 @@ class PersistenceUsuarioRepository : UsuarioInterface {
     }
 
     
-    override suspend fun updateUsuario(usuario: UpdateUsuario, id: Int): Usuario? {
+    override suspend fun updateUsuario(usuario: UpdateUsuario, id: Long): Usuario? {
         try {
             suspendTransaction {
                 UsuarioTable.update({ UsuarioTable.id eq id }) { stm ->
@@ -102,7 +102,7 @@ class PersistenceUsuarioRepository : UsuarioInterface {
     }
 
     
-    override suspend fun deleteUsuario(id: Int): Boolean = suspendTransaction {
+    override suspend fun deleteUsuario(id: Long): Boolean = suspendTransaction {
         val num = UsuarioTable.deleteWhere { UsuarioTable.id eq id }
         num == 1
     }
