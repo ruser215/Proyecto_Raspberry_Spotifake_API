@@ -1,15 +1,14 @@
-
 package com.domain.models
 
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class UpdateUsuario(
-    val username: String?,
-    val correo: String?,
-    val admin: Boolean?,
-    val premium: Boolean?,
-    val pass: String?,
-    val token: String?,
-    val urlImagen: String?
+    val username: String? = null,
+    val correo: String? = null,
+    val admin: Boolean? = null,
+    val premium: Boolean? = null,
+    val pass: String? = null,
+    val token: String? = null,
+    val urlImagen: String? = null
 )
