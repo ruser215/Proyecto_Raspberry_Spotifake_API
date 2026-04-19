@@ -492,7 +492,7 @@ fun Application.configureRouting() {
         
         post("/login") {
             try {
-                val credentials = call.receive<UpdateUsuario>()
+                val credentials = call.receive<LoginRequest>()
                 val usuario = loginUseCase(credentials.correo!!, credentials.pass!!)
                 if (usuario != null) {
                     val token = generateToken(usuario)
