@@ -1,4 +1,3 @@
-data class Usuario(
 package com.domain.models
 
 import kotlinx.serialization.Serializable
