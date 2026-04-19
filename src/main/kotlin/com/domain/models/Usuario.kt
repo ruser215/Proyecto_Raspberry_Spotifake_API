@@ -1,5 +1,9 @@
+data class Usuario(
 package com.domain.models
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Usuario(
     val id: Long,
     val username: String,
