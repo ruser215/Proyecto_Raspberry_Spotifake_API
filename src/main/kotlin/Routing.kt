@@ -93,21 +93,6 @@ fun Application.configureRouting() {
             call.respondFile(file)
         }
 
-        // Descargar imagen QR
-        get("/qr/{nombre}") {
-            val nombre = call.parameters["nombre"]
-            if (nombre.isNullOrBlank()) {
-                call.respond(HttpStatusCode.BadRequest, mapOf("error" to "Nombre de archivo requerido"))
-                return@get
-            }
-            val file = File("archivos/qr/$nombre")
-            if (!file.exists()) {
-                call.respond(HttpStatusCode.NotFound, mapOf("error" to "Archivo no encontrado"))
-                return@get
-            }
-            call.respondFile(file)
-        }
-
         // --- ENDPOINTS PROTEGIDOS ---
         authenticate("auth-jwt") {
             // --- LYRICS ---
@@ -525,12 +510,6 @@ fun Application.configureRouting() {
 
         authenticate("auth-jwt") {
             get("/usuarios") {
-                val principal = call.principal<JWTPrincipal>()
-                val isAdmin = principal?.getClaim("admin", Int::class) == 1
-                if (!isAdmin) {
-                    call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden listar usuarios"))
-                    return@get
-                }
                 try {
                     val usuarios = repository.getAllUsuarios().map {
                         it.copy(pass = "") // No devolver contraseñas
@@ -542,12 +521,6 @@ fun Application.configureRouting() {
             }
 
             get("/usuarios/{id}") {
-                val principal = call.principal<JWTPrincipal>()
-                val isAdmin = principal?.getClaim("admin", Int::class) == 1
-                if (!isAdmin) {
-                    call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden ver detalles de otros usuarios"))
-                    return@get
-                }
                 try {
                     val id = call.parameters["id"]?.toLongOrNull()
                     if (id == null) {
