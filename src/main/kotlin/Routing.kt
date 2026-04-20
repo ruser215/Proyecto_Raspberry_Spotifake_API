@@ -1006,6 +1006,12 @@ fun Application.configureRouting() {
 
             // --- Generos ---
             post("/generos") {
+                val principal = call.principal<JWTPrincipal>()
+                val isAdmin = principal?.getClaim("admin", Int::class) == 1
+                if (!isAdmin) {
+                    call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden crear géneros"))
+                    return@post
+                }
                 try {
                     val genero = call.receive<Genero>()
                     if (genero.nombre.isBlank()) {
@@ -1406,7 +1412,7 @@ fun Application.configureRouting() {
 
                     val existing = albumRepository.getAlbumById(id)
                     if (existing == null) {
-                        call.respond(HttpStatusCode.NotFound, mapOf("error" to "Álbum no encontrado"))
+                        call.respond(HttpStatusCode.NotFound, mapOf("error" to "Canción no encontrada"))
                         return@patch
                     }
 
