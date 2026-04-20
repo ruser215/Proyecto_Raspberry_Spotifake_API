@@ -511,7 +511,12 @@ fun Application.configureRouting() {
         authenticate("auth-jwt") {
             get("/usuarios") {
                 try {
-                    val usuarios = repository.getAllUsuarios().map {
+                    val username = call.request.queryParameters["username"]
+                    val usuarios = if (!username.isNullOrBlank()) {
+                        repository.getUsuarioByUsername(username)
+                    } else {
+                        repository.getAllUsuarios()
+                    }.map {
                         it.copy(pass = "") // No devolver contraseñas
                     }
                     call.respond(HttpStatusCode.OK, usuarios)
