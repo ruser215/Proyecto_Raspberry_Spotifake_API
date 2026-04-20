@@ -524,6 +524,23 @@ fun Application.configureRouting() {
 
 
         authenticate("auth-jwt") {
+            get("/usuarios") {
+                val principal = call.principal<JWTPrincipal>()
+                val isAdmin = principal?.getClaim("admin", Int::class) == 1
+                if (!isAdmin) {
+                    call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden listar usuarios"))
+                    return@get
+                }
+                try {
+                    val usuarios = repository.getAllUsuarios().map {
+                        it.copy(pass = "") // No devolver contraseñas
+                    }
+                    call.respond(HttpStatusCode.OK, usuarios)
+                } catch (e: Exception) {
+                    call.respond(HttpStatusCode.InternalServerError, mapOf("error" to "Error al obtener usuarios: ${e.message}"))
+                }
+            }
+
             get("/usuarios/{id}") {
                 val principal = call.principal<JWTPrincipal>()
                 val isAdmin = principal?.getClaim("admin", Int::class) == 1
