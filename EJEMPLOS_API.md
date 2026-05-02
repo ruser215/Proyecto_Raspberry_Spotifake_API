@@ -1,738 +1,209 @@
-s
+# 🎵 Spotifake API - Guía Completa de Endpoints
+
+**Base URL:** `https://ruser215.freedynamicdns.org/api`  
+*Nota: Todas las rutas protegidas requieren el prefijo `/api` y el token Bearer en el Header `Authorization: Bearer <token>`.*
+
+---
+
+## 🔐 Autenticación y Registro
+
 ### Registro de Usuario
 - **Endpoint:** `POST /register`
-- **Formato de envío:** JSON
+- **Formato:** `JSON`
+- **Campos:**
+    - `username` (String, **Obligatorio**): Nombre de usuario.
+    - `correo` (String, **Obligatorio**): Email único.
+    - `pass` (String, **Obligatorio**): Contraseña.
+- **Ejemplo:**
 ```json
 {
   "username": "tomas",
   "correo": "tomas@red.com",
   "pass": "1234"
-}
-```
-- **Respuesta:**
-```json
-{
-  "id": 1,
-  "username": "tomas",
-  "correo": "tomas@red.com",
-  "token": "<TOKEN>"
 }
 ```
 
 ### Login
 - **Endpoint:** `POST /login`
-- **Formato de envío:** JSON
+- **Formato:** `JSON`
+- **Campos:**
+    - `correo` (String, **Obligatorio**)
+    - `pass` (String, **Obligatorio**)
+- **Ejemplo:**
 ```json
 {
   "correo": "tomas@red.com",
   "pass": "1234"
 }
 ```
-- **Respuesta:**
-```json
-{
-  "id": 1,
-  "username": "tomas",
-  "correo": "tomas@red.com",
-  "token": "<TOKEN>"
-}
-```
 
-### Subir APK
-- **Endpoint:** `POST /apk`
-- **Formato de envío:** Form-Data
-  - `apk`: [Archivo .apk]
-- **Respuesta:**
-```json
-{
-  "url": "/archivos/apk/app.apk"
-}
-```
+---
 
-### Listar APK
-- **Endpoint:** `GET /apk`
-- **Formato de envío:** Ninguno
-- **Respuesta:**
-```json
-{
-  "archivos": ["app.apk", "demo.apk"]
-}
-```
+## 👥 Usuarios (Protegido)
 
-### Descargar APK
-- **Endpoint:** `GET /apk/{nombre}`
-- **Formato de envío:** Ninguno
-- **Respuesta:** Descarga el archivo APK.
-
-### Eliminar APK
-- **Endpoint:** `DELETE /apk/{nombre}`
-- **Formato de envío:** Ninguno
-- **Respuesta:**
-```json
-{
-  "message": "Archivo APK eliminado correctamente"
-}
-```
-
-### Subir QR
-- **Endpoint:** `POST /qr`
-- **Formato de envío:** Form-Data
-  - `qr`: [Archivo Imagen]
-- **Respuesta:**
-```json
-{
-  "url": "/archivos/qr/qr.png"
-}
-```
-
-### Listar QR
-- **Endpoint:** `GET /qr`
-- **Formato de envío:** Ninguno
-- **Respuesta:**
-```json
-{
-  "archivos": ["qr.png", "demo.png"]
-}
-```
-
-### Descargar QR
-- **Endpoint:** `GET /qr/{nombre}`
-- **Formato de envío:** Ninguno
-- **Respuesta:** Descarga el archivo imagen QR.
-
-### Eliminar QR
-- **Endpoint:** `DELETE /qr/{nombre}`
-- **Formato de envío:** Ninguno
-- **Respuesta:**
-```json
-{
-  "message": "Archivo eliminado correctamente"
-}
-```
-
-### Listar usuarios
+### Listar Usuarios
 - **Endpoint:** `GET /usuarios`
-- **Formato de envío:** Ninguno
-- **Respuesta:**
-```json
-[
-  {
-    "id": 1,
-    "username": "tomas",
-    "correo": "tomas@red.com"
-  }
-]
-```
+- **Query Params:** `?username=xxx` (Opcional: filtra por coincidencia exacta).
 
-### Ver usuario por ID
-- **Endpoint:** `GET /usuarios/{id}`
-- **Formato de envío:** Ninguno
-- **Respuesta:**
+### Actualizar Perfil o Roles (PATCH)
+- **Endpoint:** `PATCH /usuarios/{id}`
+- **Formato:** `JSON`
+- **Campos (Todos Opcionales):**
+    - `username` (String): Nuevo nombre visual.
+    - `correo` (String): Nuevo email.
+    - `pass` (String): Nueva contraseña (se hashea automáticamente).
+    - `admin` (Boolean, **Solo Admin**): true o false.
+    - `premium` (Boolean, **Solo Admin**): true o false.
+- **Ejemplo:**
 ```json
 {
-  "id": 1,
-  "username": "tomas",
-  "correo": "tomas@red.com"
+  "username": "tomas_pro",
+  "premium": true
 }
 ```
 
-### Eliminar usuario
-- **Endpoint:** `DELETE /usuarios/{id}`
-- **Formato de envío:** Ninguno
-- **Respuesta:**
-```json
-{
-  "message": "Usuario eliminado correctamente"
-}
-```
+### Cambiar Foto de Perfil
+- **Endpoint:** `PATCH /usuarios/{id}/perfil`
+- **Formato:** `multipart/form-data` (Form-Data)
+- **Campos:**
+    - `imagen` (**Archivo**, **Obligatorio**): El archivo de imagen (JPG, PNG).
 
-### Crear canción
-- **Endpoint:** `POST /canciones`
-- **Formato de envío:** Form-Data
-  - `nombre`, `artistaId`, `albumId`, `genero`, `audio`, `portada`
-- **Respuesta:**
-```json
-{
-  "id": 5,
-  "nombre": "Highway to Hell",
-  "urlAudio": "/archivos/audio/xxx.mp3",
-  "urlPortada": "/archivos/portadas/xxx.png"
-}
-```
+---
 
-### Buscar canciones
-- **Endpoint:** `GET /canciones?nombre=Highway&artista=AC`
-- **Formato de envío:** Ninguno
-- **Respuesta:** Array de canciones que coincidan.
+## 🎤 Artistas (Admin solo escritura)
 
-### Eliminar canción
-- **Endpoint:** `DELETE /canciones/{id}`
-- **Formato de envío:** Ninguno
-- **Respuesta:**
-```json
-{
-  "message": "Canción eliminada correctamente"
-}
-```
-
-### Crear género
-- **Endpoint:** `POST /generos`
-- **Formato de envío:** JSON
-```json
-{
-  "nombre": "Rock"
-}
-```
-- **Respuesta:**
-```json
-{
-  "id": 1,
-  "nombre": "Rock"
-}
-```
-
-### Listar géneros
-- **Endpoint:** `GET /generos`
-- **Formato de envío:** Ninguno
-- **Respuesta:**
-```json
-[
-  { "id": 1, "nombre": "Rock" }
-]
-```
-
-### Eliminar género
-- **Endpoint:** `DELETE /generos/{id}`
-- **Formato de envío:** Ninguno
-- **Respuesta:**
-```json
-{
-  "message": "Género eliminado"
-}
-```
-
-### Crear artista
+### Crear Artista
 - **Endpoint:** `POST /artistas`
-- **Formato de envío:** Form-Data
-  - `nombre`, `foto`
-- **Respuesta:**
-```json
-{
-  "id": 2,
-  "nombre": "AC/DC",
-  "fotoUrl": "/archivos/artistas/xxx.png"
-}
-```
+- **Formato:** `multipart/form-data` (Form-Data)
+- **Campos:**
+    - `nombre` (Texto, **Obligatorio**): Nombre del artista.
+    - `foto` (**Archivo**, Opcional): Imagen del artista.
 
-### Listar artistas
-- **Endpoint:** `GET /artistas`
-- **Formato de envío:** Ninguno
-- **Respuesta:** Array de artistas.
+### Editar Artista
+- **Endpoint:** `PATCH /artistas/{id}`
+- **Formato:** `multipart/form-data` (Form-Data)
+- **Campos (Opcionales):**
+    - `nombre` (Texto): Nuevo nombre.
+    - `foto` (**Archivo**): Nueva imagen.
 
-### Eliminar artista
-- **Endpoint:** `DELETE /artistas/{id}`
-- **Formato de envío:** Ninguno
-- **Respuesta:**
-```json
-{
-  "message": "Artista eliminado"
-}
-```
+---
 
-### Crear álbum
-- **Endpoint:** `POST /artistas/{id}/albums`
-- **Formato de envío:** Form-Data
-  - `nombre`, `portada`
-- **Respuesta:**
-```json
-{
-  "id": 1,
-  "nombre": "Back in Black",
-  "portadaUrl": "/archivos/albums/xxx.png",
-  "artistaId": 2
-}
-```
+## 💿 Álbumes (Admin solo escritura)
 
-### Listar álbumes
-- **Endpoint:** `GET /albums`
-- **Formato de envío:** Ninguno
-- **Respuesta:** Array de álbumes.
+### Crear Álbum
+- **Endpoint:** `POST /artistas/{idArtista}/albums`
+- **Formato:** `multipart/form-data` (Form-Data)
+- **Campos:**
+    - `nombre` (Texto, **Obligatorio**): Título del álbum.
+    - `portada` (**Archivo**, Opcional): Imagen de carátula.
 
-### Eliminar álbum
-- **Endpoint:** `DELETE /albums/{id}`
-- **Formato de envío:** Ninguno
-- **Respuesta:**
-```json
-{
-  "message": "Álbum eliminado"
-}
-```
+### Editar Álbum
+- **Endpoint:** `PATCH /albums/{id}`
+- **Formato:** `multipart/form-data` (Form-Data)
+- **Campos (Opcionales):**
+    - `nombre` (Texto)
+    - `artistaId` (Número): ID del artista dueño para mover el álbum.
+    - `portada` (**Archivo**)
 
-### Crear playlist
+---
+
+## 🎵 Canciones (Admin solo escritura)
+
+### Crear Canción
+- **Endpoint:** `POST /canciones`
+- **Formato:** `multipart/form-data` (Form-Data)
+- **Campos:**
+    - `nombre` (Texto, **Obligatorio**): Título de la pista.
+    - `audio` (**Archivo**, **Obligatorio**): Archivo MP3 o WAV.
+    - `portada` (**Archivo**, Opcional): Imagen específica de la canción.
+    - `artista` (Texto, Opcional): Nombre visual (string).
+    - `album` (Texto, Opcional): Nombre visual (string).
+    - `artistaId` (Número, Opcional): ID real del artista en DB.
+    - `albumId` (Número, Opcional): ID real del álbum en DB.
+    - `genero` (Número, Opcional): ID del género.
+    - `likes` (Número, Opcional): Contador inicial.
+
+### Editar Canción
+- **Endpoint:** `PATCH /canciones/{id}`
+- **Formato:** `multipart/form-data` (Form-Data)
+- **Campos:** Cualquiera de los anteriores de forma opcional.
+
+---
+
+## 🎸 Géneros (Admin solo escritura)
+
+### Crear Género
+- **Endpoint:** `POST /generos`
+- **Formato:** `JSON`
+- **Campos:**
+    - `nombre` (String, **Obligatorio**)
+- **Ejemplo:** `{"nombre": "Rock"}`
+
+### Editar Género
+- **Endpoint:** `PATCH /generos/{id}`
+- **Formato:** `JSON`
+- **Campos:**
+    - `nombre` (String, **Obligatorio**)
+
+---
+
+## 📜 Playlists (Listas)
+
+### Crear Lista
 - **Endpoint:** `POST /listas`
-- **Formato de envío:** JSON
-```json
-{
-  "nombre": "Road Trip",
-  "idUsuario": 1
-}
-```
-- **Respuesta:**
-```json
-{
-  "id": 10,
-  "nombre": "Road Trip",
-  "idUsuario": 1
-}
-```
+- **Formato:** `JSON`
+- **Campos:**
+    - `nombre` (String, **Obligatorio**)
+    - `idUsuario` (Número, **Obligatorio**): ID del usuario dueño.
+- **Ejemplo:** `{"nombre": "Mis Favoritas", "idUsuario": 1}`
 
-### Añadir canción a playlist
+### Añadir Canción a Lista
 - **Endpoint:** `POST /listas/{id}/canciones`
-- **Formato de envío:** JSON
-```json
-{
-  "idCancion": 5
-}
-```
-- **Respuesta:**
-```json
-{
-  "message": "Canción agregada a la lista"
-}
-```
+- **Formato:** `JSON`
+- **Campos:**
+    - `idCancion` (Número, **Obligatorio**)
+- **Ejemplo:** `{"idCancion": 10}`
 
-### Ver canciones de playlist
-- **Endpoint:** `GET /listas/{id}/canciones`
-- **Formato de envío:** Ninguno
-- **Respuesta:** Array de canciones.
+---
 
-### Eliminar playlist
-- **Endpoint:** `DELETE /listas/{id}`
-- **Formato de envío:** Ninguno
-- **Respuesta:**
-```json
-{
-  "message": "Lista eliminada"
-}
-```
+## 🎧 Reproducciones y Letras
 
-  ### Login
-  - **Endpoint:** `POST /login`
-  - **Body (JSON):**
-  ```json
-  {
-    "correo": "tomas@red.com",
-    "pass": "1234"
-  }
-  ```
-  - **Respuesta:**
-  ```json
-  {
-    "id": 1,
-    "username": "tomas",
-    "correo": "tomas@red.com",
-    "token": "<TOKEN>"
-  }
-  ```
+### Registrar Reproducción
+- **Endpoint:** `POST /reproducir`
+- **Formato:** `JSON`
+- **Campos:**
+    - `idCancion` (Número, **Obligatorio**)
+    - `fecha` (String, Opcional): Ejemplo `"2023-10-27"`.
 
-  ---
+### Letras
+- **Obtener:** `GET /lyrics/{cancionId}`
 
-  ## APK Y QR
+---
 
-  ### Subir APK
-  - **Endpoint:** `POST /apk`
-  - **Formato de envío:** Form-Data
-    - `apk`: [Archivo .apk]
-  - **Ejemplo con curl:**
-  ```bash
-  curl -X POST http://localhost:8001/apk \
-    -H "Authorization: Bearer <TU_TOKEN>" \
-    -F "apk=@/ruta/app.apk"
-  ```
-  - **Respuesta:**
-  ```json
-  {
-    "url": "/archivos/apk/app.apk"
-  }
-  ```
+## 🐾 Mascotas y Alarmas
 
-  ### Listar APK
-  - **Endpoint:** `GET /apk`
-  - **Ejemplo con curl:**
-  ```bash
-  curl -X GET http://localhost:8001/apk -H "Authorization: Bearer <TU_TOKEN>"
-  ```
-  - **Respuesta:**
-  ```json
-  {
-    "archivos": ["app.apk", "demo.apk"]
-  }
-  ```
+### Mascotas
+- **Comprar:** `POST /mascotas/buy/{mascotaId}`
+- **Activar:** `POST /mascotas/active/{mascotaId}`
 
-  ### Descargar APK
-  - **Endpoint:** `GET /apk/{nombre}`
-  - **Ejemplo con curl:**
-  ```bash
-  curl -O http://localhost:8001/apk/app.apk
-  ```
-  - **Respuesta:** Descarga el archivo APK.
+### Alarmas
+- **Crear:** `POST /alarms`
+- **Formato:** `JSON`
+- **Campos:**
+    - `hora` (String, **Obligatorio**): Formato `"HH:mm"`.
+    - `cancionId` (Número, **Obligatorio**)
+    - `dias` (String, Opcional): Ejemplo `"L,M,X"`.
+    - `activa` (Boolean, Opcional): `true` / `false`.
 
-  ### Eliminar APK
-  - **Endpoint:** `DELETE /apk/{nombre}`
-  - **Ejemplo con curl:**
-  ```bash
-  curl -X DELETE http://localhost:8001/apk/app.apk -H "Authorization: Bearer <TU_TOKEN>"
-  ```
-  - **Respuesta:**
-  ```json
-  {
-    "message": "Archivo APK eliminado correctamente"
-  }
-  ```
+---
 
-  ### Subir QR
-  - **Endpoint:** `POST /qr`
-  - **Formato de envío:** Form-Data
-    - `qr`: [Archivo Imagen]
-  - **Ejemplo con curl:**
-  ```bash
-  curl -X POST http://localhost:8001/qr \
-    -H "Authorization: Bearer <TU_TOKEN>" \
-    -F "qr=@/ruta/qr.png"
-  ```
-  - **Respuesta:**
-  ```json
-  {
-    "url": "/archivos/qr/qr.png"
-  }
-  ```
+## 📁 Archivos (Público y Admin)
 
-  ### Listar QR
-  - **Endpoint:** `GET /qr`
-  - **Ejemplo con curl:**
-  ```bash
-  curl -X GET http://localhost:8001/qr -H "Authorization: Bearer <TU_TOKEN>"
-  ```
-  - **Respuesta:**
-  ```json
-  {
-    "archivos": ["qr.png", "demo.png"]
-  }
-  ```
+### Descargas (Público)
+- `GET /apk/{nombre}`
+- `GET /qr/{nombre}`
 
-  ### Descargar QR
-  - **Endpoint:** `GET /qr/{nombre}`
-  - **Ejemplo con curl:**
-  ```bash
-  curl -O http://localhost:8001/qr/qr.png
-  ```
-  - **Respuesta:** Descarga el archivo imagen QR.
-
-  ### Eliminar QR
-  - **Endpoint:** `DELETE /qr/{nombre}`
-  - **Ejemplo con curl:**
-  ```bash
-  curl -X DELETE http://localhost:8001/qr/qr.png -H "Authorization: Bearer <TU_TOKEN>"
-  ```
-  - **Respuesta:**
-  ```json
-  {
-    "message": "Archivo eliminado correctamente"
-  }
-  ```
-
-  ---
-
-  ## USUARIOS (PROTEGIDO)
-
-  ### Listar usuarios
-  - **Endpoint:** `GET /usuarios`
-  - **Ejemplo con curl:**
-  ```bash
-  curl -X GET http://localhost:8001/usuarios -H "Authorization: Bearer <TU_TOKEN>"
-  ```
-  - **Respuesta:**
-  ```json
-  [
-    {
-      "id": 1,
-      "username": "tomas",
-      "correo": "tomas@red.com"
-    },
-    ...
-  ]
-  ```
-
-  ### Ver usuario por ID
-  - **Endpoint:** `GET /usuarios/{id}`
-  - **Ejemplo con curl:**
-  ```bash
-  curl -X GET http://localhost:8001/usuarios/1 -H "Authorization: Bearer <TU_TOKEN>"
-  ```
-  - **Respuesta:**
-  ```json
-  {
-    "id": 1,
-    "username": "tomas",
-    "correo": "tomas@red.com"
-  }
-  ```
-
-  ### Eliminar usuario
-  - **Endpoint:** `DELETE /usuarios/{id}`
-  - **Ejemplo con curl:**
-  ```bash
-  curl -X DELETE http://localhost:8001/usuarios/1 -H "Authorization: Bearer <TU_TOKEN>"
-  ```
-  - **Respuesta:**
-  ```json
-  {
-    "message": "Usuario eliminado correctamente"
-  }
-  ```
-
-  ---
-
-  ## CANCIONES
-
-  ### Crear canción
-  - **Endpoint:** `POST /canciones`
-  - **Formato de envío:** Form-Data
-    - `nombre`, `artistaId`, `albumId`, `genero`, `audio`, `portada`
-  - **Ejemplo con curl:**
-  ```bash
-  curl -X POST http://localhost:8001/canciones \
-    -H "Authorization: Bearer <TU_TOKEN>" \
-    -F "nombre=Highway to Hell" \
-    -F "artistaId=2" \
-    -F "albumId=1" \
-    -F "genero=1" \
-    -F "audio=@/ruta/audio.mp3" \
-    -F "portada=@/ruta/portada.png"
-  ```
-  - **Respuesta:**
-  ```json
-  {
-    "id": 5,
-    "nombre": "Highway to Hell",
-    "urlAudio": "/archivos/audio/xxx.mp3",
-    "urlPortada": "/archivos/portadas/xxx.png"
-  }
-  ```
-
-  ### Buscar canciones
-  - **Endpoint:** `GET /canciones?nombre=Highway&artista=AC`
-  - **Ejemplo con curl:**
-  ```bash
-  curl -X GET "http://localhost:8001/canciones?nombre=Highway&artista=AC" -H "Authorization: Bearer <TU_TOKEN>"
-  ```
-  - **Respuesta:** Array de canciones que coincidan.
-
-  ### Eliminar canción
-  - **Endpoint:** `DELETE /canciones/{id}`
-  - **Ejemplo con curl:**
-  ```bash
-  curl -X DELETE http://localhost:8001/canciones/5 -H "Authorization: Bearer <TU_TOKEN>"
-  ```
-  - **Respuesta:**
-  ```json
-  {
-    "message": "Canción eliminada correctamente"
-  }
-  ```
-
-  ---
-
-  ## GÉNEROS
-
-  ### Crear género
-  - **Endpoint:** `POST /generos`
-  - **Body (JSON):**
-  ```json
-  {
-    "nombre": "Rock"
-  }
-  ```
-  - **Respuesta:**
-  ```json
-  {
-    "id": 1,
-    "nombre": "Rock"
-  }
-  ```
-
-  ### Listar géneros
-  - **Endpoint:** `GET /generos`
-  - **Ejemplo con curl:**
-  ```bash
-  curl -X GET http://localhost:8001/generos -H "Authorization: Bearer <TU_TOKEN>"
-  ```
-  - **Respuesta:**
-  ```json
-  [
-    { "id": 1, "nombre": "Rock" },
-    ...
-  ]
-  ```
-
-  ### Eliminar género
-  - **Endpoint:** `DELETE /generos/{id}`
-  - **Ejemplo con curl:**
-  ```bash
-  curl -X DELETE http://localhost:8001/generos/1 -H "Authorization: Bearer <TU_TOKEN>"
-  ```
-  - **Respuesta:**
-  ```json
-  {
-    "message": "Género eliminado"
-  }
-  ```
-
-  ---
-
-  ## ARTISTAS
-
-  ### Crear artista
-  - **Endpoint:** `POST /artistas`
-  - **Formato de envío:** Form-Data
-    - `nombre`, `foto`
-  - **Ejemplo con curl:**
-  ```bash
-  curl -X POST http://localhost:8001/artistas \
-    -H "Authorization: Bearer <TU_TOKEN>" \
-    -F "nombre=AC/DC" \
-    -F "foto=@/ruta/foto.png"
-  ```
-  - **Respuesta:**
-  ```json
-  {
-    "id": 2,
-    "nombre": "AC/DC",
-    "fotoUrl": "/archivos/artistas/xxx.png"
-  }
-  ```
-
-  ### Listar artistas
-  - **Endpoint:** `GET /artistas`
-  - **Ejemplo con curl:**
-  ```bash
-  curl -X GET http://localhost:8001/artistas -H "Authorization: Bearer <TU_TOKEN>"
-  ```
-  - **Respuesta:** Array de artistas.
-
-  ### Eliminar artista
-  - **Endpoint:** `DELETE /artistas/{id}`
-  - **Ejemplo con curl:**
-  ```bash
-  curl -X DELETE http://localhost:8001/artistas/2 -H "Authorization: Bearer <TU_TOKEN>"
-  ```
-  - **Respuesta:**
-  ```json
-  {
-    "message": "Artista eliminado"
-  }
-  ```
-
-  ---
-
-  ## ÁLBUMES
-
-  ### Crear álbum
-  - **Endpoint:** `POST /artistas/{id}/albums`
-  - **Formato de envío:** Form-Data
-    - `nombre`, `portada`
-  - **Ejemplo con curl:**
-  ```bash
-  curl -X POST http://localhost:8001/artistas/2/albums \
-    -H "Authorization: Bearer <TU_TOKEN>" \
-    -F "nombre=Back in Black" \
-    -F "portada=@/ruta/portada.png"
-  ```
-  - **Respuesta:**
-  ```json
-  {
-    "id": 1,
-    "nombre": "Back in Black",
-    "portadaUrl": "/archivos/albums/xxx.png",
-    "artistaId": 2
-  }
-  ```
-
-  ### Listar álbumes
-  - **Endpoint:** `GET /albums`
-  - **Ejemplo con curl:**
-  ```bash
-  curl -X GET http://localhost:8001/albums -H "Authorization: Bearer <TU_TOKEN>"
-  ```
-  - **Respuesta:** Array de álbumes.
-
-  ### Eliminar álbum
-  - **Endpoint:** `DELETE /albums/{id}`
-  - **Ejemplo con curl:**
-  ```bash
-  curl -X DELETE http://localhost:8001/albums/1 -H "Authorization: Bearer <TU_TOKEN>"
-  ```
-  - **Respuesta:**
-  ```json
-  {
-    "message": "Álbum eliminado"
-  }
-  ```
-
-  ---
-
-  ## PLAYLISTS
-
-  ### Crear playlist
-  - **Endpoint:** `POST /listas`
-  - **Body (JSON):**
-  ```json
-  {
-    "nombre": "Road Trip",
-    "idUsuario": 1
-  }
-  ```
-  - **Respuesta:**
-  ```json
-  {
-    "id": 10,
-    "nombre": "Road Trip",
-    "idUsuario": 1
-  }
-  ```
-
-  ### Añadir canción a playlist
-  - **Endpoint:** `POST /listas/{id}/canciones`
-  - **Body (JSON):**
-  ```json
-  {
-    "idCancion": 5
-  }
-  ```
-  - **Respuesta:**
-  ```json
-  {
-    "message": "Canción agregada a la lista"
-  }
-  ```
-
-  ### Ver canciones de playlist
-  - **Endpoint:** `GET /listas/{id}/canciones`
-  - **Ejemplo con curl:**
-  ```bash
-  curl -X GET http://localhost:8001/listas/10/canciones -H "Authorization: Bearer <TU_TOKEN>"
-  ```
-  - **Respuesta:** Array de canciones.
-
-  ### Eliminar playlist
-  - **Endpoint:** `DELETE /listas/{id}`
-  - **Ejemplo con curl:**
-  ```bash
-  curl -X DELETE http://localhost:8001/listas/10 -H "Authorization: Bearer <TU_TOKEN>"
-  ```
-  - **Respuesta:**
-  ```json
-  {
-    "message": "Lista eliminada"
-  }
-  ```
+### Gestión Admin (Solo Admin)
+- **Subir QR:** `POST /qr` -> Form-Data, campo `qr` (**Archivo**).
+- **Subir APK:** `POST /apk` -> Form-Data, campo `apk` (**Archivo**).
+- **Eliminar:** `DELETE /qr/{nombre}` o `DELETE /apk/{nombre}`.
