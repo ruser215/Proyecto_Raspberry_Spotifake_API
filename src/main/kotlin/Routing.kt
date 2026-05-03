@@ -1650,8 +1650,79 @@ fun Application.configureRouting() {
                 }
             }
         }
-        
-        staticFiles("/archivos", File("archivos"))
+
+        // Archivos de imagen/audio protegidos por JWT (admin y usuario normal)
+        authenticate("auth-jwt") {
+            get("/archivos/portadas/{nombre}") {
+                val nombre = call.parameters["nombre"]
+                if (nombre.isNullOrBlank()) {
+                    call.respond(HttpStatusCode.BadRequest, mapOf("error" to "Nombre de archivo inválido"))
+                    return@get
+                }
+                val file = File("archivos/portadas/$nombre")
+                if (!file.exists()) {
+                    call.respond(HttpStatusCode.NotFound, mapOf("error" to "Archivo no encontrado"))
+                    return@get
+                }
+                call.respondFile(file)
+            }
+
+            get("/archivos/artistas/{nombre}") {
+                val nombre = call.parameters["nombre"]
+                if (nombre.isNullOrBlank()) {
+                    call.respond(HttpStatusCode.BadRequest, mapOf("error" to "Nombre de archivo inválido"))
+                    return@get
+                }
+                val file = File("archivos/artistas/$nombre")
+                if (!file.exists()) {
+                    call.respond(HttpStatusCode.NotFound, mapOf("error" to "Archivo no encontrado"))
+                    return@get
+                }
+                call.respondFile(file)
+            }
+
+            get("/archivos/perfiles/{nombre}") {
+                val nombre = call.parameters["nombre"]
+                if (nombre.isNullOrBlank()) {
+                    call.respond(HttpStatusCode.BadRequest, mapOf("error" to "Nombre de archivo inválido"))
+                    return@get
+                }
+                val file = File("archivos/perfiles/$nombre")
+                if (!file.exists()) {
+                    call.respond(HttpStatusCode.NotFound, mapOf("error" to "Archivo no encontrado"))
+                    return@get
+                }
+                call.respondFile(file)
+            }
+
+            get("/archivos/albums/{nombre}") {
+                val nombre = call.parameters["nombre"]
+                if (nombre.isNullOrBlank()) {
+                    call.respond(HttpStatusCode.BadRequest, mapOf("error" to "Nombre de archivo inválido"))
+                    return@get
+                }
+                val file = File("archivos/albums/$nombre")
+                if (!file.exists()) {
+                    call.respond(HttpStatusCode.NotFound, mapOf("error" to "Archivo no encontrado"))
+                    return@get
+                }
+                call.respondFile(file)
+            }
+
+            get("/archivos/audio/{nombre}") {
+                val nombre = call.parameters["nombre"]
+                if (nombre.isNullOrBlank()) {
+                    call.respond(HttpStatusCode.BadRequest, mapOf("error" to "Nombre de archivo inválido"))
+                    return@get
+                }
+                val file = File("archivos/audio/$nombre")
+                if (!file.exists()) {
+                    call.respond(HttpStatusCode.NotFound, mapOf("error" to "Archivo no encontrado"))
+                    return@get
+                }
+                call.respondFile(file)
+            }
+        }
     }
 }
 
