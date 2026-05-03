@@ -66,3 +66,14 @@ Este documento sirve como referencia técnica para optimizar la interacción con
 - **`PersistenceCancionRepository.kt`**: `updateCancion` actualizado con todos los parámetros de la interfaz; `createCancion` usa `artistaIds.firstOrNull()` para la FK de artista.
 - **`Routing.kt`**: Línea `albumIds = albumIds` corregida a `albumId = albumIds.firstOrNull()` al construir el objeto `Cancion`.
 
+### 2026-05-03 — Protección de archivos estáticos con JWT
+- **`Routing.kt`**: Eliminado `staticFiles("/archivos", File("archivos"))` (acceso público sin token).
+  - Añadidas rutas `GET` protegidas con `authenticate("auth-jwt")` para cada carpeta:
+    - `GET /archivos/portadas/{nombre}` — portadas de canciones/álbumes
+    - `GET /archivos/artistas/{nombre}` — fotos de artistas
+    - `GET /archivos/perfiles/{nombre}` — fotos de perfil de usuarios
+    - `GET /archivos/albums/{nombre}` — portadas de álbumes
+    - `GET /archivos/audio/{nombre}` — archivos de audio
+  - Las rutas de `apk` y `qr` ya tenían sus propias rutas protegidas → no cambian.
+  - **Resultado**: cualquier imagen/audio requiere token JWT válido (admin o usuario normal).
+
