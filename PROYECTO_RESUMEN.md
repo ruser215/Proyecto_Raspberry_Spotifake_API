@@ -52,3 +52,17 @@ Este documento sirve como referencia técnica para optimizar la interacción con
 1.  **PATCH**: Siempre usar `call.receive<UpdateUsuario>()` y verificar valores `null` antes de actualizar en DB.
 2.  **404**: Recordar que el prefijo `/api` es obligatorio en todas las rutas.
 3.  **Exposed**: Las consultas a la DB deben ejecutarse dentro de `suspendTransaction`.
+
+## 🔄 Historial de Cambios Relevantes
+
+### 2026-05-03 — Refactor modelo `Cancion` (relaciones N:M)
+- **`Cancion.kt`** (modelo de dominio): Cambiado a relaciones N:M para artistas y géneros:
+  - `artistaId: Int?` → `artistaIds: List<Int>` (lista de IDs de artista)
+  - `albumIds: List<Int>?` eliminado → `albumId: Int?` se mantiene (solo un álbum)
+  - `generosIds: List<Int>` añadido (lista de IDs de género; `genero: Int?` queda como campo informativo)
+  - `@Serializable` eliminado temporalmente (no era necesario con Ktor content negotiation)
+- **`CancionInterface.kt`**: `updateCancion` ampliado con `artistaIds`, `albumIds`, `generosIds` como parámetros opcionales.
+- **`CancionDao.kt`**: `toCancion()` actualizado — `artistaIds = listOfNotNull(artista?.id?.value)`, `generosIds = listOfNotNull(genero.value)`.
+- **`PersistenceCancionRepository.kt`**: `updateCancion` actualizado con todos los parámetros de la interfaz; `createCancion` usa `artistaIds.firstOrNull()` para la FK de artista.
+- **`Routing.kt`**: Línea `albumIds = albumIds` corregida a `albumId = albumIds.firstOrNull()` al construir el objeto `Cancion`.
+
