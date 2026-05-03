@@ -57,7 +57,7 @@
 - **Ejemplo:**
 ```json
 {
-  "username": "tomas_pro",
+  "username": "toms_pro",
   "premium": true
 }
 ```
