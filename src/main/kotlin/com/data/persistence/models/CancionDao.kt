@@ -21,9 +21,10 @@ class CancionDao(id: EntityID<Int>) : IntEntity(id) {
     fun toCancion() = Cancion(
         id = id.value,
         nombre = nombre,
-        artistaId = artista?.id?.value,
-        artista = artista?.nombre,
+        artistaIds = listOfNotNull(artista?.id?.value),
         albumId = album?.id?.value,
+        generosIds = listOfNotNull(genero.value),
+        artista = artista?.nombre,
         album = album?.nombre,
         genero = genero.value,
         urlAudio = urlAudio,

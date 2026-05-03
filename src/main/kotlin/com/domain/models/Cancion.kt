@@ -1,20 +1,17 @@
 package com.domain.models
 
-import kotlinx.serialization.Serializable
-
-@Serializable
 data class Cancion(
     val id: Int = 0,
     val nombre: String,
-    val artistaId: Int? = null,
-    val artistaIds: List<Int>? = null,
-    val artista: String? = null,
-    val albumId: Int? = null,
-    val albumIds: List<Int>? = null,
-    val album: String? = null,
-    val genero: Int,
+    val artistaIds: List<Int> = emptyList(), // Lista de artistas (N:M)
+    val albumId: Int? = null,                // Un solo Álbum (1:N) para la portada
+    val generosIds: List<Int> = emptyList(), // Lista de géneros (N:M)
     val urlAudio: String,
     val urlPortada: String? = null,
     val likes: Int = 0,
-    val reproducciones: Int = 0
+    val reproducciones: Int = 0,
+    // Campos informativos para el cliente
+    val artista: String? = null,
+    val album: String? = null,
+    val genero: Int? = null
 )

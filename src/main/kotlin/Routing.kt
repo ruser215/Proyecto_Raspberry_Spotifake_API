@@ -93,6 +93,21 @@ fun Application.configureRouting() {
             call.respondFile(file)
         }
 
+        // Descargar imagen QR
+        get("/qr/{nombre}") {
+            val nombre = call.parameters["nombre"]
+            if (nombre.isNullOrBlank()) {
+                call.respond(HttpStatusCode.BadRequest, mapOf("error" to "Nombre de archivo requerido"))
+                return@get
+            }
+            val file = File("archivos/qr/$nombre")
+            if (!file.exists()) {
+                call.respond(HttpStatusCode.NotFound, mapOf("error" to "Archivo no encontrado"))
+                return@get
+            }
+            call.respondFile(file)
+        }
+
         // --- ENDPOINTS PROTEGIDOS ---
         authenticate("auth-jwt") {
             // --- LYRICS ---
@@ -715,9 +730,9 @@ fun Application.configureRouting() {
                 var nombre: String? = null
                 var artista: String? = null
                 var album: String? = null
-                var artistaId: Int? = null
-                var albumId: Int? = null
-                var genero: Int? = null
+                val artistaIds = mutableListOf<Int>()
+                val albumIds = mutableListOf<Int>()
+                val generosIds = mutableListOf<Int>()
                 var likes: Int? = null
                 var urlAudio: String? = null
                 var urlPortada: String? = null
@@ -732,9 +747,9 @@ fun Application.configureRouting() {
                                 "nombre" -> nombre = part.value
                                 "artista" -> artista = part.value
                                 "album" -> album = part.value
-                                "artistaId" -> artistaId = part.value.toIntOrNull()
-                                "albumId" -> albumId = part.value.toIntOrNull()
-                                "genero" -> genero = part.value.toIntOrNull()
+                                "artistaIds" -> artistaIds.addAll(part.value.split(",").mapNotNull { it.trim().toIntOrNull() })
+                                "albumIds" -> albumIds.addAll(part.value.split(",").mapNotNull { it.trim().toIntOrNull() })
+                                "generosIds" -> generosIds.addAll(part.value.split(",").mapNotNull { it.trim().toIntOrNull() })
                                 "likes" -> likes = part.value.toIntOrNull()
                             }
                         }
@@ -748,34 +763,39 @@ fun Application.configureRouting() {
                     }
                     part.dispose()
                 }
-                // Validaciones de integridad
-                if (artistaId != null && artistaRepository.getArtistaById(artistaId) == null) {
-                    call.respond(HttpStatusCode.NotFound, mapOf("error" to "El artista con ID $artistaId no existe"))
-                    return@post
-                }
-                if (albumId != null && albumRepository.getAlbumById(albumId) == null) {
-                    call.respond(HttpStatusCode.NotFound, mapOf("error" to "El álbum con ID $albumId no existe"))
-                    return@post
-                }
-                if (genero != null && generoRepository.getGeneroById(genero) == null) {
-                    call.respond(HttpStatusCode.NotFound, mapOf("error" to "El género con ID $genero no existe"))
-                    return@post
-                }
+
                 if (nombre.isNullOrBlank()) {
                     call.respond(HttpStatusCode.BadRequest, mapOf("error" to "El nombre de la canción es obligatorio"))
                     return@post
                 }
+                if (urlAudio.isNullOrBlank()) {
+                    call.respond(HttpStatusCode.BadRequest, mapOf("error" to "El archivo de audio es obligatorio"))
+                    return@post
+                }
+                if (artistaIds.isEmpty()) {
+                    call.respond(HttpStatusCode.BadRequest, mapOf("error" to "Al menos un ID de artista es obligatorio"))
+                    return@post
+                }
+                if (albumIds.isEmpty()) {
+                    call.respond(HttpStatusCode.BadRequest, mapOf("error" to "Al menos un ID de álbum es obligatorio"))
+                    return@post
+                }
+                if (generosIds.isEmpty()) {
+                    call.respond(HttpStatusCode.BadRequest, mapOf("error" to "Al menos un ID de género es obligatorio"))
+                    return@post
+                }
+
                 try {
                     val created = cancionRepository.createCancion(
                         Cancion(
                             nombre = nombre,
                             artista = artista,
                             album = album,
-                            artistaId = artistaId,
-                            albumId = albumId,
-                            genero = genero ?: 0,
+                            artistaIds = artistaIds,
+                            albumId = albumIds.firstOrNull(),
+                            generosIds = generosIds,
                             likes = likes ?: 0,
-                            urlAudio = urlAudio ?: "",
+                            urlAudio = urlAudio,
                             urlPortada = urlPortada
                         )
                     )
@@ -1412,7 +1432,7 @@ fun Application.configureRouting() {
 
                     val existing = albumRepository.getAlbumById(id)
                     if (existing == null) {
-                        call.respond(HttpStatusCode.NotFound, mapOf("error" to "Canción no encontrada"))
+                        call.respond(HttpStatusCode.NotFound, mapOf("error" to "Álbum no encontrado"))
                         return@patch
                     }
 

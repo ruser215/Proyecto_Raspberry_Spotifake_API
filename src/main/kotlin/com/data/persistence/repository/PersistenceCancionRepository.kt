@@ -23,8 +23,11 @@ class PersistenceCancionRepository : CancionInterface {
     }
 
     override suspend fun createCancion(cancion: Cancion): Cancion = suspendTransaction {
-        val artistDao = if (cancion.artistaId != null) ArtistDao.findById(cancion.artistaId)
+        // Usar el primer artistaId de la lista si existe
+        val artistaId = cancion.artistaIds.firstOrNull()
+        val artistDao = if (artistaId != null) ArtistDao.findById(artistaId)
             else cancion.artista?.let { findOrCreateArtist(it) }
+
         val albumDao = if (cancion.albumId != null) AlbumDao.findById(cancion.albumId)
                    else if (cancion.album != null && artistDao != null) findOrCreateAlbum(cancion.album, artistDao)
                    else null
@@ -33,7 +36,9 @@ class PersistenceCancionRepository : CancionInterface {
             nombre = cancion.nombre
             artista = artistDao
             album = albumDao
-            genero = EntityID(cancion.genero, GeneroTable)
+            // genero: usar el primero de generosIds, o el campo genero (informativo)
+            val generoId = cancion.generosIds.firstOrNull() ?: cancion.genero
+            genero = EntityID(generoId ?: 0, GeneroTable)
             likes = cancion.likes
             reproducciones = cancion.reproducciones
             urlAudio = cancion.urlAudio
@@ -72,24 +77,33 @@ class PersistenceCancionRepository : CancionInterface {
         urlAudio: String?,
         urlPortada: String?,
         artistaId: Int?,
-        albumId: Int?
+        albumId: Int?,
+        artistaIds: List<Int>?,
+        albumIds: List<Int>?,
+        generosIds: List<Int>?
     ): Cancion? {
         suspendTransaction {
             val song = CancionDao.findById(id)
             if (song != null) {
                 nombre?.let { song.nombre = it }
                 genero?.let { song.genero = EntityID(it, GeneroTable) }
+                // Usar generosIds si se proporciona (primer elemento), sino genero directo
+                generosIds?.firstOrNull()?.let { song.genero = EntityID(it, GeneroTable) }
                 likes?.let { song.likes = it }
                 urlAudio?.let { song.urlAudio = it }
                 urlPortada?.let { song.urlPortada = it }
 
-                val artistDao = if (artistaId != null) ArtistDao.findById(artistaId)
+                // Resolver artista: prioridad artistaIds > artistaId > nombre artista
+                val resolvedArtistId = artistaIds?.firstOrNull() ?: artistaId
+                val artistDao = if (resolvedArtistId != null) ArtistDao.findById(resolvedArtistId)
                                 else if (artista != null) findOrCreateArtist(artista)
                                 else null
 
                 if (artistDao != null) song.artista = artistDao
 
-                val albumDao = if (albumId != null) AlbumDao.findById(albumId)
+                // Resolver album: prioridad albumIds > albumId > nombre album
+                val resolvedAlbumId = albumIds?.firstOrNull() ?: albumId
+                val albumDao = if (resolvedAlbumId != null) AlbumDao.findById(resolvedAlbumId)
                                else if (album != null && (artistDao ?: song.artista) != null)
                                    findOrCreateAlbum(album, artistDao ?: song.artista!!)
                                else null
