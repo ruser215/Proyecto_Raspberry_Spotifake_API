@@ -33,6 +33,16 @@ import java.io.File
 import java.io.InputStream
 import java.io.OutputStream
 import java.util.*
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class LoginRequest(val correo: String?, val pass: String?)
+
+@Serializable
+data class CreateListaRequest(val nombre: String, val idUsuario: Long)
+
+@Serializable
+data class AddCancionRequest(val idCancion: Int)
 
 fun Application.configureRouting() {
     val repository = PersistenceUsuarioRepository()
@@ -731,7 +741,7 @@ fun Application.configureRouting() {
                 var artista: String? = null
                 var album: String? = null
                 val artistaIds = mutableListOf<Int>()
-                val albumIds = mutableListOf<Int>()
+                var albumId: Int? = null
                 val generosIds = mutableListOf<Int>()
                 var likes: Int? = null
                 var urlAudio: String? = null
@@ -748,7 +758,7 @@ fun Application.configureRouting() {
                                 "artista" -> artista = part.value
                                 "album" -> album = part.value
                                 "artistaIds" -> artistaIds.addAll(part.value.split(",").mapNotNull { it.trim().toIntOrNull() })
-                                "albumIds" -> albumIds.addAll(part.value.split(",").mapNotNull { it.trim().toIntOrNull() })
+                                "albumId" -> albumId = part.value.toIntOrNull()
                                 "generosIds" -> generosIds.addAll(part.value.split(",").mapNotNull { it.trim().toIntOrNull() })
                                 "likes" -> likes = part.value.toIntOrNull()
                             }
@@ -776,8 +786,8 @@ fun Application.configureRouting() {
                     call.respond(HttpStatusCode.BadRequest, mapOf("error" to "Al menos un ID de artista es obligatorio"))
                     return@post
                 }
-                if (albumIds.isEmpty()) {
-                    call.respond(HttpStatusCode.BadRequest, mapOf("error" to "Al menos un ID de álbum es obligatorio"))
+                if (albumId == null) {
+                    call.respond(HttpStatusCode.BadRequest, mapOf("error" to "El ID de álbum es obligatorio"))
                     return@post
                 }
                 if (generosIds.isEmpty()) {
@@ -792,7 +802,7 @@ fun Application.configureRouting() {
                             artista = artista,
                             album = album,
                             artistaIds = artistaIds,
-                            albumId = albumIds.firstOrNull(),
+                            albumId = albumId,
                             generosIds = generosIds,
                             likes = likes ?: 0,
                             urlAudio = urlAudio,
@@ -862,6 +872,8 @@ fun Application.configureRouting() {
                 var likes: Int? = null
                 var newUrlAudio: String? = null
                 var newUrlPortada: String? = null
+                var artistaIds: List<Int>? = null
+                var generosIds: List<Int>? = null
 
                 val audioDir = File("archivos/audio").apply { mkdirs() }
                 val portadaDir = File("archivos/portadas").apply { mkdirs() }
@@ -878,6 +890,8 @@ fun Application.configureRouting() {
                                 "albumId" -> albumId = part.value.toIntOrNull()
                                 "genero" -> genero = part.value.toIntOrNull()
                                 "likes" -> likes = part.value.toIntOrNull()
+                                "artistaIds" -> artistaIds = part.value.split(",").mapNotNull { it.trim().toIntOrNull() }
+                                "generosIds" -> generosIds = part.value.split(",").mapNotNull { it.trim().toIntOrNull() }
                             }
                         }
                         is PartData.FileItem -> {
@@ -915,7 +929,10 @@ fun Application.configureRouting() {
                     newUrlAudio,
                     newUrlPortada,
                     artistaId,
-                    albumId
+                    albumId,
+                    artistaIds,
+                    null, // albumIds se quitó del routing y solo aceptamos albumId
+                    generosIds
                 )
 
                 if (updated == null) {
@@ -1499,10 +1516,9 @@ fun Application.configureRouting() {
             // --- Playlists ---
             post("/listas") {
                 try {
-                    // Usamos JsonObject para máxima flexibilidad con tipos numéricos/strings
-                    val body = call.receive<JsonObject>()
-                    val nombre = body["nombre"]?.jsonPrimitive?.content ?: ""
-                    val idUsuario = body["idUsuario"]?.jsonPrimitive?.longOrNull ?: 0L
+                    val body = call.receive<CreateListaRequest>()
+                    val nombre = body.nombre
+                    val idUsuario = body.idUsuario
 
                     if (nombre.isBlank()) {
                         call.respond(HttpStatusCode.BadRequest, mapOf("error" to "El nombre de la lista es obligatorio"))
@@ -1573,8 +1589,8 @@ fun Application.configureRouting() {
                         return@post
                     }
 
-                    val body = call.receive<JsonObject>()
-                    val idCancion = body["idCancion"]?.jsonPrimitive?.intOrNull ?: 0
+                    val body = call.receive<AddCancionRequest>()
+                    val idCancion = body.idCancion
                     val added = listaCancionesRepository.addCancionToLista(idLista, idCancion)
 
                     if (added) {

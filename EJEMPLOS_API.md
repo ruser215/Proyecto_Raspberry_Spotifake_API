@@ -116,9 +116,9 @@
     - `nombre` (Texto, **Obligatorio**): Título de la pista.
     - `audio` (**Archivo**, **Obligatorio**): Archivo MP3 o WAV.
     - `artistaIds` (Texto, **Obligatorio**): IDs reales de los artistas en DB, separados por coma (ej: `"1"` o `"1,2"`).
-    - `albumIds` (Texto, **Obligatorio**): IDs de los álbumes, separados por coma (ej: `"3"`).
+    - `albumId` (Número, **Obligatorio**): ID del álbum al que pertenece la canción (se heredará la foto de este álbum automáticamente si no se adjunta portada).
     - `generosIds` (Texto, **Obligatorio**): IDs de los géneros, separados por coma (ej: `"2"` o `"2,4"`).
-    - `portada` (**Archivo**, Opcional): Imagen específica de la canción.
+    - `portada` (**Archivo**, Opcional): Imagen específica de la canción. Si se omite, coge la del álbum.
     - `artista` (Texto, Opcional): Nombre visual (string).
     - `album` (Texto, Opcional): Nombre visual (string).
     - `likes` (Número, Opcional): Contador inicial.
@@ -126,7 +126,7 @@
 ### Editar Canción
 - **Endpoint:** `PATCH /canciones/{id}`
 - **Formato:** `multipart/form-data` (Form-Data)
-- **Campos:** Cualquiera de los anteriores de forma opcional (Nota: Para edición, este endpoint actualmente soporta tanto `artistaIds` como `artistaId` individual).
+- **Campos:** Cualquiera de los anteriores de forma opcional (Nota: Para edición, este endpoint actualmente soporta tanto `artistaIds` y `generosIds` separador por comas, como el uso antiguo singular para edición básica).
 
 ---
 
