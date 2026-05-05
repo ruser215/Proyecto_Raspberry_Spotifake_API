@@ -164,6 +164,14 @@
     - `idCancion` (Número, **Obligatorio**)
 - **Ejemplo:** `{"idCancion": 10}`
 
+### Obtener Listas de un Usuario
+- **Endpoint:** `GET /usuarios/{id}/listas`
+- **Respuesta:** Devuelve un array con todas las listas (`ListaCanciones`) pertenecientes a ese usuario.
+
+### Listar todos los Usuarios con sus Listas (Solo Admin)
+- **Endpoint:** `GET /admin/usuarios-listas`
+- **Respuesta:** Devuelve un array de objetos compuesto por el `usuario` y un campo `listas` (array de `ListaCanciones` de ese usuario en concreto). Requiere que el Token enviado pertenezca a un Administrador.
+
 ---
 
 ## 🎧 Reproducciones y Letras

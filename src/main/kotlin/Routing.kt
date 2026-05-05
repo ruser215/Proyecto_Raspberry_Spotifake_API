@@ -44,6 +44,12 @@ data class CreateListaRequest(val nombre: String, val idUsuario: Long)
 @Serializable
 data class AddCancionRequest(val idCancion: Int)
 
+@Serializable
+data class UsuarioConListas(
+    val usuario: Usuario,
+    val listas: List<ListaCanciones>
+)
+
 fun Application.configureRouting() {
     val repository = PersistenceUsuarioRepository()
     val artistaRepository = PersistenceArtistaRepository()
@@ -534,6 +540,25 @@ fun Application.configureRouting() {
 
 
         authenticate("auth-jwt") {
+            get("/admin/usuarios-listas") {
+                try {
+                    val principal = call.principal<JWTPrincipal>()
+                    val isAdmin = principal?.getClaim("admin", Int::class) == 1
+                    if (!isAdmin) {
+                        call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden listar a todos los usuarios y sus listas"))
+                        return@get
+                    }
+                    val usuarios = repository.getAllUsuarios().map { it.copy(pass = "") }
+                    val resultado = usuarios.map { user ->
+                        val listas = listaCancionesRepository.getListasByUsuario(user.id.toLong())
+                        UsuarioConListas(user, listas)
+                    }
+                    call.respond(HttpStatusCode.OK, resultado)
+                } catch (e: Exception) {
+                    call.respond(HttpStatusCode.InternalServerError, mapOf("error" to "Error al obtener usuarios con listas: ${e.message}"))
+                }
+            }
+
             get("/usuarios") {
                 try {
                     val username = call.request.queryParameters["username"]
