@@ -1614,6 +1614,21 @@ fun Application.configureRouting() {
                         return@post
                     }
 
+                    val lista = listaCancionesRepository.getListaById(idLista)
+                    if (lista == null) {
+                        call.respond(HttpStatusCode.NotFound, mapOf("error" to "Lista no encontrada"))
+                        return@post
+                    }
+
+                    val principal = call.principal<JWTPrincipal>()
+                    val currentUserId = principal?.getClaim("id", Long::class)
+                    val isAdmin = principal?.getClaim("admin", Int::class) == 1
+
+                    if (!isAdmin && lista.idUsuario != currentUserId) {
+                        call.respond(HttpStatusCode.Forbidden, mapOf("error" to "No tienes permiso para modificar esta lista"))
+                        return@post
+                    }
+
                     val body = call.receive<AddCancionRequest>()
                     val idCancion = body.idCancion
                     val added = listaCancionesRepository.addCancionToLista(idLista, idCancion)
@@ -1641,13 +1656,29 @@ fun Application.configureRouting() {
                         call.respond(HttpStatusCode.BadRequest, mapOf("error" to "ID inválido"))
                         return@patch
                     }
+
+                    val lista = listaCancionesRepository.getListaById(id)
+                    if (lista == null) {
+                        call.respond(HttpStatusCode.NotFound, mapOf("error" to "Lista no encontrada"))
+                        return@patch
+                    }
+
+                    val principal = call.principal<JWTPrincipal>()
+                    val currentUserId = principal?.getClaim("id", Long::class)
+                    val isAdmin = principal?.getClaim("admin", Int::class) == 1
+
+                    if (!isAdmin && lista.idUsuario != currentUserId) {
+                        call.respond(HttpStatusCode.Forbidden, mapOf("error" to "No tienes permiso para modificar esta lista"))
+                        return@patch
+                    }
+
                     val body = call.receive<JsonObject>()
                     val nombre = body["nombre"]?.jsonPrimitive?.content ?: ""
-                    val updated = listaCancionesRepository.updateLista(id, ListaCanciones(id = id, nombre = nombre, idUsuario = 0L))
+                    val updated = listaCancionesRepository.updateLista(id, ListaCanciones(id = id, nombre = nombre, idUsuario = lista.idUsuario))
                     if (updated != null) {
                         call.respond(HttpStatusCode.OK, updated)
                     } else {
-                        call.respond(HttpStatusCode.NotFound, mapOf("error" to "Lista no encontrada"))
+                        call.respond(HttpStatusCode.NotFound, mapOf("error" to "Error al actualizar la lista"))
                     }
                 } catch (e: Exception) {
                     call.respond(HttpStatusCode.InternalServerError, mapOf("error" to e.message))
@@ -1661,11 +1692,27 @@ fun Application.configureRouting() {
                         call.respond(HttpStatusCode.BadRequest, mapOf("error" to "ID inválido"))
                         return@delete
                     }
+
+                    val lista = listaCancionesRepository.getListaById(id)
+                    if (lista == null) {
+                        call.respond(HttpStatusCode.NotFound, mapOf("error" to "Lista no encontrada"))
+                        return@delete
+                    }
+
+                    val principal = call.principal<JWTPrincipal>()
+                    val currentUserId = principal?.getClaim("id", Long::class)
+                    val isAdmin = principal?.getClaim("admin", Int::class) == 1
+
+                    if (!isAdmin && lista.idUsuario != currentUserId) {
+                        call.respond(HttpStatusCode.Forbidden, mapOf("error" to "No tienes permiso para eliminar esta lista"))
+                        return@delete
+                    }
+
                     val deleted = listaCancionesRepository.deleteLista(id)
                     if (deleted) {
                         call.respond(HttpStatusCode.OK, mapOf("message" to "Lista eliminada"))
                     } else {
-                        call.respond(HttpStatusCode.NotFound, mapOf("error" to "Lista no encontrada"))
+                        call.respond(HttpStatusCode.NotFound, mapOf("error" to "No se pudo eliminar la lista"))
                     }
                 } catch (e: Exception) {
                     call.respond(HttpStatusCode.InternalServerError, mapOf("error" to e.message))
@@ -1680,6 +1727,22 @@ fun Application.configureRouting() {
                         call.respond(HttpStatusCode.BadRequest, mapOf("error" to "ID inválido"))
                         return@delete
                     }
+
+                    val lista = listaCancionesRepository.getListaById(idLista)
+                    if (lista == null) {
+                        call.respond(HttpStatusCode.NotFound, mapOf("error" to "Lista no encontrada"))
+                        return@delete
+                    }
+
+                    val principal = call.principal<JWTPrincipal>()
+                    val currentUserId = principal?.getClaim("id", Long::class)
+                    val isAdmin = principal?.getClaim("admin", Int::class) == 1
+
+                    if (!isAdmin && lista.idUsuario != currentUserId) {
+                        call.respond(HttpStatusCode.Forbidden, mapOf("error" to "No tienes permiso para modificar esta lista"))
+                        return@delete
+                    }
+
                     val removed = listaCancionesRepository.removeCancionFromLista(idLista, idCancion)
                     if (removed) {
                         call.respond(HttpStatusCode.OK, mapOf("message" to "Canción quitada de la lista"))
