@@ -1,5 +1,8 @@
 package com.domain.models
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Alarma(
     val id: Int = 0,
     val userId: Long,
