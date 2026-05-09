@@ -22,6 +22,15 @@ class PersistenceSocialRepository : SocialInterface {
             it[idCancion] = cancionId
             it[fecha] = LocalDate.now()
         }
+
+        // Incrementar likes de la canción y del artista
+        val song = CancionDao.findById(cancionId)
+        if (song != null) {
+            song.likes += 1
+            song.artista?.let { artist ->
+                artist.likesTotales += 1
+            }
+        }
         true
     }
 
@@ -29,7 +38,20 @@ class PersistenceSocialRepository : SocialInterface {
         val deleted = LikeCancionTable.deleteWhere { 
             (idUsuario eq userId) and (idCancion eq cancionId) 
         }
-        deleted > 0
+        
+        if (deleted > 0) {
+            // Decrementar likes de la canción y del artista
+            val song = CancionDao.findById(cancionId)
+            if (song != null) {
+                song.likes = maxOf(0, song.likes - 1)
+                song.artista?.let { artist ->
+                    artist.likesTotales = maxOf(0, artist.likesTotales - 1)
+                }
+            }
+            true
+        } else {
+            false
+        }
     }
 
     override suspend fun followArtista(userId: Long, artistaId: Int): Boolean = suspendTransaction {
