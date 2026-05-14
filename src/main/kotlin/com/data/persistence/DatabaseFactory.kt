@@ -28,29 +28,8 @@ object DatabaseFactory {
         
         transaction(database) {
             if (resetOnStart) {
-                // en desarrollo es más sencillo reconstruir el esquema completo
-                SchemaUtils.drop(
-                    ListaCancionesCancionesTable,
-                    ListaCancionesTable,
-                    SongArtistsTable,
-                    SongAlbumsTable,
-                    AlbumArtistsTable,
-                    CancionTable,
-                    LetraSyncTable,
-                    LetraTable,
-                    ReproduccionTable,
-                    AlbumTable,
-                    ArtistaTable,
-                    GeneroTable,
-                    UsuarioTable
-                )
+                nukeDatabase()
             }
-            // si el esquema se cambia y ya existen datos, configure DB_RESET_ON_START=true
-            // o implemente un script de migración que:
-            // 1. cree ArtistTable y AlbumTable
-            // 2. recorra los valores distintos de "artista" y "album" de la tabla canciones
-            // 3. inserte registros en artistas/álbums y actualice el campo album (FK) de canciones
-            // 4. opcionalmente elimine las columnas de texto antiguas
             
             SchemaUtils.create(
                 UsuarioTable,
@@ -92,6 +71,33 @@ object DatabaseFactory {
             // Asegurar directorios de archivos
             java.io.File("archivos/usuarios").mkdirs()
             java.io.File("uploads/usuarios").mkdirs()
+        }
+    }
+
+    fun nukeDatabase() {
+        transaction {
+            exec("SET FOREIGN_KEY_CHECKS = 0;")
+            SchemaUtils.drop(
+                UsuarioTable, GeneroTable, ArtistaTable, AlbumTable, CancionTable, LetraTable,
+                LetraSyncTable, ReproduccionTable, ListaCancionesTable, ListaCancionesCancionesTable,
+                SongArtistsTable, SongAlbumsTable, AlbumArtistsTable, AlbumCancionTable,
+                FollowArtistaTable, SolicitudColabPlaylistTable, AnuncioTable, MascotaTable,
+                AmistadTable, ColaboradorPlaylistTable, ArtistaCancionTable, EmpresaTable,
+                UsuarioMascotaTable, PlaylistCancionTable, GeneroCancionTable, AlarmaTable,
+                EstadoNotificacionTable, EstadoSolicitudTable, ArtistaAlbumTable, LikeCancionTable,
+                TipoMascotaTable, TemaTable, RolTable, PlaylistTable
+            )
+            SchemaUtils.create(
+                UsuarioTable, GeneroTable, ArtistaTable, AlbumTable, CancionTable, LetraTable,
+                LetraSyncTable, ReproduccionTable, ListaCancionesTable, ListaCancionesCancionesTable,
+                SongArtistsTable, SongAlbumsTable, AlbumArtistsTable, AlbumCancionTable,
+                FollowArtistaTable, SolicitudColabPlaylistTable, AnuncioTable, MascotaTable,
+                AmistadTable, ColaboradorPlaylistTable, ArtistaCancionTable, EmpresaTable,
+                UsuarioMascotaTable, PlaylistCancionTable, GeneroCancionTable, AlarmaTable,
+                EstadoNotificacionTable, EstadoSolicitudTable, ArtistaAlbumTable, LikeCancionTable,
+                TipoMascotaTable, TemaTable, RolTable, PlaylistTable
+            )
+            exec("SET FOREIGN_KEY_CHECKS = 1;")
         }
     }
     

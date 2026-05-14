@@ -540,6 +540,22 @@ fun Application.configureRouting() {
                 val archivos = apkDir.listFiles()?.filter { it.isFile }?.map { it.name } ?: emptyList()
                 call.respond(HttpStatusCode.OK, mapOf("archivos" to archivos))
             }
+
+            // NUKE: Limpiar base de datos (SOLO ADMIN)
+            post("/nuke") {
+                val principal = call.principal<JWTPrincipal>()
+                val isAdmin = principal?.getClaim("admin", Int::class) == 1
+                if (!isAdmin) {
+                    call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden realizar esta acción"))
+                    return@post
+                }
+                try {
+                    DatabaseFactory.nukeDatabase()
+                    call.respond(HttpStatusCode.OK, mapOf("message" to "Base de datos reseteada correctamente (todas las tablas vaciadas)"))
+                } catch (e: Exception) {
+                    call.respond(HttpStatusCode.InternalServerError, mapOf("error" to "Error al resetear la base de datos: ${e.message}"))
+                }
+            }
         }
         get("/") {
             call.respondText("¡API Spotifake funcionando! ")

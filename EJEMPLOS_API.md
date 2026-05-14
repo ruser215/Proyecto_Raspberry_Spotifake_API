@@ -223,3 +223,4 @@
     - **Campos:** `nuevoNombre` (String, **Obligatorio**)
     - **Ejemplo:** `{"nuevoNombre": "app_v2.apk"}`
 - **Eliminar:** `DELETE /qr/{nombre}` o `DELETE /apk/{nombre}`
+- **NUKE (Reset DB):** `POST /nuke` -> Vacía todas las tablas de la base de datos (mantiene estructura). Requiere token de Admin.
