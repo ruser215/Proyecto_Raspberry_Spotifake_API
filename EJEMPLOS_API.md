@@ -222,4 +222,4 @@
     - **Formato:** `JSON`
     - **Campos:** `nuevoNombre` (String, **Obligatorio**)
     - **Ejemplo:** `{"nuevoNombre": "app_v2.apk"}`
-- **Eliminar:** `DELETE /qr/{nombre}` o `DELETE /apk/{nombre}`.
+- **Eliminar:** `DELETE /qr/{nombre}` o `DELETE /apk/{nombre}`
