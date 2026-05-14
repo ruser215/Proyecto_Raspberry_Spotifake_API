@@ -222,6 +222,19 @@ fun Application.configureRouting() {
                 call.respond(HttpStatusCode.OK, friends)
             }
 
+            get("/social/friend/requests") {
+                val principal = call.principal<JWTPrincipal>()
+                val userId = principal?.getClaim("id", Long::class) ?: return@get call.respond(HttpStatusCode.Unauthorized)
+                val requests = socialRepository.getPendingRequests(userId)
+                call.respond(HttpStatusCode.OK, requests)
+            }
+
+            delete("/social/friend/request/{requestId}") {
+                val reqId = call.parameters["requestId"]?.toIntOrNull() ?: return@delete call.respond(HttpStatusCode.BadRequest)
+                val deleted = socialRepository.rejectFriendRequest(reqId)
+                if (deleted) call.respond(HttpStatusCode.OK) else call.respond(HttpStatusCode.NotFound)
+            }
+
             // --- MASCOTAS ---
             get("/mascotas") {
                 val mascotas = mascotaRepository.getAllMascotas()
