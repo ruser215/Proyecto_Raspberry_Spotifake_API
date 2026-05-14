@@ -214,4 +214,12 @@
 ### Gestión Admin (Solo Admin)
 - **Subir QR:** `POST /qr` -> Form-Data, campo `qr` (**Archivo**).
 - **Subir APK:** `POST /apk` -> Form-Data, campo `apk` (**Archivo**).
+- **Renombrar QR:** `PATCH /qr/{nombre}`
+    - **Formato:** `JSON`
+    - **Campos:** `nuevoNombre` (String, **Obligatorio**)
+    - **Ejemplo:** `{"nuevoNombre": "nuevo_codigo.png"}`
+- **Renombrar APK:** `PATCH /apk/{nombre}`
+    - **Formato:** `JSON`
+    - **Campos:** `nuevoNombre` (String, **Obligatorio**)
+    - **Ejemplo:** `{"nuevoNombre": "app_v2.apk"}`
 - **Eliminar:** `DELETE /qr/{nombre}` o `DELETE /apk/{nombre}`.

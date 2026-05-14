@@ -45,6 +45,9 @@ data class CreateListaRequest(val nombre: String, val idUsuario: Long)
 data class AddCancionRequest(val idCancion: Int)
 
 @Serializable
+data class RenameRequest(val nuevoNombre: String)
+
+@Serializable
 data class UsuarioConListas(
     val usuario: Usuario,
     val listas: List<ListaCanciones>
@@ -370,6 +373,41 @@ fun Application.configureRouting() {
                 }
             }
 
+            // Renombrar imagen QR
+            patch("/qr/{nombre}") {
+                val principal = call.principal<JWTPrincipal>()
+                val isAdmin = principal?.getClaim("admin", Int::class) == 1
+                if (!isAdmin) {
+                    call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden renombrar códigos QR"))
+                    return@patch
+                }
+                val nombreActual = call.parameters["nombre"]
+                val request = call.receive<RenameRequest>()
+                val nuevoNombre = request.nuevoNombre
+                
+                if (nombreActual.isNullOrBlank() || nuevoNombre.isBlank()) {
+                    call.respond(HttpStatusCode.BadRequest, mapOf("error" to "Nombre actual y nuevo nombre requeridos"))
+                    return@patch
+                }
+                
+                val fileActual = File("archivos/qr/$nombreActual")
+                if (!fileActual.exists()) {
+                    call.respond(HttpStatusCode.NotFound, mapOf("error" to "Archivo no encontrado"))
+                    return@patch
+                }
+                
+                val fileNuevo = File("archivos/qr/$nuevoNombre")
+                if (fileNuevo.exists()) {
+                    call.respond(HttpStatusCode.Conflict, mapOf("error" to "Ya existe un archivo con ese nombre"))
+                    return@patch
+                }
+                if (fileActual.renameTo(fileNuevo)) {
+                    call.respond(HttpStatusCode.OK, mapOf("message" to "Archivo renombrado correctamente"))
+                } else {
+                    call.respond(HttpStatusCode.InternalServerError, mapOf("error" to "No se pudo renombrar el archivo"))
+                }
+            }
+
             // Anuncios
             get("/ads/random") {
                 val principal = call.principal<JWTPrincipal>()
@@ -439,6 +477,41 @@ fun Application.configureRouting() {
                     call.respond(HttpStatusCode.OK, mapOf("message" to "Archivo APK eliminado correctamente"))
                 } else {
                     call.respond(HttpStatusCode.InternalServerError, mapOf("error" to "No se pudo eliminar el archivo"))
+                }
+            }
+
+            // Renombrar archivo APK
+            patch("/apk/{nombre}") {
+                val principal = call.principal<JWTPrincipal>()
+                val isAdmin = principal?.getClaim("admin", Int::class) == 1
+                if (!isAdmin) {
+                    call.respond(HttpStatusCode.Forbidden, mapOf("error" to "Solo los administradores pueden renombrar archivos APK"))
+                    return@patch
+                }
+                val nombreActual = call.parameters["nombre"]
+                val request = call.receive<RenameRequest>()
+                val nuevoNombre = request.nuevoNombre
+                
+                if (nombreActual.isNullOrBlank() || nuevoNombre.isBlank()) {
+                    call.respond(HttpStatusCode.BadRequest, mapOf("error" to "Nombre actual y nuevo nombre requeridos"))
+                    return@patch
+                }
+                
+                val fileActual = File("archivos/apk/$nombreActual")
+                if (!fileActual.exists()) {
+                    call.respond(HttpStatusCode.NotFound, mapOf("error" to "Archivo no encontrado"))
+                    return@patch
+                }
+                
+                val fileNuevo = File("archivos/apk/$nuevoNombre")
+                if (fileNuevo.exists()) {
+                    call.respond(HttpStatusCode.Conflict, mapOf("error" to "Ya existe un archivo con ese nombre"))
+                    return@patch
+                }
+                if (fileActual.renameTo(fileNuevo)) {
+                    call.respond(HttpStatusCode.OK, mapOf("message" to "Archivo APK renombrado correctamente"))
+                } else {
+                    call.respond(HttpStatusCode.InternalServerError, mapOf("error" to "No se pudo renombrar el archivo"))
                 }
             }
 
